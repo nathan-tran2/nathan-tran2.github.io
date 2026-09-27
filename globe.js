@@ -28,11 +28,16 @@
   var tip    = document.getElementById("globe-tip");
   var reduce = window.matchMedia && window.matchMedia("(prefers-reduced-motion: reduce)").matches;
 
-  var rot = -95;          // starting longitude, puts the Pacific rim in view
-  var TILT = 20 * Math.PI / 180;
-  var sinT = Math.sin(TILT), cosT = Math.cos(TILT);
+  var HOME = { rot: -95, tilt: 20, zoom: 1 };
+  var rot     = HOME.rot;    // longitude at the centre
+  var tiltDeg = HOME.tilt;   // + looks down over the north pole, - from below
+  var zoom    = HOME.zoom;
+  var sinT = 0, cosT = 1;
+  var MINZ = 0.9, MAXZ = 4.5;
 
-  var W = 0, H = 0, R = 0, cx = 0, cy = 0, dpr = 1;
+  function clamp(v, lo, hi) { return v < lo ? lo : v > hi ? hi : v; }
+
+  var W = 0, H = 0, R = 0, baseR = 0, cx = 0, cy = 0, dpr = 1;
   var spinning = !reduce, dragging = false, lastX = 0, hoverIdx = -1, visible = true;
 
   /* hex -> rgba so we can tint without touching globalAlpha */
@@ -65,7 +70,7 @@
     host.width  = W * dpr;
     host.height = H * dpr;
     ctx.setTransform(dpr, 0, 0, dpr, 0, 0);
-    R  = Math.min(W, H) / 2 - 6;
+    baseR = Math.min(W, H) / 2 - 6;
     cx = W / 2;
     cy = H / 2;
   }
@@ -80,16 +85,29 @@
     return { x: cx + x * R, y: cy - y2 * R, z: z2, ux: x, uy: y2 };
   }
 
-  /* points on the far side get pushed out to the limb, so rings that
-     straddle the horizon still fill correctly once we clip to the disc */
-  function screenPt(pt) {
-    if (pt.z > 0) return [pt.x, pt.y];
+  /* Points on the far side are pushed out to the limb. Where two of
+     those land next to each other we follow the limb as an ARC rather
+     than a straight chord - otherwise a ring that wraps the globe
+     (Antarctica) gets a wedge cut clean across it. */
+  function limbPt(pt) {
+    if (pt.z > 0) return { x: pt.x, y: pt.y, limb: false, ang: 0 };
     var m = Math.hypot(pt.ux, pt.uy) || 1;
-    return [cx + (pt.ux / m) * R, cy - (pt.uy / m) * R];
+    var ux = pt.ux / m, uy = pt.uy / m;
+    return { x: cx + ux * R, y: cy - uy * R, limb: true, ang: Math.atan2(-uy, ux) };
+  }
+
+  function limbArc(a0, a1) {
+    var d = a1 - a0;
+    while (d >  Math.PI) d -= 2 * Math.PI;
+    while (d < -Math.PI) d += 2 * Math.PI;
+    ctx.arc(cx, cy, R, a0, a0 + d, d < 0);
   }
 
   function draw() {
     var c = theme();
+    R = baseR * zoom;
+    var tr = tiltDeg * Math.PI / 180;
+    sinT = Math.sin(tr); cosT = Math.cos(tr);
     ctx.clearRect(0, 0, W, H);
 
     // ocean
@@ -134,16 +152,20 @@
 
     // land
     for (i = 0; i < rings.length; i++) {
-      var ring = rings[i], any = false, pts = [];
+      var ring = rings[i], any = false, pl = [];
       for (j = 0; j < ring.length; j++) {
         pt = project(ring[j][1], ring[j][0]);
         if (pt.z > 0) any = true;
-        pts.push(screenPt(pt));
+        pl.push(limbPt(pt));
       }
       if (!any) continue;                       // entirely on the far side
       ctx.beginPath();
-      ctx.moveTo(pts[0][0], pts[0][1]);
-      for (j = 1; j < pts.length; j++) ctx.lineTo(pts[j][0], pts[j][1]);
+      ctx.moveTo(pl[0].x, pl[0].y);
+      for (j = 1; j <= pl.length; j++) {
+        var q0 = pl[j - 1], q1 = pl[j % pl.length];
+        if (q0.limb && q1.limb) limbArc(q0.ang, q1.ang);
+        else ctx.lineTo(q1.x, q1.y);
+      }
       ctx.closePath();
       ctx.fillStyle = c.light ? hexA(c.accent, .40) : hexA(c.accent, .22);
       ctx.globalAlpha = 1; ctx.fill();
@@ -159,7 +181,8 @@
       if (pt.z <= 0) continue;
       var near = .55 + .45 * pt.z;
       var on   = (i === hoverIdx);
-      var rad = (on ? 5 : 3.2) * near;
+      var zs  = Math.min(1 + (zoom - 1) * 0.3, 1.8);
+      var rad = (on ? 5 : 3.2) * near * zs;
       ctx.globalAlpha = .5 + .5 * pt.z;
       // halo first, so the marker stays legible over land
       ctx.beginPath();
@@ -206,38 +229,99 @@
     return best;
   }
 
+  /* active pointers, so two fingers can pinch */
+  var pts = {}, pinchDist = 0, pinchZoom = 1;
+
+  function pointerCount() { var n = 0; for (var k in pts) n++; return n; }
+  function twoPointers() {
+    var a = null, b = null;
+    for (var k in pts) { if (!a) a = pts[k]; else if (!b) b = pts[k]; }
+    return [a, b];
+  }
+
   host.addEventListener("pointerdown", function (e) {
-    dragging = true; lastX = e.clientX;
+    pts[e.pointerId] = { x: e.clientX, y: e.clientY };
     host.setPointerCapture(e.pointerId);
+    if (pointerCount() === 2) {
+      var pr = twoPointers();
+      pinchDist = Math.hypot(pr[0].x - pr[1].x, pr[0].y - pr[1].y);
+      pinchZoom = zoom;
+    }
+    dragging = true;
+    hoverIdx = -1;
   });
+
   host.addEventListener("pointermove", function (e) {
     var b = host.getBoundingClientRect();
-    var mx = e.clientX - b.left, my = e.clientY - b.top;
-    if (dragging) {
-      rot += (e.clientX - lastX) * 0.4;
-      lastX = e.clientX;
-      hoverIdx = -1;
-    } else {
-      hoverIdx = pick(mx, my);
-      host.style.cursor = hoverIdx >= 0 ? "pointer" : "grab";
+
+    if (pts[e.pointerId]) {
+      var prev = pts[e.pointerId];
+      var dx = e.clientX - prev.x, dy = e.clientY - prev.y;
+      pts[e.pointerId] = { x: e.clientX, y: e.clientY };
+
+      if (pointerCount() >= 2) {
+        // pinch: distance ratio drives zoom, no rotation
+        var pr = twoPointers();
+        var d = Math.hypot(pr[0].x - pr[1].x, pr[0].y - pr[1].y);
+        if (pinchDist > 0) zoom = clamp(pinchZoom * (d / pinchDist), MINZ, MAXZ);
+      } else {
+        rot     += dx * 0.4 / Math.max(zoom, 1);            // horizontal spins
+        tiltDeg  = clamp(tiltDeg + dy * 0.35, -85, 85);     // vertical tips over the poles
+      }
+      return;
     }
+
+    hoverIdx = pick(e.clientX - b.left, e.clientY - b.top);
+    host.style.cursor = hoverIdx >= 0 ? "pointer" : "grab";
   });
-  function endDrag(e) {
-    if (!dragging) return;
-    dragging = false;
+
+  function release(e) {
+    delete pts[e.pointerId];
     try { host.releasePointerCapture(e.pointerId); } catch (err) {}
+    if (pointerCount() === 0) dragging = false;
+    if (pointerCount() < 2) pinchDist = 0;
   }
-  host.addEventListener("pointerup", endDrag);
-  host.addEventListener("pointercancel", endDrag);
+  host.addEventListener("pointerup", release);
+  host.addEventListener("pointercancel", release);
+
   host.addEventListener("pointerleave", function () {
     hoverIdx = -1; spinning = !reduce;
   });
   host.addEventListener("pointerenter", function () { spinning = false; });
 
-  /* keyboard: arrow keys spin it */
+  /* wheel zooms. At the limits we let the event through so the page
+     still scrolls instead of trapping the reader on the globe. */
+  host.addEventListener("wheel", function (e) {
+    var next = clamp(zoom * (e.deltaY < 0 ? 1.12 : 1 / 1.12), MINZ, MAXZ);
+    if (next === zoom) return;
+    zoom = next;
+    e.preventDefault();
+  }, { passive: false });
+
+  /* keyboard: arrows spin and tip, +/- zoom, 0 resets */
   host.addEventListener("keydown", function (e) {
-    if (e.key === "ArrowLeft")  { rot -= 6; e.preventDefault(); }
-    if (e.key === "ArrowRight") { rot += 6; e.preventDefault(); }
+    var k = e.key, used = true;
+    if      (k === "ArrowLeft")  rot -= 6;
+    else if (k === "ArrowRight") rot += 6;
+    else if (k === "ArrowUp")    tiltDeg = clamp(tiltDeg + 5, -85, 85);
+    else if (k === "ArrowDown")  tiltDeg = clamp(tiltDeg - 5, -85, 85);
+    else if (k === "+" || k === "=") zoom = clamp(zoom * 1.15, MINZ, MAXZ);
+    else if (k === "-" || k === "_") zoom = clamp(zoom / 1.15, MINZ, MAXZ);
+    else if (k === "0") { rot = HOME.rot; tiltDeg = HOME.tilt; zoom = HOME.zoom; }
+    else used = false;
+    if (used) e.preventDefault();
+  });
+
+  /* on-screen controls */
+  var ctl = document.getElementById("globe-ctl");
+  if (ctl) ctl.addEventListener("click", function (e) {
+    var btn = e.target.closest ? e.target.closest("button") : null;
+    if (!btn) return;
+    var a = btn.getAttribute("data-g");
+    if (a === "in")    zoom = clamp(zoom * 1.3, MINZ, MAXZ);
+    if (a === "out")   zoom = clamp(zoom / 1.3, MINZ, MAXZ);
+    if (a === "reset") { rot = HOME.rot; tiltDeg = HOME.tilt; zoom = HOME.zoom; }
+    host.focus();
   });
 
   /* stop burning frames when off-screen or in a hidden tab */
