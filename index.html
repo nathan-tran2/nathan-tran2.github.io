@@ -1,0 +1,159 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+
+<title>Nathan Tran</title>
+<meta name="description" content="Nathan Tran is an undergraduate researcher at NC State's Extended Horizon Lab working on AI-powered XR systems, eye tracking, and multimodal sensing.">
+<meta property="og:title" content="Nathan Tran">
+<meta property="og:description" content="Nathan Tran is an undergraduate researcher at NC State's Extended Horizon Lab working on AI-powered XR systems, eye tracking, and multimodal sensing.">
+<meta property="og:type" content="website">
+<meta property="og:image" content="images/nathan.jpg">
+
+<!-- Applies a saved theme before first paint, so there's no flash.
+     Dark is the default; only an explicit light choice is stored. -->
+<script>
+(function () {
+  try {
+    if (localStorage.getItem("theme") === "light")
+      document.documentElement.setAttribute("data-theme", "light");
+  } catch (e) {}
+})();
+</script>
+
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700;800&display=swap" rel="stylesheet">
+<link rel="stylesheet" href="style.css">
+</head>
+
+<body>
+<div class="layout">
+
+  <!-- ══════════ SIDEBAR ══════════ -->
+  <aside class="sidebar">
+    <img class="avatar" src="images/nathan.jpg" alt="Nathan Tran">
+    <h1 class="side-name">Nathan Tran</h1>
+    <p class="side-role">
+      Undergraduate Researcher at<br>
+      <span class="uni">NC STATE UNIVERSITY</span>
+    </p>
+
+    <nav class="side-nav">
+        <a href="index.html" aria-current="page"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M3 10.5 12 3l9 7.5"/><path d="M5 9.5V21h14V9.5"/></svg>Home</a>
+        <a href="research.html"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M9 3h6"/><path d="M10 3v6.5L4.5 19A2 2 0 0 0 6.2 22h11.6a2 2 0 0 0 1.7-3L14 9.5V3"/></svg>Research</a>
+        <a href="experience.html"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><rect x="2.5" y="7" width="19" height="13" rx="2"/><path d="M8.5 7V5a2 2 0 0 1 2-2h3a2 2 0 0 1 2 2v2"/></svg>Experience</a>
+        <a href="about.html"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><circle cx="12" cy="8" r="4"/><path d="M4 21c0-4.4 3.6-7 8-7s8 2.6 8 7"/></svg>About</a>
+    </nav>
+
+    <div class="side-block">
+      <h2>Status</h2>
+      <div class="status-pill">
+        <strong>Open to</strong>
+        Summer 2027 internships and research collaborations
+      </div>
+    </div>
+
+    <div class="side-block">
+      <h2>Contact</h2>
+      <a class="side-item" href="mailto:Nathantran247@gmail.com">
+        <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><rect x="2.5" y="4.5" width="19" height="15" rx="2"/><path d="m3 6 9 6.5L21 6"/></svg><span><span class="t">Nathantran247@gmail.com</span></span>
+      </a>
+      <a class="side-item" href="https://www.linkedin.com/in/nathan-tran2/">
+        <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M10 13a5 5 0 0 0 7 0l2-2a5 5 0 0 0-7-7l-1 1"/><path d="M14 11a5 5 0 0 0-7 0l-2 2a5 5 0 0 0 7 7l1-1"/></svg><span><span class="t">LinkedIn</span><span class="s">nathan-tran2</span></span>
+      </a>
+      <!-- CV lives in Google Docs. /preview is the clean read-only view —
+           no Docs toolbar, no edit affordances. Swap the id to change it. -->
+      <a class="side-item" href="https://docs.google.com/document/d/167GCdKYHWeGWPWG1b2hSc2tnKhwbhI5DM0BbV10moVE/preview" target="_blank" rel="noopener">
+        <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M14 2.5H7a2 2 0 0 0-2 2v15a2 2 0 0 0 2 2h10a2 2 0 0 0 2-2V7.5z"/><path d="M14 2.5v5h5"/></svg><span><span class="t">Curriculum Vitae</span><span class="s">Google Doc</span></span>
+      </a>
+      <div class="side-item">
+        <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M12 21s7-6.3 7-11a7 7 0 1 0-14 0c0 4.7 7 11 7 11z"/><circle cx="12" cy="10" r="2.6"/></svg><span><span class="t">Raleigh, NC</span><span class="s">United States</span></span>
+      </div>
+    </div>
+
+    <button class="theme-toggle" id="theme-toggle" type="button" aria-label="Switch colour theme">
+      <svg class="icon-sun" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"
+           stroke-linecap="round" stroke-linejoin="round" aria-hidden="true">
+        <circle cx="12" cy="12" r="4.2"/>
+        <path d="M12 2v2M12 20v2M4.9 4.9l1.4 1.4M17.7 17.7l1.4 1.4M2 12h2M20 12h2M4.9 19.1l1.4-1.4M17.7 6.3l1.4-1.4"/>
+      </svg>
+      <svg class="icon-moon" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"
+           stroke-linecap="round" stroke-linejoin="round" aria-hidden="true">
+        <path d="M21 12.79A9 9 0 1 1 11.21 3 7 7 0 0 0 21 12.79z"/>
+      </svg>
+      <span class="lbl-light">Light Mode</span><span class="lbl-dark">Dark Mode</span>
+    </button>
+  </aside>
+
+  <!-- ══════════ MAIN ══════════ -->
+  <main class="main">
+    <section class="card">
+      <div class="lede">
+        <p>I'm a Computer Science undergraduate at <a href="https://www.ncsu.edu/">North Carolina State University</a> (Class of 2027), specializing in Artificial Intelligence and Machine Learning. I work as an undergraduate researcher in the Extended Horizon Lab, advised by <a href="http://georgiejin.com/">Prof. Qiao Jin</a>, building AI-powered XR and AR systems with Unity, eye tracking, computer vision, and multimodal sensing.</p>
+        <p>My interest is in systems that notice what a person is doing and respond before being asked — treating gaze and physiological signals as an input channel rather than a measurement recorded after the fact.</p>
+      </div>
+    </section>
+
+    <section class="card">
+      <h2 class="sec-title"><span class="ico">📰</span>Latest News</h2>
+      <ul class="timeline">
+        <li>
+          <div class="tl-card">
+            <span class="tl-date">August 2026</span>
+            <h3>Joined Fizz Lab Studios</h3>
+            <p>Started as a technical consultant working on interface design and data visualization for students, faculty, and professors.</p>
+          </div>
+        </li>
+        <li>
+          <div class="tl-card">
+            <span class="tl-date">August 2026</span>
+            <h3>PulseCoach submitted to UIST '26</h3>
+            <p>Our work combining physiological sensing, AI, and augmented reality was submitted to the Student Innovation Contest.</p>
+          </div>
+        </li>
+        <li>
+          <div class="tl-card">
+            <span class="tl-date">June 2026</span>
+            <h3>Leading the VR museum companion</h3>
+            <p>Now lead developer on a proactive AI companion built on Meta Quest 3 with Pupil Labs Neon XR eye tracking.</p>
+          </div>
+        </li>
+        <li>
+          <div class="tl-card">
+            <span class="tl-date">May 2026</span>
+            <h3>Awarded a College of Engineering REU</h3>
+            <p>Selected for NC State's Research Experience for Undergraduates, supporting full-time summer research in the lab.</p>
+          </div>
+        </li>
+        <li>
+          <div class="tl-card">
+            <span class="tl-date">April 2026</span>
+            <h3>Promoted to Researcher</h3>
+            <p>Moved up from Assistant Researcher in the Extended Horizon Lab after two months.</p>
+          </div>
+        </li>
+        <li>
+          <div class="tl-card">
+            <span class="tl-date">March 2026</span>
+            <h3>CITI human subjects certification</h3>
+            <p>Completed CITI Program certification, valid through 2029, for running studies with human participants.</p>
+          </div>
+        </li>
+        <li>
+          <div class="tl-card">
+            <span class="tl-date">February 2026</span>
+            <h3>Joined the Extended Horizon Lab</h3>
+            <p>Started as an undergraduate researcher with Prof. Qiao Jin, working on AI and extended reality.</p>
+          </div>
+        </li>
+      </ul>
+    </section>
+    <p class="foot">© 2026 Nathan Tran · Raleigh, North Carolina</p>
+  </main>
+
+</div>
+<script src="theme.js"></script>
+</body>
+</html>
