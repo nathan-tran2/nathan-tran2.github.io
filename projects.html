@@ -25,7 +25,7 @@
 <link rel="preconnect" href="https://fonts.googleapis.com">
 <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
 <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700;800&display=swap" rel="stylesheet">
-<link rel="stylesheet" href="style.css">
+<link rel="stylesheet" href="style.css?v=3">
 </head>
 
 <body>
@@ -168,6 +168,50 @@
     <section class="card">
       <h2 class="sec-title"><span class="ico">💻</span>Software Projects</h2>
       <ul class="pubs">
+        <li class="pub">
+          <figure>
+            <img src="images/cover-cafe.svg" alt="An order ticket above a five-stage status track, the middle stage highlighted.">
+          </figure>
+          <div>
+            <h3>WolfCafe &mdash; Role-Based Ordering Platform</h3>
+            <p class="venue">CSC 326 &middot; Software Engineering &middot; team project</p>
+            <p class="desc">A full-stack caf&eacute; ordering system: a Spring Boot REST API behind a React single-page frontend. Spring Security issues JWTs and gates every endpoint against four roles &mdash; admin, staff, customer, and a delivery driver role our team added &mdash; while orders move through a status lifecycle from pending to ready-for-pickup to completed, with a separate delivering and delivered path once a driver claims one. The backend is layered controller &rarr; service &rarr; repository with DTOs and ModelMapper keeping entities off the wire, persisted to MySQL through JPA. Admins configure a tax rate that records who changed it and when. 198 JUnit and Mockito tests cover the repository, service, and controller layers, including a suite that asserts each role can reach only what it should, and the Maven build runs Checkstyle and JaCoCo. We also did an accessibility pass: rem-based sizing throughout, screen-reader-friendly navigation links in place of buttons, and a colorblind-safe palette.</p>
+            <p class="role">Contributor &middot; team project tracked on a GitHub Projects board</p>
+            <ul class="stack">
+              <li class="chip">Java</li>
+              <li class="chip">Spring Boot</li>
+              <li class="chip">Spring Security</li>
+              <li class="chip">JWT</li>
+              <li class="chip">JPA / Hibernate</li>
+              <li class="chip">MySQL</li>
+              <li class="chip">React</li>
+              <li class="chip">Vite</li>
+              <li class="chip">JUnit</li>
+              <li class="chip">Mockito</li>
+            </ul>
+          </div>
+        </li>
+        <li class="pub">
+          <figure>
+            <img src="images/cover-brew.svg" alt="A steaming coffee cup beside four ingredient level bars, one running low in coral.">
+          </figure>
+          <div>
+            <h3>CoffeeMaker &mdash; Recipe &amp; Inventory Service</h3>
+            <p class="venue">CSC 326 &middot; Spring Boot &amp; React</p>
+            <p class="desc">A recipe and inventory service built twice, once solo and once with a team, as the foundation for the course's full-stack work. A Spring Boot REST backend handles recipe CRUD, ingredient management, and inventory tracking; the React frontend consumes it over Axios. The interesting piece is the make-recipe operation, which walks a recipe's ingredients against current stock, refuses the whole order if any single one is short, and only then deducts every amount and persists &mdash; so a partially-brewed drink can never leave inventory inconsistent. Both builds use a layered controller/service/repository structure with DTOs and hand-written mappers at the boundary. The team version promoted ingredients from fixed fields to a first-class entity with its own repository and endpoints, so new ingredients could be added at runtime instead of being baked into the schema. Roughly 130 JUnit tests across the two builds, covering repositories, services, and controllers.</p>
+            <p class="role">Solo build and team build</p>
+            <ul class="stack">
+              <li class="chip">Java</li>
+              <li class="chip">Spring Boot</li>
+              <li class="chip">JPA / Hibernate</li>
+              <li class="chip">REST</li>
+              <li class="chip">React</li>
+              <li class="chip">Axios</li>
+              <li class="chip">JUnit</li>
+              <li class="chip">Maven</li>
+            </ul>
+          </div>
+        </li>
         <li class="pub">
           <figure>
             <img src="images/cover-regression.svg" alt="A scatter plot of points with a fitted curve falling from left to right, in the shape of a depreciation curve.">
@@ -362,6 +406,6 @@
   </main>
 
 </div>
-<script src="theme.js"></script>
+<script src="theme.js?v=3"></script>
 </body>
 </html>

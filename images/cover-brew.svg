@@ -1,0 +1,37 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 800 600" width="800" height="600" role="img">
+  <rect width="800" height="600" fill="#1F2734"/>
+
+  <!-- steam -->
+  <g stroke="#45CFC2" stroke-width="7" stroke-linecap="round" fill="none" opacity=".55">
+    <path d="M214 150c-22-26 22-42 0-70"/>
+    <path d="M272 138c-22-26 22-46 0-74"/>
+    <path d="M330 150c-22-26 22-42 0-70"/>
+  </g>
+
+  <!-- cup -->
+  <path d="M150 214h244v112a92 92 0 0 1-92 92h-60a92 92 0 0 1-92-92z"
+        fill="#10141C" stroke="#45CFC2" stroke-width="9" stroke-linejoin="round"/>
+  <path d="M150 214h244v34a0 0 0 0 1 0 0H150z" fill="#45CFC2" opacity=".22"/>
+  <path d="M394 248h34a56 56 0 0 1 0 112h-34" fill="none" stroke="#45CFC2" stroke-width="9" stroke-linecap="round"/>
+  <ellipse cx="272" cy="214" rx="122" ry="20" fill="#45CFC2" opacity=".35"/>
+  <rect x="150" y="452" width="244" height="16" rx="8" fill="#2B3442"/>
+
+  <!-- inventory levels -->
+  <g>
+    <rect x="490" y="196" width="190" height="20" rx="10" fill="#2B3442"/>
+    <rect x="490" y="196" width="150" height="20" rx="10" fill="#45CFC2"/>
+    <circle cx="462" cy="206" r="11" fill="#45CFC2" opacity=".85"/>
+
+    <rect x="490" y="268" width="190" height="20" rx="10" fill="#2B3442"/>
+    <rect x="490" y="268" width="112" height="20" rx="10" fill="#45CFC2" opacity=".85"/>
+    <circle cx="462" cy="278" r="11" fill="#45CFC2" opacity=".7"/>
+
+    <rect x="490" y="340" width="190" height="20" rx="10" fill="#2B3442"/>
+    <rect x="490" y="340" width="38"  height="20" rx="10" fill="#F0876C"/>
+    <circle cx="462" cy="350" r="11" fill="#F0876C" opacity=".9"/>
+
+    <rect x="490" y="412" width="190" height="20" rx="10" fill="#2B3442"/>
+    <rect x="490" y="412" width="168" height="20" rx="10" fill="#45CFC2" opacity=".7"/>
+    <circle cx="462" cy="422" r="11" fill="#45CFC2" opacity=".6"/>
+  </g>
+</svg>
