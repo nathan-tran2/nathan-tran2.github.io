@@ -444,3 +444,80 @@ a.side-item:hover .t { color: var(--accent); }
   .pub:hover figure img, .strip figure:hover img,
   .iconrow img:hover, .social:hover { transform: none; }
 }
+/* -- 14. PAGE TRANSITION (spinjitsu vortex) ------------------- */
+/* The overlay is injected by theme.js, so no markup lives in the
+   HTML. It only appears while navigating between pages. */
+.nt-loader {
+  position: fixed; inset: 0; z-index: 9999;
+  display: grid; place-items: center;
+  background: var(--page);
+  opacity: 0; visibility: hidden;
+  transition: opacity .26s ease, visibility 0s linear .26s;
+}
+.nt-loader.is-on {
+  opacity: 1; visibility: visible;
+  transition: opacity .26s ease, visibility 0s linear 0s;
+}
+
+/* the vortex: five arcs tilted into 3D, orbiting a shared axis */
+.nt-spin {
+  position: relative;
+  width: 130px; height: 130px;
+  perspective: 460px;
+  transform-style: preserve-3d;
+}
+.nt-spin span {
+  position: absolute; left: 50%; top: 50%;
+  border-radius: 50%;
+  border: 2px solid transparent;
+  border-top-color: var(--accent);
+  border-right-color: var(--accent);
+  animation-name: nt-orbit;
+  animation-timing-function: linear;
+  animation-iteration-count: infinite;
+  will-change: transform;
+}
+
+/* widest ring on top, tapering down into the funnel */
+.nt-spin span:nth-child(1) {
+  --y: -36px; width: 112px; height: 112px; margin: -56px 0 0 -56px;
+  animation-duration: 1.15s;
+}
+.nt-spin span:nth-child(2) {
+  --y: -18px; width: 94px;  height: 94px;  margin: -47px 0 0 -47px;
+  animation-duration: .98s; animation-direction: reverse; opacity: .9;
+}
+.nt-spin span:nth-child(3) {
+  --y: 0px;   width: 74px;  height: 74px;  margin: -37px 0 0 -37px;
+  animation-duration: .84s; opacity: .8;
+}
+.nt-spin span:nth-child(4) {
+  --y: 16px;  width: 54px;  height: 54px;  margin: -27px 0 0 -27px;
+  animation-duration: .72s; animation-direction: reverse; opacity: .68;
+}
+.nt-spin span:nth-child(5) {
+  --y: 30px;  width: 32px;  height: 32px;  margin: -16px 0 0 -16px;
+  animation-duration: .6s;  opacity: .55;
+}
+
+@keyframes nt-orbit {
+  from { transform: translate3d(0, var(--y), 0) rotateX(74deg) rotateZ(0deg); }
+  to   { transform: translate3d(0, var(--y), 0) rotateX(74deg) rotateZ(360deg); }
+}
+
+/* content settles in when the new page paints */
+@keyframes nt-rise {
+  from { opacity: 0; transform: translateY(12px); }
+  to   { opacity: 1; transform: none; }
+}
+@keyframes nt-fade {
+  from { opacity: 0; }
+  to   { opacity: 1; }
+}
+.main    { animation: nt-rise .44s cubic-bezier(.22,.61,.36,1) both; }
+.sidebar { animation: nt-fade .5s ease both; }
+
+@media (prefers-reduced-motion: reduce) {
+  .nt-loader { display: none; }
+  .main, .sidebar { animation: none; }
+}
