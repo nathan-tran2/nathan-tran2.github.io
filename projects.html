@@ -95,12 +95,12 @@
       <ul class="pubs">
         <li class="pub">
           <figure>
-            <img src="images/cover-gaze.svg" alt="Abstract gaze scanpath: fixation circles of varying size connected by saccade lines over outlined objects.">
+            <img src="images/neon-xr.jpg" alt="A Pupil Labs Neon XR eye-tracking module mounted on its frame beside a VR headset.">
           </figure>
           <div>
             <h3>Proactive AI VR Museum Companion</h3>
             <p class="venue">In progress · Extended Horizon Lab</p>
-            <p class="desc">A Unity VR system built independently on Meta Quest 3 with Pupil Labs Neon XR eye tracking. It processes gaze, fixation, pupil and dwell-time data to estimate where a visitor's attention is, maps real-time gaze onto 3D museum objects, and uses that state plus interaction history to decide when an AI companion should speak rather than waiting to be asked.</p>
+            <p class="desc">A Unity VR system built independently on Meta Quest 3 with Pupil Labs Neon XR eye tracking. It processes gaze, fixation, pupil and dwell-time data to estimate where a visitor's attention actually is, maps real-time gaze onto 3D museum objects, and uses that state together with interaction history to decide when an AI companion should speak — so the system offers something at the moment a visitor is curious, rather than waiting to be asked.</p>
             <p class="role">Lead developer</p>
             <ul class="stack">
               <li class="chip">Unity</li>
@@ -115,12 +115,12 @@
         </li>
         <li class="pub">
           <figure>
-            <img src="images/cover-biosignal.svg" alt="Three stacked biosignal waveforms in blue, amber and grey on a dark grid.">
+            <img src="images/pulsecoach.jpg" alt="Illustration of a bedside scene with a patient, a clinician holding a clipboard, a person wearing a headset, and a heart-rate monitor.">
           </figure>
           <div>
             <h3>PulseCoach: State-Aware AI for XR</h3>
             <p class="venue">UIST '26 Student Innovation Contest<span class="rev">Under review</span></p>
-            <p class="desc">Combines physiological sensing, AI and augmented reality for adaptive coaching. EDA, HRV, PPG and IMU signals from an EmotiBit estimate user state in real time and trigger AR interventions timed to when a cue will actually land, rather than on a fixed schedule.</p>
+            <p class="desc">Combines physiological sensing, AI and augmented reality for adaptive coaching. EDA, HRV, PPG and IMU signals from an EmotiBit estimate user state in real time, and AR interventions fire when a cue will actually land rather than on a fixed schedule. Built around real-time biometric processing and context-aware delivery.</p>
             <p class="role">Co-author</p>
             <ul class="stack">
               <li class="chip">EmotiBit</li>
@@ -164,7 +164,7 @@
           <div>
             <h3>Facial Recognition ATM</h3>
             <p class="venue">Solo project · C++, Python, OpenCV</p>
-            <p class="desc">An ATM login system that replaces the PIN with real-time facial recognition, trained on labeled image sets using Haar Cascades and LBPH. It connects to SQLite to read and modify account data after authentication, with a CLI for balance checks, withdrawals and transaction logging. Authentication, interface and database live in separate layers, and failed detection, database errors and unauthorized access are handled as first-class states rather than crashes.</p>
+            <p class="desc">An ATM login flow that replaces the PIN with real-time facial recognition. The recognizer is trained on labeled image sets using Haar Cascades for detection and LBPH for identification, and holds up across varying lighting and facial expression. After authentication it reads and writes account data in SQLite, with a CLI for balance checks, withdrawals and transaction logging. Authentication, interface and database sit in separate layers so each can be tested alone, and failed detection, database errors and unauthorized access are handled as expected states rather than crashes.</p>
             <p class="role">Creator</p>
             <ul class="stack">
               <li class="chip">C++</li>
@@ -183,7 +183,7 @@
           <div>
             <h3>Job Application Organizer</h3>
             <p class="venue">Full-stack · Java, React</p>
-            <p class="desc">A job tracker with Java backend logic and a React frontend. It uses the State design pattern via inner classes to drive transitions through Interview → Offer → Closed, ArrayLists with custom comparators for sorting, searching and filtering, and simulated REST endpoints so status changes reflect in the UI in real time. The architecture is built on interfaces and method overrides so new states can be added without touching existing ones.</p>
+            <p class="desc">A job tracker with Java backend logic behind a React frontend. The State design pattern, implemented with inner classes, drives each application through Interview → Offer → Closed and keeps the legal transitions in one place. ArrayLists with custom comparators handle sorting, searching and filtering; simulated REST endpoints update status so changes reflect in the UI immediately; and shared views let more than one user see and update the same pipeline. The architecture leans on interfaces and method overrides, so a new state can be added without touching the existing ones.</p>
             <p class="role">Creator</p>
             <ul class="stack">
               <li class="chip">Java</li>
@@ -201,7 +201,7 @@
           <div>
             <h3>Class &amp; Event Scheduler</h3>
             <p class="venue">Multi-platform · Java, C, React</p>
-            <p class="desc">A scheduler for academic classes and user-defined events across Java, C and React. Inheritance and polymorphism separate class behaviour from custom-event behaviour, search filters narrow the catalog, and timers and flags drive reminders. Built with a team on Agile sprints, with GitHub for version control and JUnit tests for module correctness.</p>
+            <p class="desc">A scheduler covering both academic classes and user-defined events, written across Java, C and React. Inheritance and polymorphism keep class behaviour and custom-event behaviour distinct while sharing a common base, search filters narrow a full course catalog, and timers and flags drive reminders. Built with a team on Agile sprints with structured conflict resolution, GitHub for version control, and JUnit tests covering each module.</p>
             <p class="role">Co-creator</p>
             <ul class="stack">
               <li class="chip">Java</li>
@@ -220,7 +220,7 @@
           <div>
             <h3>Data Structures Engine</h3>
             <p class="venue">CSC 316 · Java</p>
-            <p class="desc">A Java system built on AVL trees, binary heaps and adjacency lists. It loads structured data files and runs efficient searches, sorts and lookups, schedules weighted tasks through a custom heap-backed priority queue, and runs shortest-path and minimum-spanning-tree algorithms over the graph. Hash tables handle fast access with chaining and open addressing, and the whole thing was tuned against Big-O analysis with JUnit tests on the edge cases.</p>
+            <p class="desc">A Java system built directly on AVL trees, binary heaps and adjacency lists rather than the standard library. It loads structured data files and runs searches, sorts and lookups against them; schedules weighted tasks through a custom heap-backed priority queue; and runs shortest-path and minimum-spanning-tree algorithms over a graph. Hash tables provide fast access with both chaining and open addressing, and every structure was chosen against a Big-O analysis and covered by JUnit tests on the edge cases.</p>
             <p class="role">Co-creator</p>
             <ul class="stack">
               <li class="chip">Java</li>
@@ -237,31 +237,92 @@
 
     <section class="card">
       <h2 class="sec-title"><span class="ico">📘</span>Coursework</h2>
-      <ul class="roles">
-        <li class="role-item">
-            <span class="when">C</span>
-            <h4>Decimal Math Calculator</h4>
-            <p class="where">Decimal arithmetic with precision control, parsing via fgets/strtod/sscanf, manual memory management and file I/O. Debugged in GDB against division by zero and buffer overflow.</p>
+      <ul class="pubs">
+        <li class="pub">
+          <figure>
+            <img src="images/cover-calc.svg" alt="A calculator interface wireframe with a display and keypad.">
+          </figure>
+          <div>
+            <h3>Decimal Math Calculator</h3>
+            <p class="venue">C · systems programming</p>
+            <p class="desc">A command-line calculator handling decimal arithmetic with explicit precision control and formatted output. Input is parsed through fgets, strtod and sscanf with syntax validation and graceful handling of malformed input; each arithmetic type is encapsulated in its own function over a shared struct representation. Buffers and result storage are managed with manual allocation and cleanup, file I/O supports reading input and writing results, and it was debugged in GDB against division by zero and memory overflow.</p>
+            <p class="role">Creator</p>
+            <ul class="stack">
+              <li class="chip">C</li>
+              <li class="chip">Manual Memory</li>
+              <li class="chip">File I/O</li>
+              <li class="chip">GDB</li>
+            </ul>
+          </div>
         </li>
-        <li class="role-item">
-            <span class="when">C</span>
-            <h4>Deck of Cards</h4>
-            <p class="where">Card simulation using structs and arrays, Fisher–Yates shuffle with direct pointer manipulation, dynamic allocation for drawn cards and file I/O for persistence.</p>
+        <li class="pub">
+          <figure>
+            <img src="images/cover-cards.svg" alt="Four playing cards fanned out, one highlighted in amber.">
+          </figure>
+          <div>
+            <h3>Card Deck Simulator</h3>
+            <p class="venue">C · systems programming</p>
+            <p class="desc">A 52-card deck simulation using structs for individual cards and arrays for the deck itself. Shuffling is a Fisher–Yates implementation working through direct pointer manipulation, drawn cards get dynamically allocated storage that is freed on reshuffle, and deck state persists between runs through file I/O with fopen, fprintf and fscanf. Debugged in GDB against drawing from an empty deck and malformed saved state.</p>
+            <p class="role">Creator</p>
+            <ul class="stack">
+              <li class="chip">C</li>
+              <li class="chip">Structs</li>
+              <li class="chip">Pointers</li>
+              <li class="chip">Fisher–Yates</li>
+              <li class="chip">File I/O</li>
+            </ul>
+          </div>
         </li>
-        <li class="role-item">
-            <span class="when">Java</span>
-            <h4>Connect Four</h4>
-            <p class="where">Console game with 2D-array board rendering, turn management, horizontal/vertical/diagonal win detection, and input validation against illegal or overflow columns.</p>
+        <li class="pub">
+          <figure>
+            <img src="images/cover-board.svg" alt="A Connect Four board with several coloured pieces played.">
+          </figure>
+          <div>
+            <h3>Connect Four</h3>
+            <p class="venue">Java · object-oriented design</p>
+            <p class="desc">A console Connect Four with real-time board rendering over 2D arrays. Turn management, board updates and win detection across horizontal, vertical and both diagonals are each scoped to their own methods, and column input is validated against illegal and overflow moves before anything is written. Unit tests cover the gameplay logic and every win condition.</p>
+            <p class="role">Co-creator</p>
+            <ul class="stack">
+              <li class="chip">Java</li>
+              <li class="chip">2D Arrays</li>
+              <li class="chip">OOP</li>
+              <li class="chip">JUnit</li>
+            </ul>
+          </div>
         </li>
-        <li class="role-item">
-            <span class="when">Java</span>
-            <h4>Automated Coffee Shop</h4>
-            <p class="where">Self-service shop simulation with classes for customers, drinks, orders and inventory, dynamic menu pricing, restocking, and JUnit coverage of order and restock scenarios.</p>
+        <li class="pub">
+          <figure>
+            <img src="images/cover-queue.svg" alt="A queue of order rows, the first highlighted in amber.">
+          </figure>
+          <div>
+            <h3>Coffee Shop Simulator</h3>
+            <p class="venue">Java · object-oriented design</p>
+            <p class="desc">A self-service coffee shop modelled with classes for customers, drinks, orders and inventory. Item data is encapsulated behind constructors and accessors with object state validated on creation, command-line ordering checks stock and prices dynamically off the menu, and restocking plus clear error messaging handles the case where ingredients run short mid-order. ArrayLists and arrays manage the order queue and live stock, with JUnit coverage across object creation, ordering and restock paths.</p>
+            <p class="role">Creator</p>
+            <ul class="stack">
+              <li class="chip">Java</li>
+              <li class="chip">OOP</li>
+              <li class="chip">Collections</li>
+              <li class="chip">JUnit</li>
+            </ul>
+          </div>
         </li>
-        <li class="role-item">
-            <span class="when">Java</span>
-            <h4>Patterns Generator</h4>
-            <p class="where">Console pattern renderer using nested loops and method decomposition, with input validation and JUnit tests across edge sizes.</p>
+        <li class="pub">
+          <figure>
+            <img src="images/cover-pattern.svg" alt="A triangular arrangement of rounded squares in blue and amber.">
+          </figure>
+          <div>
+            <h3>Patterns Generator</h3>
+            <p class="venue">Java · fundamentals</p>
+            <p class="desc">A console tool that renders symmetrical patterns — triangles, grids, diagonals — from user-specified characters and dimensions. Nested loops and conditionals generate the geometry, each pattern type lives in its own reusable method, and input size and characters are validated before anything renders. Computation and output are deliberately separated, with JUnit tests across edge sizes and invalid input.</p>
+            <p class="role">Creator</p>
+            <ul class="stack">
+              <li class="chip">Java</li>
+              <li class="chip">Nested Loops</li>
+              <li class="chip">Method Decomposition</li>
+              <li class="chip">JUnit</li>
+            </ul>
+          </div>
         </li>
       </ul>
     </section>
