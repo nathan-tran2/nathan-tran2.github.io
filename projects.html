@@ -1,0 +1,274 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+
+<title>Projects — Nathan Tran</title>
+<meta name="description" content="Projects by Nathan Tran: XR research systems, computer vision, full-stack applications, and coursework.">
+<meta property="og:title" content="Projects — Nathan Tran">
+<meta property="og:description" content="XR research systems, computer vision, full-stack applications, and coursework.">
+<meta property="og:type" content="website">
+<meta property="og:image" content="images/nathan.jpg">
+
+<!-- Applies a saved theme before first paint, so there's no flash.
+     Dark is the default; only an explicit light choice is stored. -->
+<script>
+(function () {
+  try {
+    if (localStorage.getItem("theme") === "light")
+      document.documentElement.setAttribute("data-theme", "light");
+  } catch (e) {}
+})();
+</script>
+
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700;800&display=swap" rel="stylesheet">
+<link rel="stylesheet" href="style.css">
+</head>
+
+<body>
+<div class="layout">
+
+  <!-- ══════════ SIDEBAR ══════════ -->
+  <aside class="sidebar">
+    <img class="avatar" src="images/nathan.jpg" alt="Nathan Tran">
+    <h1 class="side-name">Nathan Tran</h1>
+    <p class="side-role">
+      Undergraduate Researcher at<br>
+      <span class="uni">NC STATE UNIVERSITY</span>
+    </p>
+
+    <nav class="side-nav">
+        <a href="index.html"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M3 10.5 12 3l9 7.5"/><path d="M5 9.5V21h14V9.5"/></svg>Home</a>
+        <a href="projects.html" aria-current="page"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M9 3h6"/><path d="M10 3v6.5L4.5 19A2 2 0 0 0 6.2 22h11.6a2 2 0 0 0 1.7-3L14 9.5V3"/></svg>Projects</a>
+        <a href="experience.html"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><rect x="2.5" y="7" width="19" height="13" rx="2"/><path d="M8.5 7V5a2 2 0 0 1 2-2h3a2 2 0 0 1 2 2v2"/></svg>Experience</a>
+        <a href="about.html"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><circle cx="12" cy="8" r="4"/><path d="M4 21c0-4.4 3.6-7 8-7s8 2.6 8 7"/></svg>About</a>
+    </nav>
+
+    <div class="side-block">
+      <h2>Status</h2>
+      <div class="status-pill">
+        <strong>Open to</strong>
+        Summer 2027 internships and research collaborations
+      </div>
+    </div>
+
+    <div class="side-block">
+      <h2>Contact</h2>
+      <a class="side-item" href="mailto:Nathantran247@gmail.com">
+        <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><rect x="2.5" y="4.5" width="19" height="15" rx="2"/><path d="m3 6 9 6.5L21 6"/></svg><span><span class="t">Nathantran247@gmail.com</span></span>
+      </a>
+      <a class="side-item" href="https://www.linkedin.com/in/nathan-tran2/">
+        <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M10 13a5 5 0 0 0 7 0l2-2a5 5 0 0 0-7-7l-1 1"/><path d="M14 11a5 5 0 0 0-7 0l-2 2a5 5 0 0 0 7 7l1-1"/></svg><span><span class="t">LinkedIn</span><span class="s">nathan-tran2</span></span>
+      </a>
+      <!-- CV lives in Google Docs. /preview is the clean read-only view —
+           no Docs toolbar, no edit affordances. Swap the id to change it. -->
+      <a class="side-item" href="https://docs.google.com/document/d/167GCdKYHWeGWPWG1b2hSc2tnKhwbhI5DM0BbV10moVE/preview" target="_blank" rel="noopener">
+        <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M14 2.5H7a2 2 0 0 0-2 2v15a2 2 0 0 0 2 2h10a2 2 0 0 0 2-2V7.5z"/><path d="M14 2.5v5h5"/></svg><span><span class="t">Curriculum Vitae</span><span class="s">Google Doc</span></span>
+      </a>
+      <div class="side-item">
+        <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M12 21s7-6.3 7-11a7 7 0 1 0-14 0c0 4.7 7 11 7 11z"/><circle cx="12" cy="10" r="2.6"/></svg><span><span class="t">Raleigh, NC</span><span class="s">United States</span></span>
+      </div>
+    </div>
+
+    <button class="theme-toggle" id="theme-toggle" type="button" aria-label="Switch colour theme">
+      <svg class="icon-sun" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"
+           stroke-linecap="round" stroke-linejoin="round" aria-hidden="true">
+        <circle cx="12" cy="12" r="4.2"/>
+        <path d="M12 2v2M12 20v2M4.9 4.9l1.4 1.4M17.7 17.7l1.4 1.4M2 12h2M20 12h2M4.9 19.1l1.4-1.4M17.7 6.3l1.4-1.4"/>
+      </svg>
+      <svg class="icon-moon" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"
+           stroke-linecap="round" stroke-linejoin="round" aria-hidden="true">
+        <path d="M21 12.79A9 9 0 1 1 11.21 3 7 7 0 0 0 21 12.79z"/>
+      </svg>
+      <span class="lbl-light">Light Mode</span><span class="lbl-dark">Dark Mode</span>
+    </button>
+  </aside>
+
+  <!-- ══════════ MAIN ══════════ -->
+  <main class="main">
+
+    <section class="card">
+      <h2 class="sec-title"><span class="ico">🔬</span>Research</h2>
+      <ul class="pubs">
+        <li class="pub">
+          <figure>
+            <img src="images/cover-gaze.svg" alt="Abstract gaze scanpath: fixation circles of varying size connected by saccade lines over outlined objects.">
+          </figure>
+          <div>
+            <h3>Proactive AI VR Museum Companion</h3>
+            <p class="venue">In progress · Extended Horizon Lab</p>
+            <p class="desc">A Unity VR system built independently on Meta Quest 3 with Pupil Labs Neon XR eye tracking. It processes gaze, fixation, pupil and dwell-time data to estimate where a visitor's attention is, maps real-time gaze onto 3D museum objects, and uses that state plus interaction history to decide when an AI companion should speak rather than waiting to be asked.</p>
+            <p class="role">Lead developer</p>
+            <ul class="stack">
+              <li class="chip">Unity</li>
+              <li class="chip">C#</li>
+              <li class="chip">Python</li>
+              <li class="chip">Meta Quest 3</li>
+              <li class="chip">Pupil Labs Neon XR</li>
+              <li class="chip">Eye Tracking</li>
+              <li class="chip">AI Agents</li>
+            </ul>
+          </div>
+        </li>
+        <li class="pub">
+          <figure>
+            <img src="images/cover-biosignal.svg" alt="Three stacked biosignal waveforms in blue, amber and grey on a dark grid.">
+          </figure>
+          <div>
+            <h3>PulseCoach: State-Aware AI for XR</h3>
+            <p class="venue">UIST '26 Student Innovation Contest<span class="rev">Under review</span></p>
+            <p class="desc">Combines physiological sensing, AI and augmented reality for adaptive coaching. EDA, HRV, PPG and IMU signals from an EmotiBit estimate user state in real time and trigger AR interventions timed to when a cue will actually land, rather than on a fixed schedule.</p>
+            <p class="role">Co-author</p>
+            <ul class="stack">
+              <li class="chip">EmotiBit</li>
+              <li class="chip">Python</li>
+              <li class="chip">EDA / HRV / PPG</li>
+              <li class="chip">IMU</li>
+              <li class="chip">AR</li>
+              <li class="chip">Multimodal Sensing</li>
+            </ul>
+          </div>
+        </li>
+        <li class="pub">
+          <figure>
+            <img class="fit" src="images/playground.jpg" alt="Diagram of the Playground+ setup: a home projector and webcam mounted over a projected play area, with three stages — play ideation with a conversational agent, planning with a reasoning agent, and visualization and monitoring through a mixed-reality interface.">
+          </figure>
+          <div>
+            <h3>Playground+</h3>
+            <p class="venue">Projection-based interactive XR · Extended Horizon Lab</p>
+            <p class="desc">A projection-based mixed-reality play system pairing a home projector and webcam over a shared floor space. I integrated a ZED 2i stereo camera while preserving webcam compatibility, lifting real-time performance from roughly 19 FPS to 26 FPS, and planned the full physical deployment — camera placement, projector selection, mounting, interaction space, computing requirements and budget.</p>
+            <p class="role">Research developer</p>
+            <ul class="stack">
+              <li class="chip">Unity</li>
+              <li class="chip">ZED 2i</li>
+              <li class="chip">OpenCV</li>
+              <li class="chip">Computer Vision</li>
+              <li class="chip">Projection Mapping</li>
+            </ul>
+          </div>
+        </li>
+      </ul>
+    </section>
+
+    <section class="card">
+      <h2 class="sec-title"><span class="ico">💻</span>Software Projects</h2>
+      <ul class="pubs">
+        <li class="pub">
+          <figure>
+            <img src="images/cover-terminal.svg" alt="A stylised terminal window with coloured command lines and a cursor.">
+          </figure>
+          <div>
+            <h3>Facial Recognition ATM</h3>
+            <p class="venue">Solo project · C++, Python, OpenCV</p>
+            <p class="desc">An ATM login system that replaces the PIN with real-time facial recognition, trained on labeled image sets using Haar Cascades and LBPH. It connects to SQLite to read and modify account data after authentication, with a CLI for balance checks, withdrawals and transaction logging. Authentication, interface and database live in separate layers, and failed detection, database errors and unauthorized access are handled as first-class states rather than crashes.</p>
+            <p class="role">Creator</p>
+            <ul class="stack">
+              <li class="chip">C++</li>
+              <li class="chip">Python</li>
+              <li class="chip">OpenCV</li>
+              <li class="chip">Haar Cascades</li>
+              <li class="chip">LBPH</li>
+              <li class="chip">SQLite</li>
+            </ul>
+          </div>
+        </li>
+        <li class="pub">
+          <figure>
+            <img src="images/cover-grid.svg" alt="A wireframe interface with a header bar and a grid of content cards.">
+          </figure>
+          <div>
+            <h3>Job Application Organizer</h3>
+            <p class="venue">Full-stack · Java, React</p>
+            <p class="desc">A job tracker with Java backend logic and a React frontend. It uses the State design pattern via inner classes to drive transitions through Interview → Offer → Closed, ArrayLists with custom comparators for sorting, searching and filtering, and simulated REST endpoints so status changes reflect in the UI in real time. The architecture is built on interfaces and method overrides so new states can be added without touching existing ones.</p>
+            <p class="role">Creator</p>
+            <ul class="stack">
+              <li class="chip">Java</li>
+              <li class="chip">React</li>
+              <li class="chip">REST</li>
+              <li class="chip">State Pattern</li>
+              <li class="chip">OOP</li>
+            </ul>
+          </div>
+        </li>
+        <li class="pub">
+          <figure>
+            <img src="images/cover-calendar.svg" alt="A calendar grid wireframe with several highlighted days.">
+          </figure>
+          <div>
+            <h3>Class &amp; Event Scheduler</h3>
+            <p class="venue">Multi-platform · Java, C, React</p>
+            <p class="desc">A scheduler for academic classes and user-defined events across Java, C and React. Inheritance and polymorphism separate class behaviour from custom-event behaviour, search filters narrow the catalog, and timers and flags drive reminders. Built with a team on Agile sprints, with GitHub for version control and JUnit tests for module correctness.</p>
+            <p class="role">Co-creator</p>
+            <ul class="stack">
+              <li class="chip">Java</li>
+              <li class="chip">C</li>
+              <li class="chip">React</li>
+              <li class="chip">JUnit</li>
+              <li class="chip">Agile</li>
+              <li class="chip">Git</li>
+            </ul>
+          </div>
+        </li>
+        <li class="pub">
+          <figure>
+            <img src="images/cover-tree.svg" alt="A balanced tree of connected nodes, the root highlighted in amber.">
+          </figure>
+          <div>
+            <h3>Data Structures Engine</h3>
+            <p class="venue">CSC 316 · Java</p>
+            <p class="desc">A Java system built on AVL trees, binary heaps and adjacency lists. It loads structured data files and runs efficient searches, sorts and lookups, schedules weighted tasks through a custom heap-backed priority queue, and runs shortest-path and minimum-spanning-tree algorithms over the graph. Hash tables handle fast access with chaining and open addressing, and the whole thing was tuned against Big-O analysis with JUnit tests on the edge cases.</p>
+            <p class="role">Co-creator</p>
+            <ul class="stack">
+              <li class="chip">Java</li>
+              <li class="chip">AVL Trees</li>
+              <li class="chip">Heaps</li>
+              <li class="chip">Graphs</li>
+              <li class="chip">Hash Tables</li>
+              <li class="chip">JUnit</li>
+            </ul>
+          </div>
+        </li>
+      </ul>
+    </section>
+
+    <section class="card">
+      <h2 class="sec-title"><span class="ico">📘</span>Coursework</h2>
+      <ul class="roles">
+        <li class="role-item">
+            <span class="when">C</span>
+            <h4>Decimal Math Calculator</h4>
+            <p class="where">Decimal arithmetic with precision control, parsing via fgets/strtod/sscanf, manual memory management and file I/O. Debugged in GDB against division by zero and buffer overflow.</p>
+        </li>
+        <li class="role-item">
+            <span class="when">C</span>
+            <h4>Deck of Cards</h4>
+            <p class="where">Card simulation using structs and arrays, Fisher–Yates shuffle with direct pointer manipulation, dynamic allocation for drawn cards and file I/O for persistence.</p>
+        </li>
+        <li class="role-item">
+            <span class="when">Java</span>
+            <h4>Connect Four</h4>
+            <p class="where">Console game with 2D-array board rendering, turn management, horizontal/vertical/diagonal win detection, and input validation against illegal or overflow columns.</p>
+        </li>
+        <li class="role-item">
+            <span class="when">Java</span>
+            <h4>Automated Coffee Shop</h4>
+            <p class="where">Self-service shop simulation with classes for customers, drinks, orders and inventory, dynamic menu pricing, restocking, and JUnit coverage of order and restock scenarios.</p>
+        </li>
+        <li class="role-item">
+            <span class="when">Java</span>
+            <h4>Patterns Generator</h4>
+            <p class="where">Console pattern renderer using nested loops and method decomposition, with input validation and JUnit tests across edge sizes.</p>
+        </li>
+      </ul>
+    </section>
+
+    <p class="foot">© 2026 Nathan Tran · Raleigh, North Carolina</p>
+  </main>
+
+</div>
+<script src="theme.js"></script>
+</body>
+</html>
