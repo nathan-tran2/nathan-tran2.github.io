@@ -446,22 +446,38 @@ a.side-item:hover .t { color: var(--accent); }
 }
 
 /* -- 14. PAGE TRANSITION ---------------------------------------- */
-/* Native cross-page transition: no overlay, no delay. The browser
-   swaps pages itself; the sidebar holds still while the content
-   fades and lifts into place. Browsers without support simply
-   navigate instantly. */
+/* Native cross-page transition: no overlay, no delay. The sidebar
+   holds still; the content cross-fades. Browsers without support
+   simply navigate instantly. */
 @view-transition { navigation: auto; }
 
 .sidebar { view-transition-name: sidebar; }
 .main    { view-transition-name: main; }
 
-::view-transition-group(sidebar) { animation-duration: .25s; }
+/* one shared rhythm for everything that moves */
+::view-transition-group(*) {
+  animation-duration: .5s;
+  animation-timing-function: cubic-bezier(.4, 0, .2, 1);
+}
 
-::view-transition-old(main) { animation: vt-out .16s ease-in both; }
-::view-transition-new(main) { animation: vt-in .32s cubic-bezier(.22,.61,.36,1) .04s both; }
+/* Pages differ a lot in height. Don't morph the content box between
+   them - that is what stretches the page mid-fade. Keep each snapshot
+   at its natural size, pinned to the top, and just cross-fade. */
+::view-transition-group(main) { animation: none; }
+::view-transition-old(main),
+::view-transition-new(main) {
+  height: auto;
+  width: 100%;
+  object-fit: none;
+  object-position: top;
+}
 
-@keyframes vt-out { to   { opacity: 0; transform: translateY(-6px); } }
-@keyframes vt-in  { from { opacity: 0; transform: translateY(12px); } }
+/* old content dissolves in place; new content arrives with a soft settle */
+::view-transition-old(main) { animation: vt-out .32s cubic-bezier(.4, 0, 1, 1) both; }
+::view-transition-new(main) { animation: vt-in  .5s  cubic-bezier(.16, 1, .3, 1) both; }
+
+@keyframes vt-out { to   { opacity: 0; } }
+@keyframes vt-in  { from { opacity: 0; transform: translateY(8px); } }
 
 @media (prefers-reduced-motion: reduce) {
   ::view-transition-group(*),
