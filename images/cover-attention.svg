@@ -1,0 +1,36 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 800 600" width="800" height="600" role="img">
+  <rect width="800" height="600" fill="#1F2734"/>
+
+  <!-- VR viewport brackets -->
+  <g stroke="#45CFC2" stroke-width="6" fill="none" stroke-linecap="round" opacity=".4">
+    <path d="M40 110V50h60"/><path d="M760 110V50h-60"/>
+    <path d="M40 490v60h60"/><path d="M760 490v60h-60"/>
+  </g>
+
+  <!-- eye -->
+  <path d="M70 320c40-56 86-84 130-84s90 28 130 84c-40 56-86 84-130 84s-90-28-130-84z"
+        fill="#10141C" stroke="#45CFC2" stroke-width="7" stroke-linejoin="round"/>
+  <circle cx="214" cy="320" r="38" fill="none" stroke="#45CFC2" stroke-width="7"/>
+  <circle cx="222" cy="320" r="16" fill="#45CFC2"/>
+
+  <!-- gaze ray to the attended object -->
+  <path d="M262 320L520 360" stroke="#F0876C" stroke-width="6" stroke-linecap="round" stroke-dasharray="4 16"/>
+
+  <!-- scene objects -->
+  <g fill="none" stroke="#93A2B5" stroke-width="6" stroke-linejoin="round" opacity=".55">
+    <circle cx="470" cy="190" r="38"/>
+    <path d="M640 460l44 78h-88z"/>
+  </g>
+  <!-- attended object: a cube, ringed -->
+  <g stroke-linejoin="round">
+    <circle cx="566" cy="370" r="86" fill="#F0876C" opacity=".10"/>
+    <circle cx="566" cy="370" r="86" fill="none" stroke="#F0876C" stroke-width="5" stroke-dasharray="14 12"/>
+    <path d="M566 318l46 24v54l-46 24-46-24v-54z" fill="#10141C" stroke="#45CFC2" stroke-width="7"/>
+    <path d="M520 342l46 24 46-24M566 366v54" fill="none" stroke="#45CFC2" stroke-width="7"/>
+  </g>
+
+  <!-- agent speaks up -->
+  <path d="M600 120h120a22 22 0 0 1 22 22v62a22 22 0 0 1-22 22h-74l-30 30v-30h-16a22 22 0 0 1-22-22v-62a22 22 0 0 1 22-22z"
+        fill="#10141C" stroke="#45CFC2" stroke-width="7" stroke-linejoin="round"/>
+  <g fill="#45CFC2"><circle cx="634" cy="174" r="9"/><circle cx="664" cy="174" r="9"/><circle cx="694" cy="174" r="9"/></g>
+</svg>

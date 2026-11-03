@@ -122,7 +122,7 @@
       <ul class="pubs">
         <li class="pub">
           <figure>
-            <img src="images/cover-gaze.svg" alt="A scanpath of connected fixation points, one larger point highlighted in coral.">
+            <img src="images/cover-attention.svg" alt="An eye with a gaze line resting on one object in a virtual scene, and a speech bubble appearing as an agent responds.">
           </figure>
           <div>
             <h3>Attention-Aware AI Agent in VR</h3>
@@ -199,6 +199,64 @@
       <ul class="pubs">
         <li class="pub">
           <figure>
+            <img src="images/cover-regression.svg" alt="A scatter plot of points with a fitted curve falling from left to right, in the shape of a depreciation curve.">
+          </figure>
+          <div>
+            <h3>Used Car Price Estimation &amp; Multimodal Vehicle Valuation</h3>
+            <p class="venue">CSC 422 · Automated Learning and Data Analysis<span class="rev">In progress</span></p>
+            <p class="desc">A machine learning system that estimates the market value of a used vehicle from its characteristics — make, model, age, mileage, engine, transmission, accident history — and flags listings priced above or below that estimate. Our team trains and compares CatBoost, Random Forest and XGBoost on roughly 4,000 Cars.com listings, scored on MAE, RMSE and R². I own feature engineering, model evaluation and explainability: deriving vehicle age and average miles per year, analysing residuals to find where the models break down, and using SHAP to explain what drives any individual prediction. I also lead the computer vision extension, which identifies a vehicle's likely make, model and approximate year from photographs and feeds that into the pricing pipeline alongside details the user supplies.</p>
+            <p class="role">Feature engineering, evaluation &amp; computer vision · three-person team</p>
+            <ul class="stack">
+              <li class="chip">Python</li>
+              <li class="chip">CatBoost</li>
+              <li class="chip">XGBoost</li>
+              <li class="chip">Random Forest</li>
+              <li class="chip">SHAP</li>
+              <li class="chip">Computer Vision</li>
+              <li class="chip">Feature Engineering</li>
+            </ul>
+          </div>
+        </li>
+        <li class="pub">
+          <figure>
+            <img src="images/cover-terminal.svg" alt="A stylised terminal window with coloured command lines and a cursor.">
+          </figure>
+          <div>
+            <h3>Facial Recognition ATM</h3>
+            <p class="venue">Solo project · C++, Python, OpenCV</p>
+            <p class="desc">An ATM login flow that replaces the PIN with real-time facial recognition. The recognizer is trained on labeled image sets using Haar Cascades for detection and LBPH for identification, and holds up across varying lighting and facial expression. After authentication it reads and writes account data in SQLite, with a CLI for balance checks, withdrawals and transaction logging. Authentication, interface and database sit in separate layers so each can be tested alone, and failed detection, database errors and unauthorized access are handled as expected states rather than crashes.</p>
+            <p class="role">Creator</p>
+            <ul class="stack">
+              <li class="chip">C++</li>
+              <li class="chip">Python</li>
+              <li class="chip">OpenCV</li>
+              <li class="chip">Haar Cascades</li>
+              <li class="chip">LBPH</li>
+              <li class="chip">SQLite</li>
+            </ul>
+          </div>
+        </li>
+        <li class="pub">
+          <figure>
+            <img src="images/cover-tree.svg" alt="A balanced tree of connected nodes, the root highlighted in amber.">
+          </figure>
+          <div>
+            <h3>Data Structures Engine</h3>
+            <p class="venue">CSC 316 · Java</p>
+            <p class="desc">A Java system built directly on AVL trees, binary heaps and adjacency lists rather than the standard library. It loads structured data files and runs searches, sorts and lookups against them; schedules weighted tasks through a custom heap-backed priority queue; and runs shortest-path and minimum-spanning-tree algorithms over a graph. Hash tables provide fast access with both chaining and open addressing, and every structure was chosen against a Big-O analysis and covered by JUnit tests on the edge cases.</p>
+            <p class="role">Co-creator</p>
+            <ul class="stack">
+              <li class="chip">Java</li>
+              <li class="chip">AVL Trees</li>
+              <li class="chip">Heaps</li>
+              <li class="chip">Graphs</li>
+              <li class="chip">Hash Tables</li>
+              <li class="chip">JUnit</li>
+            </ul>
+          </div>
+        </li>
+        <li class="pub">
+          <figure>
             <img src="images/cover-cafe.svg" alt="An order ticket above a five-stage status track, the middle stage highlighted.">
           </figure>
           <div>
@@ -243,45 +301,6 @@
         </li>
         <li class="pub">
           <figure>
-            <img src="images/cover-regression.svg" alt="A scatter plot of points with a fitted curve falling from left to right, in the shape of a depreciation curve.">
-          </figure>
-          <div>
-            <h3>Used Car Price Estimation &amp; Multimodal Vehicle Valuation</h3>
-            <p class="venue">CSC 422 · Automated Learning and Data Analysis<span class="rev">In progress</span></p>
-            <p class="desc">A machine learning system that estimates the market value of a used vehicle from its characteristics — make, model, age, mileage, engine, transmission, accident history — and flags listings priced above or below that estimate. Our team trains and compares CatBoost, Random Forest and XGBoost on roughly 4,000 Cars.com listings, scored on MAE, RMSE and R². I own feature engineering, model evaluation and explainability: deriving vehicle age and average miles per year, analysing residuals to find where the models break down, and using SHAP to explain what drives any individual prediction. I also lead the computer vision extension, which identifies a vehicle's likely make, model and approximate year from photographs and feeds that into the pricing pipeline alongside details the user supplies.</p>
-            <p class="role">Feature engineering, evaluation &amp; computer vision · three-person team</p>
-            <ul class="stack">
-              <li class="chip">Python</li>
-              <li class="chip">CatBoost</li>
-              <li class="chip">XGBoost</li>
-              <li class="chip">Random Forest</li>
-              <li class="chip">SHAP</li>
-              <li class="chip">Computer Vision</li>
-              <li class="chip">Feature Engineering</li>
-            </ul>
-          </div>
-        </li>
-        <li class="pub">
-          <figure>
-            <img src="images/cover-terminal.svg" alt="A stylised terminal window with coloured command lines and a cursor.">
-          </figure>
-          <div>
-            <h3>Facial Recognition ATM</h3>
-            <p class="venue">Solo project · C++, Python, OpenCV</p>
-            <p class="desc">An ATM login flow that replaces the PIN with real-time facial recognition. The recognizer is trained on labeled image sets using Haar Cascades for detection and LBPH for identification, and holds up across varying lighting and facial expression. After authentication it reads and writes account data in SQLite, with a CLI for balance checks, withdrawals and transaction logging. Authentication, interface and database sit in separate layers so each can be tested alone, and failed detection, database errors and unauthorized access are handled as expected states rather than crashes.</p>
-            <p class="role">Creator</p>
-            <ul class="stack">
-              <li class="chip">C++</li>
-              <li class="chip">Python</li>
-              <li class="chip">OpenCV</li>
-              <li class="chip">Haar Cascades</li>
-              <li class="chip">LBPH</li>
-              <li class="chip">SQLite</li>
-            </ul>
-          </div>
-        </li>
-        <li class="pub">
-          <figure>
             <img src="images/cover-grid.svg" alt="A wireframe interface with a header bar and a grid of content cards.">
           </figure>
           <div>
@@ -314,117 +333,6 @@
               <li class="chip">JUnit</li>
               <li class="chip">Agile</li>
               <li class="chip">Git</li>
-            </ul>
-          </div>
-        </li>
-        <li class="pub">
-          <figure>
-            <img src="images/cover-tree.svg" alt="A balanced tree of connected nodes, the root highlighted in amber.">
-          </figure>
-          <div>
-            <h3>Data Structures Engine</h3>
-            <p class="venue">CSC 316 · Java</p>
-            <p class="desc">A Java system built directly on AVL trees, binary heaps and adjacency lists rather than the standard library. It loads structured data files and runs searches, sorts and lookups against them; schedules weighted tasks through a custom heap-backed priority queue; and runs shortest-path and minimum-spanning-tree algorithms over a graph. Hash tables provide fast access with both chaining and open addressing, and every structure was chosen against a Big-O analysis and covered by JUnit tests on the edge cases.</p>
-            <p class="role">Co-creator</p>
-            <ul class="stack">
-              <li class="chip">Java</li>
-              <li class="chip">AVL Trees</li>
-              <li class="chip">Heaps</li>
-              <li class="chip">Graphs</li>
-              <li class="chip">Hash Tables</li>
-              <li class="chip">JUnit</li>
-            </ul>
-          </div>
-        </li>
-      </ul>
-    </section>
-
-    <section class="card">
-      <h2 class="sec-title"><span class="ico">📘</span>Coursework</h2>
-      <ul class="pubs">
-        <li class="pub">
-          <figure>
-            <img src="images/cover-calc.svg" alt="A calculator interface wireframe with a display and keypad.">
-          </figure>
-          <div>
-            <h3>Decimal Math Calculator</h3>
-            <p class="venue">C · systems programming</p>
-            <p class="desc">A command-line calculator handling decimal arithmetic with explicit precision control and formatted output. Input is parsed through fgets, strtod and sscanf with syntax validation and graceful handling of malformed input; each arithmetic type is encapsulated in its own function over a shared struct representation. Buffers and result storage are managed with manual allocation and cleanup, file I/O supports reading input and writing results, and it was debugged in GDB against division by zero and memory overflow.</p>
-            <p class="role">Creator</p>
-            <ul class="stack">
-              <li class="chip">C</li>
-              <li class="chip">Manual Memory</li>
-              <li class="chip">File I/O</li>
-              <li class="chip">GDB</li>
-            </ul>
-          </div>
-        </li>
-        <li class="pub">
-          <figure>
-            <img src="images/cover-cards.svg" alt="Four playing cards fanned out, one highlighted in amber.">
-          </figure>
-          <div>
-            <h3>Card Deck Simulator</h3>
-            <p class="venue">C · systems programming</p>
-            <p class="desc">A 52-card deck simulation using structs for individual cards and arrays for the deck itself. Shuffling is a Fisher–Yates implementation working through direct pointer manipulation, drawn cards get dynamically allocated storage that is freed on reshuffle, and deck state persists between runs through file I/O with fopen, fprintf and fscanf. Debugged in GDB against drawing from an empty deck and malformed saved state.</p>
-            <p class="role">Creator</p>
-            <ul class="stack">
-              <li class="chip">C</li>
-              <li class="chip">Structs</li>
-              <li class="chip">Pointers</li>
-              <li class="chip">Fisher–Yates</li>
-              <li class="chip">File I/O</li>
-            </ul>
-          </div>
-        </li>
-        <li class="pub">
-          <figure>
-            <img src="images/cover-board.svg" alt="A Connect Four board with several coloured pieces played.">
-          </figure>
-          <div>
-            <h3>Connect Four</h3>
-            <p class="venue">Java · object-oriented design</p>
-            <p class="desc">A console Connect Four with real-time board rendering over 2D arrays. Turn management, board updates and win detection across horizontal, vertical and both diagonals are each scoped to their own methods, and column input is validated against illegal and overflow moves before anything is written. Unit tests cover the gameplay logic and every win condition.</p>
-            <p class="role">Co-creator</p>
-            <ul class="stack">
-              <li class="chip">Java</li>
-              <li class="chip">2D Arrays</li>
-              <li class="chip">OOP</li>
-              <li class="chip">JUnit</li>
-            </ul>
-          </div>
-        </li>
-        <li class="pub">
-          <figure>
-            <img src="images/cover-queue.svg" alt="A queue of order rows, the first highlighted in amber.">
-          </figure>
-          <div>
-            <h3>Coffee Shop Simulator</h3>
-            <p class="venue">Java · object-oriented design</p>
-            <p class="desc">A self-service coffee shop modelled with classes for customers, drinks, orders and inventory. Item data is encapsulated behind constructors and accessors with object state validated on creation, command-line ordering checks stock and prices dynamically off the menu, and restocking plus clear error messaging handles the case where ingredients run short mid-order. ArrayLists and arrays manage the order queue and live stock, with JUnit coverage across object creation, ordering and restock paths.</p>
-            <p class="role">Creator</p>
-            <ul class="stack">
-              <li class="chip">Java</li>
-              <li class="chip">OOP</li>
-              <li class="chip">Collections</li>
-              <li class="chip">JUnit</li>
-            </ul>
-          </div>
-        </li>
-        <li class="pub">
-          <figure>
-            <img src="images/cover-pattern.svg" alt="A triangular arrangement of rounded squares in blue and amber.">
-          </figure>
-          <div>
-            <h3>Patterns Generator</h3>
-            <p class="venue">Java · fundamentals</p>
-            <p class="desc">A console tool that renders symmetrical patterns — triangles, grids, diagonals — from user-specified characters and dimensions. Nested loops and conditionals generate the geometry, each pattern type lives in its own reusable method, and input size and characters are validated before anything renders. Computation and output are deliberately separated, with JUnit tests across edge sizes and invalid input.</p>
-            <p class="role">Creator</p>
-            <ul class="stack">
-              <li class="chip">Java</li>
-              <li class="chip">Nested Loops</li>
-              <li class="chip">Method Decomposition</li>
-              <li class="chip">JUnit</li>
             </ul>
           </div>
         </li>
