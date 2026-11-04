@@ -640,3 +640,91 @@ html { -webkit-text-size-adjust: 100%; text-size-adjust: 100%; }
   .mini:hover, .iconrow .chip:hover { border-color: var(--rule); }
   .iconrow .chip:hover { color: var(--ink); }
 }
+
+
+/* -- 16. HOME & PROJECTS ON PHONES ------------------------------- */
+.quick, .pub .more { display: none; }
+
+@media (max-width: 899px) {
+  /* quick contact icons under the name, so they're one tap away */
+  .quick {
+    grid-column: 2;
+    display: flex;
+    flex-wrap: wrap;
+    gap: .4rem;
+    margin-top: .55rem;
+  }
+  .quick a {
+    display: inline-flex;
+    align-items: center;
+    gap: .3rem;
+    height: 1.95rem;
+    min-width: 1.95rem;
+    justify-content: center;
+    padding: 0 .45rem;
+    border-radius: 999px;
+    background: var(--card-2);
+    border: 1px solid var(--rule);
+    color: var(--accent);
+    font-size: .72rem;
+    font-weight: 600;
+  }
+  .quick a:hover { text-decoration: none; border-color: var(--accent); }
+  .quick svg { width: .95rem; height: .95rem; }
+  .avatar { grid-row: 1 / span 3; align-self: start; margin-top: .1rem; }
+
+  /* let page sections and the footer join the same column, so the
+     copyright line ends the page instead of floating mid-way */
+  .main { display: contents; }
+  .main > * { order: 1; }
+  .main > .foot { order: 3; }
+}
+
+@media (max-width: 599px) {
+  /* project cards: small thumbnail beside the title instead of a
+     full-width banner; everything else runs full width below */
+  .pub {
+    grid-template-columns: 5.75rem 1fr;
+    column-gap: .95rem;
+    row-gap: 0;
+    align-items: start;
+  }
+  .pub > div { display: contents; }
+  .pub figure { grid-column: 1; grid-row: 1 / span 2; }
+  .pub:has(.authors) figure { grid-row: 1 / span 3; }
+  .pub figure img { aspect-ratio: 4 / 3; border-radius: 8px; }
+  .pub h3, .pub .authors, .pub .venue { grid-column: 2; }
+  .pub .desc, .pub .more, .pub .role, .pub .stack { grid-column: 1 / -1; }
+  .pub h3 { font-size: 1rem; margin-bottom: .22rem; }
+  .pub .authors { font-size: .76rem; }
+  .pub .venue { font-size: .74rem; margin-bottom: 0; }
+  .pub .venue .rev { margin-left: .3rem; }
+  .pub .desc { margin-top: .8rem; }
+
+  .pub .desc.clamp:not(.open) {
+    display: -webkit-box;
+    -webkit-box-orient: vertical;
+    -webkit-line-clamp: 4;
+    line-clamp: 4;
+    overflow: hidden;
+    margin-bottom: .2rem;
+  }
+  .pub .more {
+    display: inline-block;
+    justify-self: start;
+    font: inherit;
+    font-size: .78rem;
+    font-weight: 600;
+    color: var(--accent);
+    background: none;
+    border: 0;
+    padding: .2rem 0;
+    margin: 0 0 .75rem;
+    cursor: pointer;
+  }
+  .pub .more[hidden] { display: none; }
+
+  /* home: the news feed reads a little tighter */
+  .timeline > li { padding-bottom: 1.05rem; }
+  .tl-card p { font-size: .85rem; }
+}

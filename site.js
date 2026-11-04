@@ -94,3 +94,38 @@
     if (e.persisted) { loader.classList.remove("is-on"); leaving = false; }
   });
 })();
+
+
+/* ── phones: long project descriptions collapse to a few lines ── */
+(function () {
+  var mq = window.matchMedia && window.matchMedia("(max-width: 599px)");
+  var descs = [].slice.call(document.querySelectorAll(".pub .desc"));
+  if (!mq || !descs.length) return;
+
+  descs.forEach(function (d) {
+    var btn = document.createElement("button");
+    btn.type = "button";
+    btn.className = "more";
+    btn.textContent = "Read more";
+    btn.setAttribute("aria-expanded", "false");
+    btn.hidden = true;
+    btn.addEventListener("click", function () {
+      var open = d.classList.toggle("open");
+      btn.textContent = open ? "Show less" : "Read more";
+      btn.setAttribute("aria-expanded", open ? "true" : "false");
+    });
+    d.insertAdjacentElement("afterend", btn);
+  });
+
+  function apply() {
+    descs.forEach(function (d) {
+      var btn = d.nextElementSibling;
+      if (!mq.matches) { d.classList.remove("clamp"); btn.hidden = true; return; }
+      d.classList.add("clamp");
+      /* only offer "Read more" when the text is actually cut off */
+      btn.hidden = !(d.classList.contains("open") || d.scrollHeight > d.clientHeight + 2);
+    });
+  }
+  apply();
+  if (mq.addEventListener) mq.addEventListener("change", apply); else mq.addListener(apply);
+})();
