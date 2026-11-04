@@ -239,8 +239,11 @@
     return [a, b];
   }
 
+  var moved = 0, tapTimer = null;
+
   host.addEventListener("pointerdown", function (e) {
     pts[e.pointerId] = { x: e.clientX, y: e.clientY };
+    moved = 0;
     host.setPointerCapture(e.pointerId);
     if (pointerCount() === 2) {
       var pr = twoPointers();
@@ -258,6 +261,7 @@
       var prev = pts[e.pointerId];
       var dx = e.clientX - prev.x, dy = e.clientY - prev.y;
       pts[e.pointerId] = { x: e.clientX, y: e.clientY };
+      moved += Math.abs(dx) + Math.abs(dy);
 
       if (pointerCount() >= 2) {
         // pinch: distance ratio drives zoom, no rotation
@@ -276,6 +280,17 @@
   });
 
   function release(e) {
+    /* a tap (finger barely moved) shows the nearest marker's name -
+       touchscreens have no hover, so this is how they read the pins */
+    if (e.type === "pointerup" && e.pointerType !== "mouse" && moved < 8 && pointerCount() === 1) {
+      var b = host.getBoundingClientRect();
+      hoverIdx = pick(e.clientX - b.left, e.clientY - b.top);
+      clearTimeout(tapTimer);
+      if (hoverIdx >= 0) {
+        spinning = false;
+        tapTimer = setTimeout(function () { hoverIdx = -1; spinning = !reduce; }, 2600);
+      }
+    }
     delete pts[e.pointerId];
     try { host.releasePointerCapture(e.pointerId); } catch (err) {}
     if (pointerCount() === 0) dragging = false;
@@ -284,10 +299,13 @@
   host.addEventListener("pointerup", release);
   host.addEventListener("pointercancel", release);
 
-  host.addEventListener("pointerleave", function () {
+  host.addEventListener("pointerleave", function (e) {
+    if (e.pointerType !== "mouse") return;      // a finger lifting off isn't "leaving"
     hoverIdx = -1; spinning = !reduce;
   });
-  host.addEventListener("pointerenter", function () { spinning = false; });
+  host.addEventListener("pointerenter", function (e) {
+    if (e.pointerType === "mouse") spinning = false;
+  });
 
   /* wheel zooms. At the limits we let the event through so the page
      still scrolls instead of trapping the reader on the globe. */
