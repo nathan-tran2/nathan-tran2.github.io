@@ -12,32 +12,32 @@
 <meta property="og:image" content="images/nathan.jpg">
 
 <!-- Applies a saved theme before first paint, so there's no flash.
-     Dark is the default; only an explicit light choice is stored. -->
+     Light is the default; only an explicit dark choice is stored. -->
 <script>
 (function () {
   document.documentElement.classList.add("js");
   try {
-    if (localStorage.getItem("theme") === "light")
-      document.documentElement.setAttribute("data-theme", "light");
+    if (localStorage.getItem("theme") === "dark")
+      document.documentElement.setAttribute("data-theme", "dark");
   } catch (e) {}
 })();
 </script>
 
 <link rel="preconnect" href="https://fonts.googleapis.com">
 <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
-<link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700;800&display=swap" rel="stylesheet">
-<link rel="stylesheet" href="site.css?v=8">
+<link href="https://fonts.googleapis.com/css2?family=Figtree:wght@300;400;500;600;700&display=swap" rel="stylesheet">
+<link rel="stylesheet" href="site.css?v=9">
 </head>
 
 <body>
   <header class="nav" id="nav">
     <div class="wrap nav-in">
-      <a class="brand" href="index.html"><img src="images/nathan.jpg" alt=""><span>Nathan Tran</span></a>
+      <a class="brand" href="index.html">Nathan Tran<span class="dot">.</span></a>
       <nav class="nav-links" id="nav-links" aria-label="Main">
-        <a href="index.html" aria-current="page">Home</a>
-        <a href="projects.html">Projects</a>
-        <a href="experience.html">Experience</a>
-        <a href="about.html">About</a>
+        <a href="index.html" aria-current="page"><span>01</span>Home</a>
+        <a href="projects.html"><span>02</span>Projects</a>
+        <a href="experience.html"><span>03</span>Experience</a>
+        <a href="about.html"><span>04</span>About</a>
       </nav>
       <div class="nav-tools">
         <button class="icon-btn" id="theme-toggle" type="button" aria-label="Switch colour theme">
@@ -54,18 +54,28 @@
   </header>
 
   <main class="page" id="top">
-    <section class="stage" aria-label="Introduction">
+    <section class="stage stage-home" aria-label="Introduction">
       <canvas class="field" aria-hidden="true"></canvas>
+      <div class="wrap flag-wrap">
+        <p class="flag"><b>Open to 2027</b><span>Summer internships &amp; research collaborations</span></p>
+      </div>
       <div class="wrap">
-        <p class="eyebrow">Undergraduate Researcher &middot; Extended Horizon Lab &middot; NC State</p>
-        <h1 class="hero-title"><span class="w"><span style="--i:0">Building</span></span> <span class="w"><span style="--i:1">systems</span></span> <span class="w"><span style="--i:2">that</span></span> <span class="w"><span style="--i:3"><em>notice</em></span></span> <span class="w"><span style="--i:4">you.</span></span></h1>
-        <p class="hero-sub">XR, eye tracking and multimodal sensing &mdash; interfaces that read what a person is doing and respond before they ask.</p>
-        <div class="hero-cta">
+        <ol class="chapters" aria-label="Research themes">
+          <li><button type="button" data-ch="0" class="on" aria-current="true" data-sub="Eye tracking that tells an AI agent when you need it &mdash; so help arrives before you ask."><span>01</span>Gaze</button></li>
+          <li><button type="button" data-ch="1" data-sub="Heart rate, skin response and motion that let an XR experience adapt to the person inside it."><span>02</span>Sensing</button></li>
+          <li><button type="button" data-ch="2" data-sub="Mixed-reality tools for planning, following and correcting LLM-driven robot teams."><span>03</span>Agents</button></li>
+        </ol>
+        <p class="eyebrow">Undergraduate Researcher &middot; NC State</p>
+        <h1 class="hero-title wordmark"><span class="w"><span style="--i:0">Nathan</span></span> <span class="w"><span style="--i:1">Tran<span class="dot">.</span></span></span></h1>
+        <div class="stage-row">
+          <p class="hero-sub" id="ch-sub" aria-live="polite">Eye tracking that tells an AI agent when you need it &mdash; so help arrives before you ask.</p>
           <a class="btn primary" href="#work">See my work <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M5 12h14"/><path d="m13 6 6 6-6 6"/></svg></a>
-          <a class="btn" href="#contact">Get in touch</a>
         </div>
-        <a class="cue" href="#intro"><i></i>Scroll</a>
-
+        <div class="stage-bar">
+          <button class="icon-btn ch-play" type="button" aria-label="Pause theme rotation"><svg class="i-pause" viewBox="0 0 24 24" fill="currentColor" aria-hidden="true"><rect x="6" y="5" width="4" height="14"/><rect x="14" y="5" width="4" height="14"/></svg><svg class="i-play" viewBox="0 0 24 24" fill="currentColor" aria-hidden="true"><path d="M7 5v14l12-7z"/></svg></button>
+          <span class="ch-track"><i></i></span>
+          <a class="cue" href="#intro">Scroll &darr;</a>
+        </div>
       </div>
     </section>
 
@@ -74,30 +84,42 @@
     <section class="band" id="intro">
       <div class="wrap intro">
         <figure class="portrait rv">
-          <img src="images/nathan.jpg" alt="Portrait of Nathan Tran">
-          <figcaption>Extended Horizon Lab</figcaption>
+          <img src="images/nathan-portrait.jpg" alt="Nathan Tran in a white shirt and pink tie" width="1000" height="1250">
+          <figcaption><span>Extended Horizon Lab</span><span>NC State</span></figcaption>
         </figure>
         <div class="rv" style="--d:.1s">
           <p class="kicker"><b>01</b> About</p>
-          <h2 class="display">Making XR <em>read</em> the person inside it.</h2>
+          <h2 class="display">Making XR read the person inside it<span class="dot">.</span></h2>
           <p class="lead">I'm a Computer Science undergraduate at <a href="https://www.ncsu.edu/">North Carolina State University</a> (Class of 2027), specializing in Artificial Intelligence and Machine Learning. I work as an undergraduate researcher in the Extended Horizon Lab, advised by <a href="http://georgiejin.com/">Prof. Qiao Jin</a>, building AI-powered XR and AR systems with Unity, eye tracking, computer vision, and multimodal sensing.</p>
-          <div class="hero-cta" style="margin-top:1.8rem"><a class="btn" href="about.html">More about me <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M5 12h14"/><path d="m13 6 6 6-6 6"/></svg></a></div>
+          <a class="more-link" href="about.html">Full background <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M5 12h14"/><path d="m13 6 6 6-6 6"/></svg></a>
         </div>
       </div>
 
-      <div class="wrap stats rv" style="margin-top:clamp(4rem,8vw,6.5rem)">
-        <div class="stat"><span class="n" data-count="1">1</span><span class="l">CHI &rsquo;27 paper under review</span></div>
-        <div class="stat"><span class="n" data-count="4">4</span><span class="l">Research projects in the lab</span></div>
-        <div class="stat"><span class="n" data-count="7">7</span><span class="l">Software projects</span></div>
-        <div class="stat"><span class="n" data-count="2027" data-from="2020">2027</span><span class="l">B.S. Computer Science, NC State</span></div>
+      <div class="wrap stats rv">
+        <div class="stat"><span class="n"><b data-count="1">1</b><small>paper</small></span><span class="l">CHI &rsquo;27 &middot; under review</span></div>
+        <div class="stat"><span class="n"><b data-count="4">4</b><small>projects</small></span><span class="l">XR research in the lab</span></div>
+        <div class="stat"><span class="n"><b data-count="7">7</b><small>builds</small></span><span class="l">Software projects</span></div>
       </div>
+
+      <dl class="wrap specs rv">
+        <div><dt>Lab</dt><dd>Extended Horizon Lab</dd></div>
+        <div><dt>Advisor</dt><dd>Prof. Qiao Jin</dd></div>
+        <div><dt>Degree</dt><dd>B.S. Computer Science</dd></div>
+        <div><dt>Class</dt><dd>2027</dd></div>
+        <div><dt>Location</dt><dd>Raleigh, NC</dd></div>
+        <div><dt>Focus</dt><dd>XR &middot; Eye tracking &middot; Sensing</dd></div>
+        <div><dt>Engine</dt><dd>Unity &middot; C# &middot; Python</dd></div>
+        <div><dt>Hardware</dt><dd>Quest 3 &middot; ZED 2i &middot; EmotiBit</dd></div>
+        <div><dt>Certification</dt><dd>CITI human subjects</dd></div>
+        <div><dt>Status</dt><dd>Open to Summer 2027</dd></div>
+      </dl>
     </section>
 
-    <section class="band band-tight" id="work">
+    <section class="band band-alt" id="work">
       <div class="wrap head-row rv">
         <div>
           <p class="kicker"><b>02</b> Featured work</p>
-          <h2 class="display" style="margin-bottom:0">Selected <em>research.</em></h2>
+          <h2 class="display" style="margin-bottom:0">Selected research<span class="dot">.</span></h2>
         </div>
         <div class="rail-ctl">
           <button class="icon-btn" type="button" data-rail="prev" aria-label="Previous project"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M19 12H5"/><path d="m11 6-6 6 6 6"/></svg></button>
@@ -154,12 +176,11 @@
       <div class="wrap"><div class="rail-bar"><i></i></div></div>
     </section>
 
-
-    <section class="band band-tight">
+    <section class="band">
       <div class="wrap focus">
         <div class="focus-head rv">
           <p class="kicker"><b>03</b> Focus</p>
-          <h2 class="display">Interfaces that <em>pay attention.</em></h2>
+          <h2 class="display">Interfaces that pay attention<span class="dot">.</span></h2>
           <p class="lead">Four threads run through the work, from the lab&rsquo;s XR studies to my own projects.</p>
         </div>
         <ol class="focus-list">
@@ -171,12 +192,12 @@
       </div>
     </section>
 
-    <section class="band band-tight">
+    <section class="band band-alt">
       <div class="wrap news">
         <div class="focus-head rv">
           <p class="kicker"><b>04</b> News</p>
-          <h2 class="display">Latest <em>news.</em></h2>
-          <a class="btn" href="experience.html">Full experience <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M5 12h14"/><path d="m13 6 6 6-6 6"/></svg></a>
+          <h2 class="display">Latest news<span class="dot">.</span></h2>
+          <a class="more-link" href="experience.html">Full experience <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M5 12h14"/><path d="m13 6 6 6-6 6"/></svg></a>
         </div>
         <div class="rv" style="--d:.1s">
       <ul class="timeline">
@@ -244,22 +265,39 @@
 
   <footer class="site-foot" id="contact">
     <div class="wrap">
-      <p class="kicker rv">Open to Summer 2027 internships &amp; research collaborations</p>
-      <h2 class="foot-cta rv" style="--d:.08s">Let&rsquo;s build something <em>together.</em></h2>
+      <p class="kicker rv">Open to Summer 2027 &middot; Internships &amp; research</p>
+      <h2 class="foot-cta rv" style="--d:.08s">Let&rsquo;s build something together<span class="dot">.</span></h2>
       <div class="foot-actions rv" style="--d:.16s">
         <a class="btn primary" href="mailto:Nathantran247@gmail.com">Email me <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M5 12h14"/><path d="m13 6 6 6-6 6"/></svg></a>
-        <a class="btn" href="https://www.linkedin.com/in/nathan-tran2/" target="_blank" rel="noopener">LinkedIn</a>
-        <a class="btn" href="https://scholar.google.com/citations?user=fZ4rutkAAAAJ" target="_blank" rel="noopener">Google Scholar</a>
-        <a class="btn" href="Nathan-Tran-Resume.pdf" target="_blank" rel="noopener">Resume</a>
+        <a class="btn" href="Nathan-Tran-Resume.pdf" target="_blank" rel="noopener">Resume &middot; PDF</a>
+      </div>
+      <div class="foot-grid">
+        <div>
+          <p class="foot-mark">Nathan Tran<span class="dot">.</span></p>
+          <p class="foot-note">Undergraduate researcher building XR systems that notice people. Extended Horizon Lab, NC State.</p>
+        </div>
+        <nav class="foot-nav" aria-label="Footer">
+          <a href="index.html"><span>01</span>Home</a>
+          <a href="projects.html"><span>02</span>Projects</a>
+          <a href="experience.html"><span>03</span>Experience</a>
+          <a href="about.html"><span>04</span>About</a>
+        </nav>
+        <div class="foot-contact">
+          <a href="mailto:Nathantran247@gmail.com">Nathantran247@gmail.com</a>
+          <a href="https://www.linkedin.com/in/nathan-tran2/" target="_blank" rel="noopener">LinkedIn</a>
+          <a href="https://scholar.google.com/citations?user=fZ4rutkAAAAJ" target="_blank" rel="noopener">Google Scholar</a>
+          <span>Raleigh, North Carolina</span>
+        </div>
       </div>
       <div class="foot-base">
-        <span>&copy; 2026 Nathan Tran &middot; Raleigh, North Carolina</span>
-        <a href="mailto:Nathantran247@gmail.com">Nathantran247@gmail.com</a>
+        <span>&copy; 2026 Nathan Tran</span>
         <a href="#top">Back to top &uarr;</a>
       </div>
     </div>
   </footer>
 
-<script src="site.js?v=5"></script>
+  <a class="float-cta" href="#contact">Get in touch <span aria-hidden="true">&rarr;</span></a>
+
+<script src="site.js?v=6"></script>
 </body>
 </html>

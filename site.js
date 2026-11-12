@@ -5,17 +5,17 @@
   if (!btn) return;
 
   function current() {
-    return root.getAttribute("data-theme") === "light" ? "light" : "dark";
+    return root.getAttribute("data-theme") === "dark" ? "dark" : "light";
   }
 
   function label() {
-    btn.setAttribute("aria-label", current() === "light" ? "Switch to dark mode" : "Switch to light mode");
-    btn.setAttribute("aria-pressed", current() === "light" ? "true" : "false");
+    btn.setAttribute("aria-label", current() === "dark" ? "Switch to light mode" : "Switch to dark mode");
+    btn.setAttribute("aria-pressed", current() === "dark" ? "true" : "false");
   }
 
   btn.addEventListener("click", function () {
-    var next = current() === "light" ? "dark" : "light";
-    if (next === "light") root.setAttribute("data-theme", "light");
+    var next = current() === "dark" ? "light" : "dark";
+    if (next === "dark") root.setAttribute("data-theme", "dark");
     else root.removeAttribute("data-theme");
     try { localStorage.setItem("theme", next); } catch (e) {}
     label();
@@ -168,12 +168,15 @@
   var accent = "#45CFC2", bright = "#F1F4F8";
   var mx = -9999, my = -9999, tmx = -9999, tmy = -9999;
   var ripples = [], nextRipple = 0;
+  var mode = 0, gx = -9999, gy = -9999;   // 0 gaze, 1 sensing, 2 agents
+  document.addEventListener("nt:chapter", function (e) { mode = e.detail; ripples = []; nextRipple = 0; });
   var running = false, visible = true, raf = 0, start = performance.now();
 
+  /* points take the stage's off-white; lifted ones turn red */
   function colours() {
-    var cs = getComputedStyle(document.documentElement);
-    accent = cs.getPropertyValue("--accent").trim() || accent;
-    bright = cs.getPropertyValue("--ink").trim() || bright;
+    var cs = getComputedStyle(stage);
+    accent = cs.getPropertyValue("--field").trim() || "#F4F2EE";
+    bright = cs.getPropertyValue("--accent").trim() || "#E5333A";
   }
   colours();
   new MutationObserver(function () { colours(); if (!running) frame(performance.now()); })
@@ -193,9 +196,25 @@
     mx += (tmx - mx) * 0.08; my += (tmy - my) * 0.08;
 
     if (!reduce && t > nextRipple) {
-      ripples.push({ x: (Math.random() - 0.5) * 8, z: 4 + Math.random() * 7, t: t });
-      nextRipple = t + 3.2 + Math.random() * 2.4;
+      if (mode === 1) {
+        /* sensing: a heartbeat from the middle, lub-dub */
+        ripples.push({ x: 0, z: 7, t: t });
+        ripples.push({ x: 0, z: 7, t: t + 0.26 });
+        nextRipple = t + 1.35;
+      } else if (mode === 2) {
+        /* agents: three sources taking turns */
+        var src = [[-4.5, 6], [0, 10], [4.5, 6.5]][Math.floor(t / 1.1) % 3];
+        ripples.push({ x: src[0], z: src[1], t: t });
+        nextRipple = t + 1.1;
+      } else {
+        ripples.push({ x: (Math.random() - 0.5) * 8, z: 4 + Math.random() * 7, t: t });
+        nextRipple = t + 4.5 + Math.random() * 2.4;
+      }
     }
+    /* gaze: a wandering point of attention that lifts the field */
+    if (mode === 0 && !reduce) {
+      gx = w * (0.66 + 0.2 * Math.sin(t * 0.43)); gy = h * (0.5 + 0.16 * Math.sin(t * 0.71 + 1));
+    } else { gx = gy = -9999; }
     ripples = ripples.filter(function (r) { return t - r.t < 6; });
 
     var f = Math.max(h, 520) * 0.95;
@@ -213,7 +232,7 @@
       var DX = GAP * Math.pow(2, Math.floor(Math.log(z) / Math.LN2));
       var half = (w * 0.5) / scale + DX;
       var depth = 1 - (z - Z0) / (Z1 - Z0);
-      var baseA = Math.pow(depth, 1.6) * 0.75 + 0.06;
+      var baseA = Math.pow(depth, 1.6) * 0.6 + 0.05;
       var size = Math.max(0.8, 2.4 * depth + 0.5);
       var x0 = -Math.ceil(half / DX) * DX;
       for (var x = x0; x <= half; x += DX) {
@@ -222,6 +241,7 @@
         var crest = 0;
         for (var i = 0; i < ripples.length; i++) {
           var rp = ripples[i], age = t - rp.t;
+          if (age < 0) continue;
           var d = Math.sqrt((x - rp.x) * (x - rp.x) + (z - rp.z) * (z - rp.z));
           var ring = d - age * 2.4;
           var c = Math.exp(-ring * ring * 3) * (1 - age / 6);
@@ -231,7 +251,10 @@
         var sy = horizon + (camY - y) * scale * 0.5;
         var dd = Math.sqrt((sx - mx) * (sx - mx) + (sy - my) * (sy - my));
         var lift = 0;
-        if (dd < R) { lift = 1 - dd / R; lift *= lift; sy -= lift * 40 * (0.3 + depth); }
+        if (dd < R) { lift = 1 - dd / R; lift *= lift; }
+        var dg = Math.sqrt((sx - gx) * (sx - gx) + (sy - gy) * (sy - gy));
+        if (dg < R * 0.8) { var lg = 1 - dg / (R * 0.8); lg *= lg; if (lg > lift) lift = lg; }
+        if (lift) sy -= lift * 40 * (0.3 + depth);
         if (sy < -4 || sy > h + 4 || sx < -4 || sx > w + 4) continue;
         var a = baseA + lift * 0.7 + crest * 0.5 + (y > 0.3 ? (y - 0.3) * 0.5 : 0);
         if (lift > 0.3 || crest > 0.45) { hot.push(sx, sy, size + 0.4, Math.min(a, 1)); continue; }
@@ -356,4 +379,78 @@
     es.forEach(function (e) { e.target.classList.toggle("on", e.isIntersecting); });
   }, { rootMargin: "-42% 0px -42% 0px" });
   items.forEach(function (li) { io.observe(li); });
+})();
+
+
+
+/* ── opener chapters: rotate through research themes ────────────
+   Each chapter changes the caption and how the field moves. The
+   bar along the bottom fills while a chapter plays.              */
+(function () {
+  var list = document.querySelector(".chapters");
+  if (!list) return;
+  var btns = [].slice.call(list.querySelectorAll("button"));
+  var sub = document.getElementById("ch-sub");
+  var bar = document.querySelector(".ch-track i");
+  var play = document.querySelector(".ch-play");
+  var reduce = window.matchMedia && window.matchMedia("(prefers-reduced-motion: reduce)").matches;
+  var DUR = 7000, cur = 0, t0 = performance.now(), paused = reduce, held = 0, raf = 0;
+
+  function show(i) {
+    cur = (i + btns.length) % btns.length;
+    btns.forEach(function (b, k) {
+      b.classList.toggle("on", k === cur);
+      if (k === cur) b.setAttribute("aria-current", "true"); else b.removeAttribute("aria-current");
+    });
+    if (sub) {
+      sub.classList.add("swap");
+      setTimeout(function () { sub.innerHTML = btns[cur].getAttribute("data-sub"); sub.classList.remove("swap"); }, 300);
+    }
+    document.dispatchEvent(new CustomEvent("nt:chapter", { detail: cur }));
+    t0 = performance.now(); held = 0;
+  }
+  function setPaused(p) {
+    paused = p;
+    if (play) {
+      play.classList.toggle("paused", p);
+      play.setAttribute("aria-label", p ? "Play theme rotation" : "Pause theme rotation");
+    }
+    if (p) held = performance.now() - t0; else t0 = performance.now() - held;
+  }
+  function tick(now) {
+    if (!paused) {
+      var p = (now - t0) / DUR;
+      if (p >= 1) { show(cur + 1); p = 0; }
+      if (bar) bar.style.width = (p * 100) + "%";
+    }
+    raf = requestAnimationFrame(tick);
+  }
+
+  btns.forEach(function (b, k) { b.addEventListener("click", function () { show(k); }); });
+  if (play) play.addEventListener("click", function () { setPaused(!paused); });
+  document.addEventListener("visibilitychange", function () {
+    if (document.hidden) { if (!paused) { setPaused(true); list._auto = true; } }
+    else if (list._auto) { list._auto = false; setPaused(false); }
+  });
+  setPaused(paused);
+  if (bar && reduce) bar.style.width = "0%";
+  raf = requestAnimationFrame(tick);
+})();
+
+
+/* ── floating "get in touch" once past the opener ─────────────── */
+(function () {
+  var cta = document.querySelector(".float-cta");
+  if (!cta) return;
+  var foot = document.querySelector(".site-foot");
+  var footIn = false;
+  if (foot && "IntersectionObserver" in window) {
+    new IntersectionObserver(function (es) { footIn = es[0].isIntersecting; update(); }).observe(foot);
+  }
+  function update() {
+    var past = window.scrollY > window.innerHeight * 0.6;
+    cta.classList.toggle("on", past && !footIn);
+  }
+  window.addEventListener("scroll", update, { passive: true });
+  update();
 })();

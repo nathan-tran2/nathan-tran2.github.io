@@ -12,32 +12,32 @@
 <meta property="og:image" content="images/nathan.jpg">
 
 <!-- Applies a saved theme before first paint, so there's no flash.
-     Dark is the default; only an explicit light choice is stored. -->
+     Light is the default; only an explicit dark choice is stored. -->
 <script>
 (function () {
   document.documentElement.classList.add("js");
   try {
-    if (localStorage.getItem("theme") === "light")
-      document.documentElement.setAttribute("data-theme", "light");
+    if (localStorage.getItem("theme") === "dark")
+      document.documentElement.setAttribute("data-theme", "dark");
   } catch (e) {}
 })();
 </script>
 
 <link rel="preconnect" href="https://fonts.googleapis.com">
 <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
-<link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700;800&display=swap" rel="stylesheet">
-<link rel="stylesheet" href="site.css?v=8">
+<link href="https://fonts.googleapis.com/css2?family=Figtree:wght@300;400;500;600;700&display=swap" rel="stylesheet">
+<link rel="stylesheet" href="site.css?v=9">
 </head>
 
 <body>
   <header class="nav" id="nav">
     <div class="wrap nav-in">
-      <a class="brand" href="index.html"><img src="images/nathan.jpg" alt=""><span>Nathan Tran</span></a>
+      <a class="brand" href="index.html">Nathan Tran<span class="dot">.</span></a>
       <nav class="nav-links" id="nav-links" aria-label="Main">
-        <a href="index.html">Home</a>
-        <a href="projects.html">Projects</a>
-        <a href="experience.html" aria-current="page">Experience</a>
-        <a href="about.html">About</a>
+        <a href="index.html"><span>01</span>Home</a>
+        <a href="projects.html"><span>02</span>Projects</a>
+        <a href="experience.html" aria-current="page"><span>03</span>Experience</a>
+        <a href="about.html"><span>04</span>About</a>
       </nav>
       <div class="nav-tools">
         <button class="icon-btn" id="theme-toggle" type="button" aria-label="Switch colour theme">
@@ -58,7 +58,7 @@
       <canvas class="field" aria-hidden="true"></canvas>
       <div class="wrap">
         <p class="eyebrow">Research &middot; Industry &middot; Teaching &middot; Leadership</p>
-        <h1 class="hero-title"><span class="w"><span style="--i:0">Where</span></span> <span class="w"><span style="--i:1">I&rsquo;ve</span></span> <span class="w"><span style="--i:2"><em>worked.</em></span></span></h1>
+        <h1 class="hero-title"><span class="w"><span style="--i:0">Where</span></span> <span class="w"><span style="--i:1">I&rsquo;ve</span></span> <span class="w"><span style="--i:2">worked<span class="dot">.</span></span></span></h1>
         <p class="hero-sub">Lab research, industry roles, teaching and coaching, and the leadership positions in between.</p>
 
       </div>
@@ -201,22 +201,39 @@
 
   <footer class="site-foot" id="contact">
     <div class="wrap">
-      <p class="kicker rv">Open to Summer 2027 internships &amp; research collaborations</p>
-      <h2 class="foot-cta rv" style="--d:.08s">Let&rsquo;s build something <em>together.</em></h2>
+      <p class="kicker rv">Open to Summer 2027 &middot; Internships &amp; research</p>
+      <h2 class="foot-cta rv" style="--d:.08s">Let&rsquo;s build something together<span class="dot">.</span></h2>
       <div class="foot-actions rv" style="--d:.16s">
         <a class="btn primary" href="mailto:Nathantran247@gmail.com">Email me <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M5 12h14"/><path d="m13 6 6 6-6 6"/></svg></a>
-        <a class="btn" href="https://www.linkedin.com/in/nathan-tran2/" target="_blank" rel="noopener">LinkedIn</a>
-        <a class="btn" href="https://scholar.google.com/citations?user=fZ4rutkAAAAJ" target="_blank" rel="noopener">Google Scholar</a>
-        <a class="btn" href="Nathan-Tran-Resume.pdf" target="_blank" rel="noopener">Resume</a>
+        <a class="btn" href="Nathan-Tran-Resume.pdf" target="_blank" rel="noopener">Resume &middot; PDF</a>
+      </div>
+      <div class="foot-grid">
+        <div>
+          <p class="foot-mark">Nathan Tran<span class="dot">.</span></p>
+          <p class="foot-note">Undergraduate researcher building XR systems that notice people. Extended Horizon Lab, NC State.</p>
+        </div>
+        <nav class="foot-nav" aria-label="Footer">
+          <a href="index.html"><span>01</span>Home</a>
+          <a href="projects.html"><span>02</span>Projects</a>
+          <a href="experience.html"><span>03</span>Experience</a>
+          <a href="about.html"><span>04</span>About</a>
+        </nav>
+        <div class="foot-contact">
+          <a href="mailto:Nathantran247@gmail.com">Nathantran247@gmail.com</a>
+          <a href="https://www.linkedin.com/in/nathan-tran2/" target="_blank" rel="noopener">LinkedIn</a>
+          <a href="https://scholar.google.com/citations?user=fZ4rutkAAAAJ" target="_blank" rel="noopener">Google Scholar</a>
+          <span>Raleigh, North Carolina</span>
+        </div>
       </div>
       <div class="foot-base">
-        <span>&copy; 2026 Nathan Tran &middot; Raleigh, North Carolina</span>
-        <a href="mailto:Nathantran247@gmail.com">Nathantran247@gmail.com</a>
+        <span>&copy; 2026 Nathan Tran</span>
         <a href="#top">Back to top &uarr;</a>
       </div>
     </div>
   </footer>
 
-<script src="site.js?v=5"></script>
+  <a class="float-cta" href="#contact">Get in touch <span aria-hidden="true">&rarr;</span></a>
+
+<script src="site.js?v=6"></script>
 </body>
 </html>
