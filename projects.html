@@ -3,7 +3,7 @@
 <head>
 <meta charset="utf-8">
 <meta name="viewport" content="width=device-width, initial-scale=1">
-<meta name="theme-color" content="#08060C">
+<meta name="theme-color" content="#F4F2EE">
 
 <title>Projects — Nathan Tran</title>
 <meta name="description" content="Projects by Nathan Tran: XR research systems, computer vision, full-stack applications, and coursework.">
@@ -13,12 +13,12 @@
 <meta property="og:image" content="images/nathan.jpg?v=4">
 
 <!-- Applies a saved theme before first paint, so there's no flash.
-     Dark is the default; only an explicit light choice is stored. -->
+     Light is the default; dark only when chosen. -->
 <script>
 (function () {
   document.documentElement.classList.add("js");
   try {
-    if (localStorage.getItem("theme") === "light")
+    if (localStorage.getItem("theme") !== "dark")
       document.documentElement.setAttribute("data-theme", "light");
   } catch (e) {}
 })();
@@ -27,7 +27,7 @@
 <link rel="preconnect" href="https://fonts.googleapis.com">
 <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
 <link href="https://fonts.googleapis.com/css2?family=Figtree:wght@300;400;500;600;700&display=swap" rel="stylesheet">
-<link rel="stylesheet" href="site.css?v=20">
+<link rel="stylesheet" href="site.css?v=21">
 </head>
 
 <body>
@@ -76,7 +76,7 @@
       <ul class="pubs">
         <li class="pub" id="mrpilot">
           <figure>
-            <img class="cv cv-d" src="images/cover-mrpilot.svg?v=5" alt="A mixed-reality plan panel with four stages, form, review, follow and repair, supervising three robots in a home floor plan; one robot’s route is being corrected." loading="lazy"><img class="cv cv-l" src="images/cover-mrpilot-light.svg?v=5" alt="" aria-hidden="true" loading="lazy">
+            <img class="cv cv-d" src="images/cover-mrpilot.svg?v=6" alt="A mixed-reality plan panel with four stages, form, review, follow and repair, supervising three robots in a home floor plan; one robot’s route is being corrected." loading="lazy"><img class="cv cv-l" src="images/cover-mrpilot-light.svg?v=6" alt="" aria-hidden="true" loading="lazy">
           </figure>
           <div>
             <h3>MRPilot: Supervising and Intervening LLM-Based Multi-Robot Teams through Mixed Reality</h3>
@@ -100,7 +100,7 @@
       <ul class="pubs">
         <li class="pub" id="attention">
           <figure>
-            <img class="cv cv-d" src="images/cover-attention.svg?v=5" alt="A VR view in which a gaze path moves across objects and settles on one, while an AI agent appears with a speech bubble." loading="lazy"><img class="cv cv-l" src="images/cover-attention-light.svg?v=5" alt="" aria-hidden="true" loading="lazy">
+            <img class="cv cv-d" src="images/cover-attention.svg?v=6" alt="A VR view in which a gaze path moves across objects and settles on one, while an AI agent appears with a speech bubble." loading="lazy"><img class="cv cv-l" src="images/cover-attention-light.svg?v=6" alt="" aria-hidden="true" loading="lazy">
           </figure>
           <div>
             <h3>Attention-Aware AI Agent in VR</h3>
@@ -117,7 +117,7 @@
         </li>
         <li class="pub" id="adaptive-xr">
           <figure>
-            <img class="cv cv-d" src="images/cover-adaptive-xr.svg?v=5" alt="Heart-rate and skin-response signals feeding into a headset view whose environment changes in real time." loading="lazy"><img class="cv cv-l" src="images/cover-adaptive-xr-light.svg?v=5" alt="" aria-hidden="true" loading="lazy">
+            <img class="cv cv-d" src="images/cover-adaptive-xr.svg?v=6" alt="Heart-rate and skin-response signals feeding into a headset view whose environment changes in real time." loading="lazy"><img class="cv cv-l" src="images/cover-adaptive-xr-light.svg?v=6" alt="" aria-hidden="true" loading="lazy">
           </figure>
           <div>
             <h3>Physiologically Adaptive XR Experience</h3>
@@ -132,7 +132,7 @@
         </li>
         <li class="pub" id="playground">
           <figure>
-            <img class="cv cv-d" src="images/cover-playground.svg?v=5" alt="A projector and ZED 2i stereo camera mounted over a projected play floor, with two children tracked as depth skeletons and extra cameras at the sides." loading="lazy"><img class="cv cv-l" src="images/cover-playground-light.svg?v=5" alt="" aria-hidden="true" loading="lazy">
+            <img class="cv cv-d" src="images/cover-playground.svg?v=6" alt="A projector and ZED 2i stereo camera mounted over a projected play floor, with two children tracked as depth skeletons and extra cameras at the sides." loading="lazy"><img class="cv cv-l" src="images/cover-playground-light.svg?v=6" alt="" aria-hidden="true" loading="lazy">
           </figure>
           <div>
             <h3>Playground+</h3>
@@ -152,7 +152,7 @@
         </li>
         <li class="pub" id="pulsecoach">
           <figure>
-            <img class="cv cv-d" src="images/cover-pulsecoach.svg?v=5" alt="An EmotiBit wearable streaming EDA, HRV, PPG and IMU signals into a state gauge that triggers an AR cue at the right moment." loading="lazy"><img class="cv cv-l" src="images/cover-pulsecoach-light.svg?v=5" alt="" aria-hidden="true" loading="lazy">
+            <img class="cv cv-d" src="images/cover-pulsecoach.svg?v=6" alt="An EmotiBit wearable streaming EDA, HRV, PPG and IMU signals into a state gauge that triggers an AR cue at the right moment." loading="lazy"><img class="cv cv-l" src="images/cover-pulsecoach-light.svg?v=6" alt="" aria-hidden="true" loading="lazy">
           </figure>
           <div>
             <h3>PulseCoach: State-Aware AI for XR</h3>
@@ -177,7 +177,7 @@
       <ul class="pubs">
         <li class="pub">
           <figure>
-            <img class="cv cv-d" src="images/cover-regression.svg?v=5" alt="A car outline above a depreciation scatter plot with a fitted curve, beside a SHAP chart ranking mileage, age, engine, accidents and make." loading="lazy"><img class="cv cv-l" src="images/cover-regression-light.svg?v=5" alt="" aria-hidden="true" loading="lazy">
+            <img class="cv cv-d" src="images/cover-regression.svg?v=6" alt="A car outline above a depreciation scatter plot with a fitted curve, beside a SHAP chart ranking mileage, age, engine, accidents and make." loading="lazy"><img class="cv cv-l" src="images/cover-regression-light.svg?v=6" alt="" aria-hidden="true" loading="lazy">
           </figure>
           <div>
             <h3>Used Car Price Estimation &amp; Multimodal Vehicle Valuation</h3>
@@ -197,7 +197,7 @@
         </li>
         <li class="pub">
           <figure>
-            <img class="cv cv-d" src="images/cover-terminal.svg?v=5" alt="An ATM whose PIN pad is crossed out and whose screen shows a facial landmark scan, beside a panel listing Haar, LBPH and SQLite." loading="lazy"><img class="cv cv-l" src="images/cover-terminal-light.svg?v=5" alt="" aria-hidden="true" loading="lazy">
+            <img class="cv cv-d" src="images/cover-terminal.svg?v=6" alt="An ATM whose PIN pad is crossed out and whose screen shows a facial landmark scan, beside a panel listing Haar, LBPH and SQLite." loading="lazy"><img class="cv cv-l" src="images/cover-terminal-light.svg?v=6" alt="" aria-hidden="true" loading="lazy">
           </figure>
           <div>
             <h3>Facial Recognition ATM</h3>
@@ -216,7 +216,7 @@
         </li>
         <li class="pub">
           <figure>
-            <img class="cv cv-d" src="images/cover-tree.svg?v=5" alt="An AVL tree with a search path highlighted, a heap stored as an array, and a graph with its shortest path highlighted." loading="lazy"><img class="cv cv-l" src="images/cover-tree-light.svg?v=5" alt="" aria-hidden="true" loading="lazy">
+            <img class="cv cv-d" src="images/cover-tree.svg?v=6" alt="An AVL tree with a search path highlighted, a heap stored as an array, and a graph with its shortest path highlighted." loading="lazy"><img class="cv cv-l" src="images/cover-tree-light.svg?v=6" alt="" aria-hidden="true" loading="lazy">
           </figure>
           <div>
             <h3>Data Structures Engine</h3>
@@ -235,7 +235,7 @@
         </li>
         <li class="pub">
           <figure>
-            <img class="cv cv-d" src="images/cover-cafe.svg?v=5" alt="Four role badges, an order ticket, and an order moving from pending to ready for pickup to completed, with a delivering and delivered branch." loading="lazy"><img class="cv cv-l" src="images/cover-cafe-light.svg?v=5" alt="" aria-hidden="true" loading="lazy">
+            <img class="cv cv-d" src="images/cover-cafe.svg?v=6" alt="Four role badges, an order ticket, and an order moving from pending to ready for pickup to completed, with a delivering and delivered branch." loading="lazy"><img class="cv cv-l" src="images/cover-cafe-light.svg?v=6" alt="" aria-hidden="true" loading="lazy">
           </figure>
           <div>
             <h3>WolfCafe &mdash; Role-Based Ordering Platform</h3>
@@ -258,7 +258,7 @@
         </li>
         <li class="pub">
           <figure>
-            <img class="cv cv-d" src="images/cover-brew.svg?v=5" alt="A recipe card beside four ingredient levels; sugar is below the required amount, so the order is refused." loading="lazy"><img class="cv cv-l" src="images/cover-brew-light.svg?v=5" alt="" aria-hidden="true" loading="lazy">
+            <img class="cv cv-d" src="images/cover-brew.svg?v=6" alt="A recipe card beside four ingredient levels; sugar is below the required amount, so the order is refused." loading="lazy"><img class="cv cv-l" src="images/cover-brew-light.svg?v=6" alt="" aria-hidden="true" loading="lazy">
           </figure>
           <div>
             <h3>CoffeeMaker &mdash; Recipe &amp; Inventory Service</h3>
@@ -279,7 +279,7 @@
         </li>
         <li class="pub">
           <figure>
-            <img class="cv cv-d" src="images/cover-grid.svg?v=5" alt="Application cards in interview, offer and closed columns, with one card moving to offer." loading="lazy"><img class="cv cv-l" src="images/cover-grid-light.svg?v=5" alt="" aria-hidden="true" loading="lazy">
+            <img class="cv cv-d" src="images/cover-grid.svg?v=6" alt="Application cards in interview, offer and closed columns, with one card moving to offer." loading="lazy"><img class="cv cv-l" src="images/cover-grid-light.svg?v=6" alt="" aria-hidden="true" loading="lazy">
           </figure>
           <div>
             <h3>Job Application Organizer</h3>
@@ -297,7 +297,7 @@
         </li>
         <li class="pub">
           <figure>
-            <img class="cv cv-d" src="images/cover-calendar.svg?v=5" alt="A week calendar of classes and events with a reminder, beside Java, C and React windows." loading="lazy"><img class="cv cv-l" src="images/cover-calendar-light.svg?v=5" alt="" aria-hidden="true" loading="lazy">
+            <img class="cv cv-d" src="images/cover-calendar.svg?v=6" alt="A week calendar of classes and events with a reminder, beside Java, C and React windows." loading="lazy"><img class="cv cv-l" src="images/cover-calendar-light.svg?v=6" alt="" aria-hidden="true" loading="lazy">
           </figure>
           <div>
             <h3>Class &amp; Event Scheduler</h3>
@@ -353,8 +353,6 @@
     </div>
   </footer>
 
-  <a class="float-cta" href="#contact">Get in touch <span aria-hidden="true">&rarr;</span></a>
-
-<script src="site.js?v=12"></script>
+<script src="site.js?v=13"></script>
 </body>
 </html>

@@ -171,7 +171,7 @@
   var reduce = window.matchMedia && window.matchMedia("(prefers-reduced-motion: reduce)").matches;
 
   var w = 0, h = 0, dpr = 1, nodes = [], pulses = [], rings = [];
-  var acc = "#B48CFF", hot = "#FFFFFF", ACC = "180,140,255", LINE = "228,220,245", dark = true;
+  var acc = "#E5484D", hot = "#FFFFFF", ACC = "229,72,77", LINE = "233,229,221", dark = true;
   var mx = -1e4, my = -1e4, running = false, visible = true, raf = 0, start = performance.now();
   var LINK = 150, REACH = 210;
 
@@ -180,7 +180,7 @@
     var cs = getComputedStyle(stage);
     acc = cs.getPropertyValue("--accent").trim() || acc;
     hot = cs.getPropertyValue("--hot").trim() || hot;
-    ACC = rgb(acc); LINE = rgb(cs.getPropertyValue("--field").trim() || "#E4DCF5");
+    ACC = rgb(acc); LINE = rgb(cs.getPropertyValue("--field").trim() || "#E9E5DD");
     dark = document.documentElement.getAttribute("data-theme") !== "light";
   }
   colours();
@@ -192,7 +192,7 @@
     canvas.width = Math.round(w * dpr); canvas.height = Math.round(h * dpr);
     ctx.setTransform(dpr, 0, 0, dpr, 0, 0);
     LINK = Math.max(110, Math.min(165, w * .11)); REACH = LINK * 1.4;
-    var rnd = seedRand(7), count = Math.round(Math.min(small ? 70 : 130, w * h / (small ? 11000 : 8000)));
+    var rnd = seedRand(7), count = Math.round(Math.min(small ? 50 : 95, w * h / (small ? 15000 : 11000)));
     nodes = [];
     for (var i = 0; i < count; i++) {
       var x = w * (w < 700 ? rnd() : .25 + .75 * Math.pow(rnd(), .8));    /* weighted away from the text */
@@ -202,7 +202,7 @@
   function hubs(t) {
     var phone = w < 700;
     return [0, 1, 2].map(function (k) {
-      var a = t * .22 + k * 2.094;
+      var a = t * .14 + k * 2.094;
       return { x: w * ((phone ? .55 : .66) + (phone ? .3 : .2) * Math.cos(a)), y: h * ((phone ? .32 : .45) + (phone ? .2 : .28) * Math.sin(a * 1.3 + k)) };
     });
   }
@@ -231,9 +231,9 @@
       var a = nodes[i], b = nodes[j]; d = Math.hypot(a.x - b.x, a.y - b.y);
       if (d >= LINK) continue;
       var k = 1 - d / LINK, lit = Math.max(a.glow, b.glow);
-      ctx.strokeStyle = "rgba(" + (lit > .3 ? LINE : ACC) + "," + (k * ((dark ? .28 : .32) + .5 * lit)) + ")";
+      ctx.strokeStyle = "rgba(" + (lit > .3 ? LINE : ACC) + "," + (k * ((dark ? .2 : .22) + .35 * lit)) + ")";
       ctx.beginPath(); ctx.moveTo(a.x, a.y); ctx.lineTo(b.x, b.y); ctx.stroke();
-      if (!reduce && Math.random() < .0007 + lit * .004) pulses.push({ a: a, b: b, t: t, d: .7 + d / 400 });
+      if (!reduce && Math.random() < .0003 + lit * .002) pulses.push({ a: a, b: b, t: t, d: .9 + d / 300 });
     }
 
     /* agent hubs reach the nodes around them */
@@ -242,9 +242,9 @@
         n = nodes[i]; d = Math.hypot(n.x - hb.x, n.y - hb.y);
         if (d < LINK * 1.25) {
           n.glow = Math.max(n.glow, .6 * (1 - d / (LINK * 1.25)));
-          ctx.strokeStyle = "rgba(" + ACC + "," + (1 - d / (LINK * 1.25)) * .65 + ")";
+          ctx.strokeStyle = "rgba(" + ACC + "," + (1 - d / (LINK * 1.25)) * .45 + ")";
           ctx.beginPath(); ctx.moveTo(hb.x, hb.y); ctx.lineTo(n.x, n.y); ctx.stroke();
-          if (!reduce && Math.random() < .004) pulses.push({ a: hb, b: n, t: t, d: .6 });
+          if (!reduce && Math.random() < .0015) pulses.push({ a: hb, b: n, t: t, d: .8 });
         }
       }
     });
@@ -261,13 +261,13 @@
       n = nodes[i];
       var on = n.glow > .25;
       ctx.fillStyle = on ? hot : "rgba(" + ACC + "," + (dark ? .9 : .75) + ")";
-      ctx.shadowBlur = on && dark ? 12 * n.glow : 0;
+      ctx.shadowBlur = 0;
       ctx.beginPath(); ctx.arc(n.x, n.y, n.r * (1 + .7 * n.glow), 0, 6.2832); ctx.fill();
     }
 
     /* hubs on top */
     H3.forEach(function (hb, q) {
-      ctx.fillStyle = hot; ctx.shadowBlur = dark ? 22 : 0;
+      ctx.fillStyle = hot; ctx.shadowBlur = 0;
       ctx.beginPath(); ctx.arc(hb.x, hb.y, 5, 0, 6.2832); ctx.fill();
       ctx.shadowBlur = 0; ctx.strokeStyle = "rgba(" + ACC + ",.75)"; ctx.lineWidth = 1.2;
       ctx.beginPath(); ctx.arc(hb.x, hb.y, 11 + 3 * Math.sin(t * 3 + q), 0, 6.2832); ctx.stroke();
@@ -276,7 +276,7 @@
 
     /* pulses */
     pulses = pulses.filter(function (p) { return t - p.t < p.d; });
-    ctx.fillStyle = hot; ctx.shadowBlur = dark ? 12 : 0;
+    ctx.fillStyle = hot; ctx.shadowBlur = 0;
     pulses.forEach(function (p) {
       var u = (t - p.t) / p.d;
       ctx.beginPath(); ctx.arc(p.a.x + (p.b.x - p.a.x) * u, p.a.y + (p.b.y - p.a.y) * u, 2.2, 0, 6.2832); ctx.fill();

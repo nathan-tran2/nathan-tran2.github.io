@@ -3,7 +3,7 @@
 <head>
 <meta charset="utf-8">
 <meta name="viewport" content="width=device-width, initial-scale=1">
-<meta name="theme-color" content="#08060C">
+<meta name="theme-color" content="#F4F2EE">
 
 <title>Nathan Tran</title>
 <meta name="description" content="Nathan Tran is an undergraduate researcher at NC State's Extended Horizon Lab working on AI-powered XR systems, eye tracking, and multimodal sensing.">
@@ -13,12 +13,12 @@
 <meta property="og:image" content="images/nathan.jpg?v=4">
 
 <!-- Applies a saved theme before first paint, so there's no flash.
-     Dark is the default; only an explicit light choice is stored. -->
+     Light is the default; dark only when chosen. -->
 <script>
 (function () {
   document.documentElement.classList.add("js");
   try {
-    if (localStorage.getItem("theme") === "light")
+    if (localStorage.getItem("theme") !== "dark")
       document.documentElement.setAttribute("data-theme", "light");
   } catch (e) {}
 })();
@@ -27,7 +27,7 @@
 <link rel="preconnect" href="https://fonts.googleapis.com">
 <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
 <link href="https://fonts.googleapis.com/css2?family=Figtree:wght@300;400;500;600;700&display=swap" rel="stylesheet">
-<link rel="stylesheet" href="site.css?v=20">
+<link rel="stylesheet" href="site.css?v=21">
 </head>
 
 <body>
@@ -80,8 +80,6 @@
       </div>
     </section>
 
-    <div class="ticker" aria-hidden="true"><div class="ticker-track"><span>Mixed Reality</span><span>Eye Tracking</span><span>Unity &amp; C#</span><span>LLM Agents</span><span>Computer Vision</span><span>Physiological Sensing</span><span>Human&ndash;Computer Interaction</span><span>Python</span><span>Depth Cameras</span><span>Mixed Reality</span><span>Eye Tracking</span><span>Unity &amp; C#</span><span>LLM Agents</span><span>Computer Vision</span><span>Physiological Sensing</span><span>Human&ndash;Computer Interaction</span><span>Python</span><span>Depth Cameras</span></div></div>
-
     <section class="band" id="intro">
       <div class="wrap intro">
         <figure class="portrait rv">
@@ -129,7 +127,7 @@
       </div>
       <div class="rail rv" style="--d:.1s">
         <a class="slide" href="projects.html#mrpilot">
-          <div class="slide-media"><img class="cv cv-d" src="images/cover-mrpilot.svg?v=5" alt="" loading="lazy"><img class="cv cv-l" src="images/cover-mrpilot-light.svg?v=5" alt="" aria-hidden="true" loading="lazy"></div>
+          <div class="slide-media"><img class="cv cv-d" src="images/cover-mrpilot.svg?v=6" alt="" loading="lazy"><img class="cv cv-l" src="images/cover-mrpilot-light.svg?v=6" alt="" aria-hidden="true" loading="lazy"></div>
           <div class="slide-body">
             <span class="tag">CHI &rsquo;27 &middot; Under review</span>
             <h3>MRPilot</h3>
@@ -138,7 +136,7 @@
           </div>
         </a>
         <a class="slide" href="projects.html#attention">
-          <div class="slide-media"><img class="cv cv-d" src="images/cover-attention.svg?v=5" alt="" loading="lazy"><img class="cv cv-l" src="images/cover-attention-light.svg?v=5" alt="" aria-hidden="true" loading="lazy"></div>
+          <div class="slide-media"><img class="cv cv-d" src="images/cover-attention.svg?v=6" alt="" loading="lazy"><img class="cv cv-l" src="images/cover-attention-light.svg?v=6" alt="" aria-hidden="true" loading="lazy"></div>
           <div class="slide-body">
             <span class="tag">In progress &middot; Creator</span>
             <h3>Attention-Aware AI Agent</h3>
@@ -147,7 +145,7 @@
           </div>
         </a>
         <a class="slide" href="projects.html#adaptive-xr">
-          <div class="slide-media"><img class="cv cv-d" src="images/cover-adaptive-xr.svg?v=5" alt="" loading="lazy"><img class="cv cv-l" src="images/cover-adaptive-xr-light.svg?v=5" alt="" aria-hidden="true" loading="lazy"></div>
+          <div class="slide-media"><img class="cv cv-d" src="images/cover-adaptive-xr.svg?v=6" alt="" loading="lazy"><img class="cv cv-l" src="images/cover-adaptive-xr-light.svg?v=6" alt="" aria-hidden="true" loading="lazy"></div>
           <div class="slide-body">
             <span class="tag">In progress &middot; Lead developer</span>
             <h3>Physiologically Adaptive XR</h3>
@@ -156,7 +154,7 @@
           </div>
         </a>
         <a class="slide" href="projects.html#playground">
-          <div class="slide-media"><img class="cv cv-d" src="images/cover-playground.svg?v=5" alt="" loading="lazy"><img class="cv cv-l" src="images/cover-playground-light.svg?v=5" alt="" aria-hidden="true" loading="lazy"></div>
+          <div class="slide-media"><img class="cv cv-d" src="images/cover-playground.svg?v=6" alt="" loading="lazy"><img class="cv cv-l" src="images/cover-playground-light.svg?v=6" alt="" aria-hidden="true" loading="lazy"></div>
           <div class="slide-body">
             <span class="tag">Projection-based XR</span>
             <h3>Playground+</h3>
@@ -165,7 +163,7 @@
           </div>
         </a>
         <a class="slide" href="projects.html#pulsecoach">
-          <div class="slide-media"><img class="cv cv-d" src="images/cover-pulsecoach.svg?v=5" alt="" loading="lazy"><img class="cv cv-l" src="images/cover-pulsecoach-light.svg?v=5" alt="" aria-hidden="true" loading="lazy"></div>
+          <div class="slide-media"><img class="cv cv-d" src="images/cover-pulsecoach.svg?v=6" alt="" loading="lazy"><img class="cv cv-l" src="images/cover-pulsecoach-light.svg?v=6" alt="" aria-hidden="true" loading="lazy"></div>
           <div class="slide-body">
             <span class="tag">Biometrics &middot; AR</span>
             <h3>PulseCoach</h3>
@@ -297,8 +295,6 @@
     </div>
   </footer>
 
-  <a class="float-cta" href="#contact">Get in touch <span aria-hidden="true">&rarr;</span></a>
-
-<script src="site.js?v=12"></script>
+<script src="site.js?v=13"></script>
 </body>
 </html>

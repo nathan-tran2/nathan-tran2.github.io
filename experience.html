@@ -3,7 +3,7 @@
 <head>
 <meta charset="utf-8">
 <meta name="viewport" content="width=device-width, initial-scale=1">
-<meta name="theme-color" content="#08060C">
+<meta name="theme-color" content="#F4F2EE">
 
 <title>Experience — Nathan Tran</title>
 <meta name="description" content="Nathan Tran's research, industry, teaching, and leadership experience.">
@@ -13,12 +13,12 @@
 <meta property="og:image" content="images/nathan.jpg?v=4">
 
 <!-- Applies a saved theme before first paint, so there's no flash.
-     Dark is the default; only an explicit light choice is stored. -->
+     Light is the default; dark only when chosen. -->
 <script>
 (function () {
   document.documentElement.classList.add("js");
   try {
-    if (localStorage.getItem("theme") === "light")
+    if (localStorage.getItem("theme") !== "dark")
       document.documentElement.setAttribute("data-theme", "light");
   } catch (e) {}
 })();
@@ -27,7 +27,7 @@
 <link rel="preconnect" href="https://fonts.googleapis.com">
 <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
 <link href="https://fonts.googleapis.com/css2?family=Figtree:wght@300;400;500;600;700&display=swap" rel="stylesheet">
-<link rel="stylesheet" href="site.css?v=20">
+<link rel="stylesheet" href="site.css?v=21">
 </head>
 
 <body>
@@ -233,8 +233,6 @@
     </div>
   </footer>
 
-  <a class="float-cta" href="#contact">Get in touch <span aria-hidden="true">&rarr;</span></a>
-
-<script src="site.js?v=12"></script>
+<script src="site.js?v=13"></script>
 </body>
 </html>

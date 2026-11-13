@@ -158,7 +158,7 @@
 
     /* atmosphere */
     var g = ctx.createRadialGradient(cx, cy, R * 0.92, cx, cy, R * 1.28);
-    g.addColorStop(0, hexA(C.fill, C.light ? .22 : .42));
+    g.addColorStop(0, hexA(C.fill, C.light ? .1 : .16));
     g.addColorStop(1, hexA(C.fill, 0));
     ctx.fillStyle = g; ctx.beginPath(); ctx.arc(cx, cy, R * 1.28, 0, 6.2832); ctx.fill();
 
@@ -233,7 +233,7 @@
       ctx.globalAlpha = .45 + .55 * pv[2];
       ctx.beginPath(); ctx.arc(pv[0], pv[1], rad, 0, 6.2832);
       ctx.fillStyle = hot ? C.ink : C.accent;
-      ctx.shadowColor = C.accent; ctx.shadowBlur = (hot ? 18 : 8) * near;
+      ctx.shadowBlur = 0;
       ctx.fill(); ctx.shadowBlur = 0;
       if (hot && !reduce) {                       /* sonar ring */
         var ph = ((now / 1300) % 1);
