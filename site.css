@@ -1312,3 +1312,17 @@ h1 em, h2 em, h3 em { font-style: normal; color: inherit; }
   .stage-home { padding-top: 8rem; }
 }
 .portrait figcaption { border-radius: 0; }
+
+/* ---------- one photographic grade for every photo ----------
+   Slightly muted and contrasty so photos shot anywhere sit
+   together; full colour comes back on hover.                     */
+.portrait img, .strip img {
+  filter: saturate(.72) contrast(1.08) brightness(.97);
+  transition: filter .6s ease, transform .4s ease;
+}
+.portrait:hover img, .strip figure:hover img { filter: none; }
+.portrait img { aspect-ratio: auto; object-fit: cover; }
+.strip img { aspect-ratio: 4 / 5; }
+@media (hover: none) { .portrait img, .strip img { filter: saturate(.85) contrast(1.05); } }
+:root[data-theme="dark"] .portrait img, :root[data-theme="dark"] .strip img { filter: saturate(.7) contrast(1.08) brightness(.9); }
+:root[data-theme="dark"] .portrait:hover img, :root[data-theme="dark"] .strip figure:hover img { filter: none; }
