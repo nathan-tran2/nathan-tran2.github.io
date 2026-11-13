@@ -1340,3 +1340,50 @@ h1 em, h2 em, h3 em { font-style: normal; color: inherit; }
 :root:not([data-theme="light"]) .slide:hover,
 :root:not([data-theme="light"]) .card:hover { border-color: color-mix(in srgb, var(--accent) 45%, var(--rule)); }
 :root[data-theme="light"] .dot { text-shadow: none; }
+
+
+/* ================================================================
+   20. ONE THEME EVERYWHERE
+   Brand logos, emoji and photos are pulled into the purple palette
+   so nothing on the page brings its own colours.
+   ================================================================ */
+
+/* browser chrome: highlight, scrollbar, form controls */
+::selection { background: var(--fill); color: #fff; }
+html { scrollbar-color: var(--rule) var(--page); accent-color: var(--fill); }
+
+/* emoji become purple monochrome */
+.sec-title .ico, .mini .emoji {
+  filter: grayscale(1) sepia(1) saturate(3.2) hue-rotate(218deg) brightness(1.15);
+}
+:root[data-theme="light"] .sec-title .ico,
+:root[data-theme="light"] .mini .emoji {
+  filter: grayscale(1) sepia(1) saturate(4) hue-rotate(218deg) brightness(.75);
+}
+
+/* skill logos: single-colour, full colour on hover */
+.iconrow img {
+  filter: grayscale(1) brightness(1.75) contrast(.85);
+  opacity: .9;
+  transition: filter .35s ease, opacity .35s ease, transform .2s ease;
+}
+.iconrow img:hover { filter: none; opacity: 1; }
+:root[data-theme="light"] .iconrow img { filter: grayscale(1) brightness(.35); }
+:root[data-theme="light"] .iconrow img:hover { filter: none; }
+
+/* photos: a violet wash over the existing grade, lifted on hover */
+.strip figure, .portrait { position: relative; }
+.strip figure::after, .portrait::before {
+  content: ""; display: block;
+  position: absolute; left: 0; right: 0; top: 0;
+  pointer-events: none;
+  background: linear-gradient(160deg, rgba(124,58,237,.42) 0%, rgba(76,29,149,.18) 55%, rgba(8,6,12,.35) 100%);
+  mix-blend-mode: soft-light;
+  transition: opacity .6s ease;
+}
+.strip figure::after { bottom: 0; }
+.portrait::before { aspect-ratio: 1100 / 1013; z-index: 1; animation: none; border: 0; border-radius: 0; inset: 0 0 auto 0; }
+.strip figure:hover::after, .portrait:hover::before { opacity: 0; }
+:root[data-theme="light"] .strip figure::after,
+:root[data-theme="light"] .portrait::before { opacity: .55; }
+@media (hover: none) { .strip figure::after, .portrait::before { opacity: .7; } }
