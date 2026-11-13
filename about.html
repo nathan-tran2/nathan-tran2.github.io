@@ -27,7 +27,7 @@
 <link rel="preconnect" href="https://fonts.googleapis.com">
 <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
 <link href="https://fonts.googleapis.com/css2?family=Figtree:wght@300;400;500;600;700&display=swap" rel="stylesheet">
-<link rel="stylesheet" href="site.css?v=22">
+<link rel="stylesheet" href="site.css?v=23">
 <!-- Globe styles are scoped to this page, so the shared stylesheet
      (and the other three pages) stay untouched. -->
 <style>
@@ -66,7 +66,7 @@
   #globe-tip.on { opacity: 1; }
   .globe-ctl {
     display: flex; justify-content: center; gap: .4rem;
-    margin: -1rem 0 .5rem;
+    margin: 0 0 .9rem;
   }
   .globe-ctl button {
     font-family: inherit; font-size: .76rem; font-weight: 600;
@@ -86,14 +86,15 @@
     .hint-touch { display: inline; }
   }
   @media (max-width: 599px) {
-    .globe-ctl  { margin: -.4rem 0 .7rem; }
-    .globe-note { margin: 0 0 1.4rem !important; }
+    .globe-ctl  { margin: 0 0 .8rem; }
+    .globe-note { margin: 0 0 1.4rem; line-height: 1.7; }
   }
   .globe-note {
     text-align: center;
     font-size: .74rem;
     color: var(--muted);
-    margin: -1rem 0 1.5rem;
+    margin: 0 0 2rem;
+    line-height: 1.6;
   }
 </style>
 </head>
@@ -148,7 +149,7 @@
       <h2 class="sec-title"><span class="ico">✨</span>Background</h2>
       <div class="lede">
         <p>I'm a Computer Science undergraduate at <a href="https://www.ncsu.edu/">North Carolina State University</a>, specializing in Artificial Intelligence and Machine Learning. What I keep coming back to is systems that notice what a person is doing and respond before being asked — treating gaze and physiological signals as an input channel rather than a measurement recorded after the fact.</p>
-        <p>That shows up across the work: eye tracking to tell an AI agent when to speak up, biosignals to decide when a coaching cue will land, stereo vision to make a projected play space respond to the people in it. Before the lab I interned at Everi Holdings on backend tooling for financial transaction systems, and I spent nearly three years teaching computer science and web development at Pine Lake Preparatory.</p>
+        <p>That shows up across the work: eye tracking to tell an AI agent when to speak up, biosignals to decide when a coaching cue will land, stereo vision to make a projected play space respond to the people in it. Before the lab I spent nearly three years teaching computer science and web development at Pine Lake Preparatory.</p>
         <p>I'm certified through the CITI Program for human subjects research, which means I can run studies with participants rather than only build the systems they use.</p>
       </div>
     </section>

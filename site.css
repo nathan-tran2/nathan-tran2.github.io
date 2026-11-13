@@ -1464,3 +1464,31 @@ html { scrollbar-color: var(--rule) var(--page); accent-color: var(--fill); }
 }
 .pub figure video { border: 1px solid var(--rule); }
 .slide-media video { height: 100%; }
+
+
+/* ================================================================
+   27. PHONES & TABLETS
+   ================================================================ */
+@media (max-width: 599px) {
+  /* project rows: the picture runs full width above the text,
+     so the illustration is big enough to read */
+  .pub { grid-template-columns: 1fr; }
+  .pub figure, .pub:has(.authors) figure { grid-column: 1; grid-row: auto; margin-bottom: .95rem; }
+  .pub h3, .pub .authors, .pub .venue { grid-column: 1; }
+  .pub h3 { font-size: 1.08rem; }
+
+  /* in-page jump links: an even two-up grid instead of ragged rows */
+  .jump { display: grid; grid-template-columns: 1fr 1fr; gap: .5rem; }
+  .jump .btn { justify-content: center; text-align: center; padding-inline: .6rem; }
+  .jump .btn:last-child:nth-child(odd) { grid-column: 1 / -1; }
+
+  /* globe controls: thumb-sized */
+  .globe-ctl button { min-width: 2.75rem; min-height: 2.5rem; }
+}
+
+@media (max-width: 899px) {
+  /* small all-caps labels stay readable on touch screens (about 11px) */
+  .flag b, .portrait figcaption span, .kicker, .kicker b, .stat .l, .specs dt,
+  .slide-body .tag, .slide-body .go, .tl-date, .pub .venue .rev, .group-label,
+  .mini .k, .globe-hud .k, .globe-hud .c { font-size: .7rem !important; }
+}
