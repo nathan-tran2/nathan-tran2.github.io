@@ -1456,3 +1456,11 @@ html { scrollbar-color: var(--rule) var(--page); accent-color: var(--fill); }
 .stage .field { opacity: .8; }
 .stage-sm .field { opacity: .6; }
 .wordmark { font-size: clamp(3.4rem, 10vw, 9rem) !important; }
+
+
+/* ---------- real footage and photos as project covers ---------- */
+.pub figure video, .slide-media video {
+  display: block; width: 100%; aspect-ratio: 4 / 3; object-fit: cover; background: #111;
+}
+.pub figure video { border: 1px solid var(--rule); }
+.slide-media video { height: 100%; }
