@@ -1380,17 +1380,13 @@ html { scrollbar-color: var(--rule) var(--page); accent-color: var(--fill); }
 @media (max-width: 599px) { .globe-hud b { font-size: 1.15rem; } }
 
 
-/* ================================================================
-   22. OPENER VIDEO
-   Rendered loops behind the opener; on the home page one per
-   chapter, crossfading as the chapters change.
-   ================================================================ */
-.reel { position: absolute; inset: 0; z-index: -2; overflow: hidden; background: var(--night); }
-.reel video {
-  position: absolute; inset: 0; width: 100%; height: 100%;
-  object-fit: cover; object-position: 65% 50%;
-  opacity: 0; transition: opacity 1.1s ease;
+/* wireframe opener: the canvas sits on the right, so the dimming
+   only needs to cover the text side */
+.stage::before {
+  background:
+    radial-gradient(50rem 32rem at 68% 40%, rgba(124,58,237,.18), transparent 70%),
+    linear-gradient(90deg, rgba(8,6,12,.75) 0%, rgba(8,6,12,.25) 42%, rgba(8,6,12,0) 60%),
+    linear-gradient(180deg, rgba(8,6,12,.5) 0%, rgba(8,6,12,0) 18%, rgba(8,6,12,0) 80%, rgba(8,6,12,.85) 100%);
 }
-.reel video.on { opacity: 1; }
-.stage-sm .reel video.on { opacity: .6; }
-@media (max-width: 899px) { .reel video { object-position: 70% 50%; } }
+.stage-sm .field { opacity: .8; }
+#field-hint { display: none; }

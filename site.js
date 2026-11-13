@@ -152,153 +152,173 @@
 })();
 
 
-/* ── the moving field behind each opener ─────────────────────────
-   A perspective floor of points that rolls like a slow swell. Every
-   few seconds a ripple spreads out from a random spot, and the
-   points lift toward the cursor. Pauses when off screen.          */
+/* ── wireframe shape behind each opener ─────────────────────────
+   A geodesic sphere drawn as glowing lines. It tilts toward the
+   cursor, bulges under it, flies apart when the pointer moves fast
+   and sends a shockwave from wherever you click. Each home-page
+   chapter changes how it moves. Pauses when off screen.          */
 (function () {
   var canvas = document.querySelector(".field");
   if (!canvas || !canvas.getContext) return;
   var ctx = canvas.getContext("2d");
   var stage = canvas.parentNode;
-  var reduce = window.matchMedia && window.matchMedia("(prefers-reduced-motion: reduce)").matches;
   var small = stage.classList.contains("stage-sm");
+  var reduce = window.matchMedia && window.matchMedia("(prefers-reduced-motion: reduce)").matches;
 
-  var w = 0, h = 0, dpr = 1;
-  var accent = "#45CFC2", bright = "#F1F4F8";
-  var mx = -9999, my = -9999, tmx = -9999, tmy = -9999;
-  var ripples = [], nextRipple = 0;
-  var mode = 0, gx = -9999, gy = -9999;   // 0 gaze, 1 sensing, 2 agents
-  document.addEventListener("nt:chapter", function (e) { mode = e.detail; ripples = []; nextRipple = 0; });
-  var running = false, visible = true, raf = 0, start = performance.now();
+  /* geodesic sphere: icosahedron subdivided three times */
+  var t0 = (1 + Math.sqrt(5)) / 2, V = [], F = [];
+  [[-1,t0,0],[1,t0,0],[-1,-t0,0],[1,-t0,0],[0,-1,t0],[0,1,t0],[0,-1,-t0],[0,1,-t0],[t0,0,-1],[t0,0,1],[-t0,0,-1],[-t0,0,1]]
+    .forEach(function (p) { var l = Math.hypot(p[0], p[1], p[2]); V.push([p[0]/l, p[1]/l, p[2]/l]); });
+  F = [[0,11,5],[0,5,1],[0,1,7],[0,7,10],[0,10,11],[1,5,9],[5,11,4],[11,10,2],[10,7,6],[7,1,8],[3,9,4],[3,4,2],[3,2,6],[3,6,8],[3,8,9],[4,9,5],[2,4,11],[6,2,10],[8,6,7],[9,8,1]];
+  for (var lvl = 0; lvl < (small ? 2 : 3); lvl++) {
+    var cache = {}, nf = [];
+    var mid = function (a, b) {
+      var k = a < b ? a + "_" + b : b + "_" + a;
+      if (cache[k] !== undefined) return cache[k];
+      var p = [(V[a][0]+V[b][0])/2, (V[a][1]+V[b][1])/2, (V[a][2]+V[b][2])/2], l = Math.hypot(p[0], p[1], p[2]);
+      V.push([p[0]/l, p[1]/l, p[2]/l]); return (cache[k] = V.length - 1);
+    };
+    F.forEach(function (f) { var a = mid(f[0], f[1]), b = mid(f[1], f[2]), c = mid(f[2], f[0]); nf.push([f[0],a,c],[f[1],b,a],[f[2],c,b],[a,b,c]); });
+    F = nf;
+  }
+  var E = [], seen = {};
+  F.forEach(function (f) { for (var i = 0; i < 3; i++) { var a = f[i], b = f[(i+1)%3], k = a < b ? a+"_"+b : b+"_"+a; if (!seen[k]) { seen[k] = 1; E.push(a, b); } } });
+  var n = V.length;
+  var hash = V.map(function (v, i) { var s = Math.sin(i * 12.9898) * 43758.5453; return s - Math.floor(s); });
+  var bulge = new Float32Array(n);             // eased cursor bulge per vertex
+  var P = new Float32Array(n * 3);              // projected x, y, depth
 
-  /* points take the stage's off-white; lifted ones turn red */
+  var w = 0, h = 0, dpr = 1, cx = 0, cy = 0, R = 0;
+  var line = "#F1EDF8", acc = "#B48CFF";
+  var mx = -1e4, my = -1e4, lastX = 0, lastY = 0, speed = 0, burst = 0;
+  var rx = 0.35, ry = 0, trx = 0.35, try_ = 0, spin = 0;
+  var mode = 0, waves = [], running = false, visible = true, raf = 0, start = performance.now();
+
   function colours() {
     var cs = getComputedStyle(stage);
-    accent = cs.getPropertyValue("--field").trim() || "#E4DCF5";
-    bright = cs.getPropertyValue("--accent").trim() || "#B48CFF";
+    line = cs.getPropertyValue("--field").trim() || line;
+    acc = cs.getPropertyValue("--accent").trim() || acc;
   }
   colours();
   new MutationObserver(function () { colours(); if (!running) frame(performance.now()); })
     .observe(document.documentElement, { attributes: true, attributeFilter: ["data-theme"] });
+  document.addEventListener("nt:chapter", function (e) { mode = e.detail; });
 
   function resize() {
     dpr = Math.min(window.devicePixelRatio || 1, 2);
     w = canvas.clientWidth; h = canvas.clientHeight;
     canvas.width = Math.round(w * dpr); canvas.height = Math.round(h * dpr);
     ctx.setTransform(dpr, 0, 0, dpr, 0, 0);
+    var phone = w < 700;
+    cx = phone ? w * 0.62 : w * (small ? 0.74 : 0.68);
+    cy = phone ? h * (small ? 0.38 : 0.3) : h * (small ? 0.5 : 0.4);
+    R = Math.min(w, h) * (phone ? 0.34 : small ? 0.33 : 0.31);
+  }
+
+  function shape(v, i, t) {
+    var x = v[0], y = v[1], z = v[2], r;
+    if (mode === 1) {                       /* sensing: heartbeat + pulses running pole to pole */
+      var b = t % 1.1, beat = Math.exp(-Math.pow(b / .07, 2)) + .6 * Math.exp(-Math.pow((b - .24) / .07, 2));
+      r = 1 + .07 * beat + .045 * Math.sin(9 * y - t * 5);
+    } else if (mode === 2) {                /* agents: three bulges orbiting */
+      r = 1;
+      for (var k = 0; k < 3; k++) {
+        var a = t * .7 + k * 2.094, bx = Math.cos(a) * .9, bz = Math.sin(a) * .9, by = .35 * Math.sin(t + k * 2);
+        var d2 = (x - bx) * (x - bx) + (y - by) * (y - by) + (z - bz) * (z - bz);
+        r += .2 * Math.exp(-d2 / .09);
+      }
+    } else {                                /* gaze: slow breathing */
+      r = 1 + .03 * Math.sin(3 * x + t * 1.1) + .025 * Math.sin(4 * y - t * .9) + .022 * Math.sin(5 * z + t * 1.3);
+    }
+    for (var q = 0; q < waves.length; q++) {   /* click shockwaves */
+      var wv = waves[q], age = t - wv.t, dd = Math.acos(Math.max(-1, Math.min(1, x * wv.v[0] + y * wv.v[1] + z * wv.v[2])));
+      var ring = dd - age * 2.6;
+      r += .16 * Math.exp(-ring * ring * 20) * Math.max(0, 1 - age / 1.6);
+    }
+    return r + bulge[i] + burst * (hash[i] - .3) * 1.2;
   }
 
   function frame(now) {
     var t = (now - start) / 1000;
     ctx.clearRect(0, 0, w, h);
+    waves = waves.filter(function (wv) { return t - wv.t < 1.6; });
 
-    mx += (tmx - mx) * 0.08; my += (tmy - my) * 0.08;
+    speed *= .88; burst += (Math.min(speed / 45, 1) * .55 - burst) * .12;
+    if (!reduce) spin += .0025;
+    rx += (trx - rx) * .06; ry += (try_ - ry) * .06;
+    var cY = Math.cos(ry + spin), sY = Math.sin(ry + spin), cX = Math.cos(rx), sX = Math.sin(rx);
+    var D = 3.4, f = D - 1;
 
-    if (!reduce && t > nextRipple) {
-      if (mode === 1) {
-        /* sensing: a heartbeat from the middle, lub-dub */
-        ripples.push({ x: 0, z: 7, t: t });
-        ripples.push({ x: 0, z: 7, t: t + 0.26 });
-        nextRipple = t + 1.35;
-      } else if (mode === 2) {
-        /* agents: three sources taking turns */
-        var src = [[-4.5, 6], [0, 10], [4.5, 6.5]][Math.floor(t / 1.1) % 3];
-        ripples.push({ x: src[0], z: src[1], t: t });
-        nextRipple = t + 1.1;
-      } else {
-        ripples.push({ x: (Math.random() - 0.5) * 8, z: 4 + Math.random() * 7, t: t });
-        nextRipple = t + 4.5 + Math.random() * 2.4;
+    for (var i = 0; i < n; i++) {
+      var v = V[i], r = shape(v, i, t);
+      var x = v[0] * r, y = v[1] * r, z = v[2] * r;
+      var x1 = x * cY + z * sY, z1 = z * cY - x * sY;
+      var y2 = y * cX - z1 * sX, z2 = y * sX + z1 * cX;
+      var s = f / (D - z2);
+      P[i*3] = cx + x1 * R * s; P[i*3+1] = cy - y2 * R * s; P[i*3+2] = z2;
+      /* bulge toward the cursor for front-facing points */
+      var dx = P[i*3] - mx, dy = P[i*3+1] - my, near = z2 > -.2 ? Math.exp(-(dx*dx + dy*dy) / (R * R * .09)) : 0;
+      bulge[i] += (near * .28 - bulge[i]) * .12;
+    }
+
+    /* edges in four depth bands, back to front */
+    var bands = [[-2, -.35, .07], [-.35, .1, .16], [.1, .55, .38], [.55, 2, .75]];
+    ctx.lineWidth = 1;
+    for (var bi = 0; bi < 4; bi++) {
+      var lo = bands[bi][0], hi = bands[bi][1];
+      ctx.beginPath();
+      for (var e = 0; e < E.length; e += 2) {
+        var a = E[e], c = E[e + 1], z = (P[a*3+2] + P[c*3+2]) / 2;
+        if (z < lo || z >= hi) continue;
+        ctx.moveTo(P[a*3], P[a*3+1]); ctx.lineTo(P[c*3], P[c*3+1]);
       }
+      ctx.strokeStyle = bi === 3 ? line : acc;
+      ctx.globalAlpha = bands[bi][2] * (1 - burst * .35);
+      ctx.stroke();
     }
-    /* gaze: a wandering point of attention that lifts the field */
-    if (mode === 0 && !reduce) {
-      gx = w * (0.66 + 0.2 * Math.sin(t * 0.43)); gy = h * (0.5 + 0.16 * Math.sin(t * 0.71 + 1));
-    } else { gx = gy = -9999; }
-    ripples = ripples.filter(function (r) { return t - r.t < 6; });
-
-    var f = Math.max(h, 520) * 0.95;
-    var horizon = h * (small ? 0.22 : 0.3);
-    var camY = 1.25;
-    var Z0 = 0.42, Z1 = 16, GAP = (w < 600 ? 22 : 30) / f;
-    var R = Math.min(w, h) * 0.3;
-    var hot = [];
-
-    ctx.fillStyle = accent;
-    for (var z = Z1; z >= Z0; z /= 1.04) {
-      var scale = f / z;
-      /* spacing doubles every octave of distance, so lines converge
-         toward the horizon without the far rows turning to mush */
-      var DX = GAP * Math.pow(2, Math.floor(Math.log(z) / Math.LN2));
-      var half = (w * 0.5) / scale + DX;
-      var depth = 1 - (z - Z0) / (Z1 - Z0);
-      var baseA = Math.pow(depth, 1.6) * 0.6 + 0.05;
-      var size = Math.max(0.8, 2.4 * depth + 0.5);
-      var x0 = -Math.ceil(half / DX) * DX;
-      for (var x = x0; x <= half; x += DX) {
-        var y = 0.42 * Math.sin(x * 0.38 + t * 0.55) * Math.cos(z * 0.3 - t * 0.4)
-              + 0.22 * Math.sin((x + z) * 0.24 + t * 0.35);
-        var crest = 0;
-        for (var i = 0; i < ripples.length; i++) {
-          var rp = ripples[i], age = t - rp.t;
-          if (age < 0) continue;
-          var d = Math.sqrt((x - rp.x) * (x - rp.x) + (z - rp.z) * (z - rp.z));
-          var ring = d - age * 2.4;
-          var c = Math.exp(-ring * ring * 3) * (1 - age / 6);
-          y += 0.5 * c; crest = Math.max(crest, c);
-        }
-        var sx = w * 0.5 + x * scale;
-        var sy = horizon + (camY - y) * scale * 0.5;
-        var dd = Math.sqrt((sx - mx) * (sx - mx) + (sy - my) * (sy - my));
-        var lift = 0;
-        if (dd < R) { lift = 1 - dd / R; lift *= lift; }
-        var dg = Math.sqrt((sx - gx) * (sx - gx) + (sy - gy) * (sy - gy));
-        if (dg < R * 0.8) { var lg = 1 - dg / (R * 0.8); lg *= lg; if (lg > lift) lift = lg; }
-        if (lift) sy -= lift * 40 * (0.3 + depth);
-        if (sy < -4 || sy > h + 4 || sx < -4 || sx > w + 4) continue;
-        var a = baseA + lift * 0.7 + crest * 0.5 + (y > 0.3 ? (y - 0.3) * 0.5 : 0);
-        if (lift > 0.3 || crest > 0.45) { hot.push(sx, sy, size + 0.4, Math.min(a, 1)); continue; }
-        ctx.globalAlpha = Math.min(a, 1);
-        ctx.fillRect(sx, sy, size, size);
-      }
+    /* glowing nodes on the near side; the ones under the cursor turn bright */
+    ctx.shadowColor = acc;
+    for (var k = 0; k < n; k++) {
+      var zz = P[k*3+2];
+      if (zz < .25) continue;
+      var hot = bulge[k] > .08;
+      ctx.globalAlpha = hot ? 1 : .35 + .5 * zz;
+      ctx.fillStyle = hot ? "#ffffff" : acc;
+      ctx.shadowBlur = hot ? 12 : 0;
+      var sz = hot ? 3 : 1.6;
+      ctx.fillRect(P[k*3] - sz / 2, P[k*3+1] - sz / 2, sz, sz);
     }
-    ctx.fillStyle = bright;
-    for (var k = 0; k < hot.length; k += 4) {
-      ctx.globalAlpha = hot[k + 3];
-      ctx.fillRect(hot[k], hot[k + 1], hot[k + 2], hot[k + 2]);
-    }
-    ctx.globalAlpha = 1;
+    ctx.shadowBlur = 0; ctx.globalAlpha = 1;
   }
 
-  function loop(now) {
-    if (!running) return;
-    frame(now);
-    raf = requestAnimationFrame(loop);
-  }
-  function play() {
-    if (reduce || running || !visible || document.hidden) return;
-    running = true; raf = requestAnimationFrame(loop);
-  }
+  function loop(now) { if (!running) return; frame(now); raf = requestAnimationFrame(loop); }
+  function play() { if (reduce || running || !visible || document.hidden) return; running = true; raf = requestAnimationFrame(loop); }
   function stop() { running = false; cancelAnimationFrame(raf); }
 
-  resize();
-  frame(start + 4000);
+  resize(); frame(start + 2000);
   window.addEventListener("resize", function () { resize(); if (!running) frame(performance.now()); });
-
-  if ("IntersectionObserver" in window) {
-    new IntersectionObserver(function (es) {
-      visible = es[0].isIntersecting;
-      visible ? play() : stop();
-    }).observe(canvas);
-  }
+  if ("IntersectionObserver" in window) new IntersectionObserver(function (es) { visible = es[0].isIntersecting; visible ? play() : stop(); }).observe(canvas);
   document.addEventListener("visibilitychange", function () { document.hidden ? stop() : play(); });
 
   stage.addEventListener("pointermove", function (e) {
-    var r = canvas.getBoundingClientRect();
-    tmx = e.clientX - r.left; tmy = e.clientY - r.top;
-    if (mx < -9000) { mx = tmx; my = tmy; }
+    var b = canvas.getBoundingClientRect(), x = e.clientX - b.left, y = e.clientY - b.top;
+    if (mx > -1e3) speed = Math.max(speed, Math.hypot(x - lastX, y - lastY));
+    lastX = x; lastY = y; mx = x; my = y;
+    try_ = ((x - cx) / w) * 1.1;
+    trx = .35 + ((y - cy) / h) * .8;
   });
-  stage.addEventListener("pointerleave", function () { tmx = tmy = -9999; mx = my = -9999; });
+  stage.addEventListener("pointerleave", function () { mx = my = -1e4; trx = .35; try_ = 0; });
+  stage.addEventListener("pointerdown", function (e) {
+    if (e.target.closest && e.target.closest("a, button")) return;
+    var b = canvas.getBoundingClientRect(), x = e.clientX - b.left, y = e.clientY - b.top, best = -1, bd = 1e9;
+    for (var i = 0; i < n; i++) {
+      if (P[i*3+2] < 0) continue;
+      var d = (P[i*3] - x) * (P[i*3] - x) + (P[i*3+1] - y) * (P[i*3+1] - y);
+      if (d < bd) { bd = d; best = i; }
+    }
+    if (best >= 0 && bd < R * R * 1.6) waves.push({ v: V[best], t: (performance.now() - start) / 1000 });
+    else speed = 60;                                  /* clicked away from it: a burst instead */
+  });
 
   play();
 })();
@@ -455,43 +475,3 @@
   update();
 })();
 
-
-
-/* ── opener video: one loop per chapter, crossfaded ───────────── */
-(function () {
-  var reel = document.querySelector(".reel");
-  if (!reel) return;
-  var vids = [].slice.call(reel.querySelectorAll("video"));
-  var reduce = window.matchMedia && window.matchMedia("(prefers-reduced-motion: reduce)").matches;
-  var cur = 0, inView = true;
-
-  function playOn(v) {
-    if (reduce || !inView || document.hidden) return;
-    if (v.preload !== "auto") { v.preload = "auto"; v.load(); }
-    var p = v.play(); if (p && p.catch) p.catch(function () {});
-  }
-  function show(i) {
-    if (!vids[i]) return;
-    cur = i;
-    vids.forEach(function (v, k) {
-      v.classList.toggle("on", k === i);
-      if (k === i) playOn(v);
-      else setTimeout(function () { if (!v.classList.contains("on")) v.pause(); }, 1200);
-    });
-    var next = vids[(i + 1) % vids.length];             // warm up the next chapter
-    if (next && next !== vids[i] && next.preload !== "auto") { next.preload = "auto"; next.load(); }
-  }
-
-  if (reduce) vids.forEach(function (v) { v.removeAttribute("autoplay"); v.pause(); });
-  document.addEventListener("nt:chapter", function (e) { show(e.detail); });
-  if ("IntersectionObserver" in window) {
-    new IntersectionObserver(function (es) {
-      inView = es[0].isIntersecting;
-      if (inView) playOn(vids[cur]); else vids.forEach(function (v) { v.pause(); });
-    }).observe(reel);
-  }
-  document.addEventListener("visibilitychange", function () {
-    if (document.hidden) vids.forEach(function (v) { v.pause(); }); else playOn(vids[cur]);
-  });
-  show(0);
-})();
