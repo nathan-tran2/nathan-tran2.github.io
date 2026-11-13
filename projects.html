@@ -12,13 +12,13 @@
 <meta property="og:image" content="images/nathan.jpg">
 
 <!-- Applies a saved theme before first paint, so there's no flash.
-     Light is the default; only an explicit dark choice is stored. -->
+     Dark is the default; only an explicit light choice is stored. -->
 <script>
 (function () {
   document.documentElement.classList.add("js");
   try {
-    if (localStorage.getItem("theme") === "dark")
-      document.documentElement.setAttribute("data-theme", "dark");
+    if (localStorage.getItem("theme") === "light")
+      document.documentElement.setAttribute("data-theme", "light");
   } catch (e) {}
 })();
 </script>
@@ -26,7 +26,7 @@
 <link rel="preconnect" href="https://fonts.googleapis.com">
 <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
 <link href="https://fonts.googleapis.com/css2?family=Figtree:wght@300;400;500;600;700&display=swap" rel="stylesheet">
-<link rel="stylesheet" href="site.css?v=10">
+<link rel="stylesheet" href="site.css?v=11">
 </head>
 
 <body>
@@ -354,6 +354,6 @@
 
   <a class="float-cta" href="#contact">Get in touch <span aria-hidden="true">&rarr;</span></a>
 
-<script src="site.js?v=6"></script>
+<script src="site.js?v=7"></script>
 </body>
 </html>

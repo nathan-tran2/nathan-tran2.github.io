@@ -5,17 +5,17 @@
   if (!btn) return;
 
   function current() {
-    return root.getAttribute("data-theme") === "dark" ? "dark" : "light";
+    return root.getAttribute("data-theme") === "light" ? "light" : "dark";
   }
 
   function label() {
-    btn.setAttribute("aria-label", current() === "dark" ? "Switch to light mode" : "Switch to dark mode");
-    btn.setAttribute("aria-pressed", current() === "dark" ? "true" : "false");
+    btn.setAttribute("aria-label", current() === "light" ? "Switch to dark mode" : "Switch to light mode");
+    btn.setAttribute("aria-pressed", current() === "light" ? "true" : "false");
   }
 
   btn.addEventListener("click", function () {
-    var next = current() === "dark" ? "light" : "dark";
-    if (next === "dark") root.setAttribute("data-theme", "dark");
+    var next = current() === "light" ? "dark" : "light";
+    if (next === "light") root.setAttribute("data-theme", "light");
     else root.removeAttribute("data-theme");
     try { localStorage.setItem("theme", next); } catch (e) {}
     label();
@@ -175,8 +175,8 @@
   /* points take the stage's off-white; lifted ones turn red */
   function colours() {
     var cs = getComputedStyle(stage);
-    accent = cs.getPropertyValue("--field").trim() || "#F4F2EE";
-    bright = cs.getPropertyValue("--accent").trim() || "#E5333A";
+    accent = cs.getPropertyValue("--field").trim() || "#E4DCF5";
+    bright = cs.getPropertyValue("--accent").trim() || "#B48CFF";
   }
   colours();
   new MutationObserver(function () { colours(); if (!running) frame(performance.now()); })
