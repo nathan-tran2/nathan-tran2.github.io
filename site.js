@@ -85,8 +85,8 @@
     leaving = true;
 
     var dest = a.href;
-    var to = loader.querySelector(".nt-to"), num = a.closest && a.closest(".nav-links, .foot-nav") ? a.querySelector("span") : null;
-    to.innerHTML = num ? '<b>' + num.textContent + '</b>' + a.textContent.replace(num.textContent, "").trim() : "Loading";
+    var to = loader.querySelector(".nt-to"), inNav = a.closest && a.closest(".nav-links, .foot-nav");
+    to.textContent = inNav ? a.textContent.trim() : "Loading";
     loader.classList.add("is-on");
     setTimeout(function () { window.location.href = dest; }, HOLD);
     setTimeout(function () { loader.classList.remove("is-on"); leaving = false; }, BAIL);
@@ -445,6 +445,13 @@
 
   btns.forEach(function (b, k) { b.addEventListener("click", function () { show(k); }); });
   if (play) play.addEventListener("click", function () { setPaused(!paused); });
+  /* no pause button: hovering or tabbing into the themes holds the rotation */
+  function hold() { if (!paused) { setPaused(true); list._held = true; } }
+  function release() { if (list._held && !list.contains(document.activeElement)) { list._held = false; setPaused(false); } }
+  list.addEventListener("mouseenter", hold);
+  list.addEventListener("mouseleave", release);
+  list.addEventListener("focusin", hold);
+  list.addEventListener("focusout", function () { setTimeout(release, 0); });
   document.addEventListener("visibilitychange", function () {
     if (document.hidden) { if (!paused) { setPaused(true); list._auto = true; } }
     else if (list._auto) { list._auto = false; setPaused(false); }
