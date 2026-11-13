@@ -156,14 +156,12 @@
 })();
 
 
-/* ── neural sphere behind each opener ───────────────────────────
-   A 3D globe of network nodes joined by links, inside a faint
-   floating network. It tilts toward the cursor, bulges under it,
-   flies apart when the pointer moves fast, and a click sends a
-   shockwave across it. Pulses of light run along the links. Each
-   home-page chapter changes it: gaze sweeps a point of attention
-   over the surface, sensing beats like a heart, agents sends three
-   bright hubs orbiting it.                                       */
+/* ── neural network with agents behind each opener ──────────────
+   Drifting nodes joined by thin links. Three bright agent hubs
+   move through it, linking to the nodes around them and sending
+   pulses along the way. Nodes near the cursor reach for it, and a
+   click sends a ring through the network. Colours come from the
+   theme, so it works in light and dark mode.                     */
 (function () {
   var canvas = document.querySelector(".field");
   if (!canvas || !canvas.getContext) return;
@@ -172,37 +170,20 @@
   var small = stage.classList.contains("stage-sm");
   var reduce = window.matchMedia && window.matchMedia("(prefers-reduced-motion: reduce)").matches;
 
-  /* sphere nodes on a Fibonacci spiral, linked to near neighbours */
-  var NS = small ? 120 : 190, V = [], E = [], i, j;
-  var GA = Math.PI * (3 - Math.sqrt(5));
-  for (i = 0; i < NS; i++) {
-    var y = 1 - (i + .5) / NS * 2, rr = Math.sqrt(1 - y * y), th = GA * i;
-    V.push([Math.cos(th) * rr, y, Math.sin(th) * rr]);
-  }
-  var LINK3 = small ? .36 : .29;
-  for (i = 0; i < NS; i++) for (j = i + 1; j < NS; j++) {
-    var d3 = Math.hypot(V[i][0] - V[j][0], V[i][1] - V[j][1], V[i][2] - V[j][2]);
-    if (d3 < LINK3) E.push(i, j);
-  }
-  var hash = V.map(function (v, k) { var s = Math.sin(k * 12.9898) * 43758.5453; return s - Math.floor(s); });
-  var bulge = new Float32Array(NS), glow = new Float32Array(NS), P = new Float32Array(NS * 3);
-
-  var w = 0, h = 0, dpr = 1, cx = 0, cy = 0, R = 0, amb = [];
-  var line = "#E4DCF5", acc = "#B48CFF", ACC = "180,140,255", LINE = "228,220,245";
-  var mx = -1e4, my = -1e4, lastX = 0, lastY = 0, speed = 0, burst = 0;
-  var rx = .3, ry = 0, trx = .3, try_ = 0, spin = 0;
-  var mode = 0, waves = [], pulses = [], running = false, visible = true, raf = 0, start = performance.now();
+  var w = 0, h = 0, dpr = 1, nodes = [], pulses = [], rings = [];
+  var acc = "#B48CFF", hot = "#FFFFFF", ACC = "180,140,255", LINE = "228,220,245", dark = true;
+  var mx = -1e4, my = -1e4, running = false, visible = true, raf = 0, start = performance.now();
+  var LINK = 150, REACH = 210;
 
   function rgb(hex) { var n = parseInt(hex.replace("#", ""), 16); return [(n >> 16) & 255, (n >> 8) & 255, n & 255].join(","); }
   function colours() {
     var cs = getComputedStyle(stage);
-    line = cs.getPropertyValue("--field").trim() || line; acc = cs.getPropertyValue("--accent").trim() || acc;
-    ACC = rgb(acc); LINE = rgb(line);
+    acc = cs.getPropertyValue("--accent").trim() || acc;
+    hot = cs.getPropertyValue("--hot").trim() || hot;
+    ACC = rgb(acc); LINE = rgb(cs.getPropertyValue("--field").trim() || "#E4DCF5");
+    dark = document.documentElement.getAttribute("data-theme") !== "light";
   }
   colours();
-  new MutationObserver(function () { colours(); if (!running) frame(performance.now()); })
-    .observe(document.documentElement, { attributes: true, attributeFilter: ["data-theme"] });
-  document.addEventListener("nt:chapter", function (e) { mode = e.detail; });
 
   function seedRand(s) { return function () { s = (s * 16807) % 2147483647; return s / 2147483647; }; }
   function resize() {
@@ -210,185 +191,130 @@
     w = canvas.clientWidth; h = canvas.clientHeight;
     canvas.width = Math.round(w * dpr); canvas.height = Math.round(h * dpr);
     ctx.setTransform(dpr, 0, 0, dpr, 0, 0);
+    LINK = Math.max(110, Math.min(165, w * .11)); REACH = LINK * 1.4;
+    var rnd = seedRand(7), count = Math.round(Math.min(small ? 70 : 130, w * h / (small ? 11000 : 8000)));
+    nodes = [];
+    for (var i = 0; i < count; i++) {
+      var x = w * (w < 700 ? rnd() : .25 + .75 * Math.pow(rnd(), .8));    /* weighted away from the text */
+      nodes.push({ x: x, y: rnd() * h, vx: (rnd() - .5) * .3, vy: (rnd() - .5) * .3, r: 1.1 + rnd() * 1.7, glow: 0 });
+    }
+  }
+  function hubs(t) {
     var phone = w < 700;
-    cx = phone ? w * .62 : w * (small ? .74 : .68);
-    cy = phone ? h * (small ? .38 : .3) : h * (small ? .5 : .42);
-    R = Math.min(w, h) * (phone ? .33 : small ? .32 : .31);
-    var rnd = seedRand(5), count = Math.round(Math.min(small ? 50 : 90, w * h / 14000));
-    amb = [];
-    for (var k = 0; k < count; k++) amb.push({ x: rnd() * w, y: rnd() * h, vx: (rnd() - .5) * .25, vy: (rnd() - .5) * .25, r: .9 + rnd() * 1.3 });
-  }
-
-  function hubDirs(t) {
     return [0, 1, 2].map(function (k) {
-      var a = t * .6 + k * 2.094, el = .45 * Math.sin(t * .8 + k * 2);
-      return [Math.cos(a) * Math.cos(el), Math.sin(el), Math.sin(a) * Math.cos(el)];
+      var a = t * .22 + k * 2.094;
+      return { x: w * ((phone ? .55 : .66) + (phone ? .3 : .2) * Math.cos(a)), y: h * ((phone ? .32 : .45) + (phone ? .2 : .28) * Math.sin(a * 1.3 + k)) };
     });
-  }
-
-  function radius(v, k, t, hubs) {
-    var x = v[0], y = v[1], z = v[2], r = 1;
-    if (mode === 1) {
-      var b = t % 1.2, beat = Math.exp(-Math.pow(b / .07, 2)) + .6 * Math.exp(-Math.pow((b - .25) / .07, 2));
-      r += .08 * beat + .04 * Math.sin(9 * y - t * 5);
-      if (beat > .5) glow[k] = Math.max(glow[k], .5 * beat * (.5 + .5 * Math.sin(9 * y - t * 5)));
-    } else if (mode === 2) {
-      for (var q = 0; q < 3; q++) {
-        var hb = hubs[q], d2 = (x - hb[0]) * (x - hb[0]) + (y - hb[1]) * (y - hb[1]) + (z - hb[2]) * (z - hb[2]);
-        var f = Math.exp(-d2 / .08); r += .16 * f; if (f > .3) glow[k] = Math.max(glow[k], f);
-      }
-    } else {
-      r += .03 * Math.sin(3 * x + t * 1.1) + .025 * Math.sin(4 * y - t * .9) + .02 * Math.sin(5 * z + t * 1.3);
-    }
-    for (var s = 0; s < waves.length; s++) {
-      var wv = waves[s], age = t - wv.t, dd = Math.acos(Math.max(-1, Math.min(1, x * wv.v[0] + y * wv.v[1] + z * wv.v[2])));
-      var ring = dd - age * 2.6, hit = Math.exp(-ring * ring * 20) * Math.max(0, 1 - age / 1.6);
-      r += .16 * hit; if (hit > .4) glow[k] = Math.max(glow[k], hit);
-    }
-    return r + bulge[k] + burst * (hash[k] - .3) * 1.3;
   }
 
   function frame(now) {
-    var t = (now - start) / 1000, k, a, b, n, d;
+    var t = (now - start) / 1000, i, j, n, d;
     ctx.clearRect(0, 0, w, h);
-    waves = waves.filter(function (wv) { return t - wv.t < 1.6; });
-    speed *= .88; burst += (Math.min(speed / 45, 1) * .5 - burst) * .12;
-    if (!reduce) spin += .0022;
-    rx += (trx - rx) * .06; ry += (try_ - ry) * .06;
-    var cY = Math.cos(ry + spin), sY = Math.sin(ry + spin), cX = Math.cos(rx), sX = Math.sin(rx), D = 3.4, F = D - 1;
-    var hubs = mode === 2 ? hubDirs(t) : null;
+    var H3 = hubs(reduce ? 4 : t), sOn = dark ? 0 : 1;
 
-    /* gaze: a point of attention sweeping the surface (in view space) */
-    var gx = -1e4, gy = -1e4;
-    if (mode === 0 && !reduce) { gx = cx + R * .62 * Math.sin(t * .55); gy = cy + R * .45 * Math.sin(t * .9 + 1); }
-
-    for (k = 0; k < NS; k++) {
-      var v = V[k], r = radius(v, k, t, hubs);
-      var x = v[0] * r, y = v[1] * r, z = v[2] * r;
-      var x1 = x * cY + z * sY, z1 = z * cY - x * sY, y2 = y * cX - z1 * sX, z2 = y * sX + z1 * cX, s = F / (D - z2);
-      P[k*3] = cx + x1 * R * s; P[k*3+1] = cy - y2 * R * s; P[k*3+2] = z2;
-      var dx = P[k*3] - mx, dy = P[k*3+1] - my, near = z2 > -.2 ? Math.exp(-(dx*dx + dy*dy) / (R * R * .09)) : 0;
-      bulge[k] += (near * .26 - bulge[k]) * .12;
-      if (near > .4) glow[k] = Math.max(glow[k], near);
-      if (z2 > 0 && gx > -1e3) { var g = Math.exp(-((P[k*3] - gx) * (P[k*3] - gx) + (P[k*3+1] - gy) * (P[k*3+1] - gy)) / (R * R * .05)); if (g > .3) glow[k] = Math.max(glow[k], g); }
-      glow[k] *= .93;
-    }
-
-    /* ambient network drifting around the sphere */
-    var AL = Math.max(110, Math.min(160, w * .11));
-    for (k = 0; k < amb.length; k++) {
-      n = amb[k];
+    for (i = 0; i < nodes.length; i++) {
+      n = nodes[i];
       if (!reduce) { n.x += n.vx; n.y += n.vy; }
-      if (n.x < -20) n.x = w + 20; if (n.x > w + 20) n.x = -20; if (n.y < -20) n.y = h + 20; if (n.y > h + 20) n.y = -20;
+      if (n.x < -20) n.x = w + 20; if (n.x > w + 20) n.x = -20;
+      if (n.y < -20) n.y = h + 20; if (n.y > h + 20) n.y = -20;
+      if (mx > -1e3) { var dx = mx - n.x, dy = my - n.y; d = Math.hypot(dx, dy); if (d < REACH) { n.x += dx * .006; n.y += dy * .006; } }
+      for (j = 0; j < rings.length; j++) {
+        var rg = rings[j], age = t - rg.t, ex = n.x - rg.x, ey = n.y - rg.y, rd = Math.hypot(ex, ey) || 1;
+        if (Math.abs(rd - age * 420) < 28) { n.glow = 1; n.x += ex / rd * 3; n.y += ey / rd * 3; }
+      }
+      n.glow *= .94;
     }
+
+    /* links */
     ctx.lineWidth = 1;
-    for (a = 0; a < amb.length; a++) for (b = a + 1; b < amb.length; b++) {
-      d = Math.hypot(amb[a].x - amb[b].x, amb[a].y - amb[b].y);
-      if (d < AL) { ctx.strokeStyle = "rgba(" + ACC + "," + (1 - d / AL) * .32 + ")"; ctx.beginPath(); ctx.moveTo(amb[a].x, amb[a].y); ctx.lineTo(amb[b].x, amb[b].y); ctx.stroke(); }
-    }
-    /* ambient nodes reach for the sphere's near side */
-    for (a = 0; a < amb.length; a++) for (k = 0; k < NS; k += 3) {
-      if (P[k*3+2] < .2) continue;
-      d = Math.hypot(amb[a].x - P[k*3], amb[a].y - P[k*3+1]);
-      if (d < AL * .8) { ctx.strokeStyle = "rgba(" + ACC + "," + (1 - d / (AL * .8)) * .24 + ")"; ctx.beginPath(); ctx.moveTo(amb[a].x, amb[a].y); ctx.lineTo(P[k*3], P[k*3+1]); ctx.stroke(); }
-    }
-    ctx.fillStyle = "rgba(" + ACC + ",.85)";
-    amb.forEach(function (n) { ctx.beginPath(); ctx.arc(n.x, n.y, n.r, 0, 6.2832); ctx.fill(); });
-
-    /* sphere links: back half faint, front half bright, lit ones white */
-    for (var pass = 0; pass < 2; pass++) {
-      for (var e = 0; e < E.length; e += 2) {
-        a = E[e]; b = E[e + 1];
-        var z = (P[a*3+2] + P[b*3+2]) / 2, front = z > 0;
-        if ((pass === 0) === front) continue;
-        var lit = Math.max(glow[a], glow[b]);
-        var al = front ? .22 + .45 * (z) : .06 + .06 * (1 + z);
-        ctx.strokeStyle = "rgba(" + (lit > .35 ? LINE : ACC) + "," + Math.min(1, al + lit * .5) * (1 - burst * .3) + ")";
-        ctx.beginPath(); ctx.moveTo(P[a*3], P[a*3+1]); ctx.lineTo(P[b*3], P[b*3+1]); ctx.stroke();
-        if (front && !reduce && Math.random() < .0015 + lit * .006) pulses.push({ a: a, b: b, t: t, d: .55 });
-      }
+    for (i = 0; i < nodes.length; i++) for (j = i + 1; j < nodes.length; j++) {
+      var a = nodes[i], b = nodes[j]; d = Math.hypot(a.x - b.x, a.y - b.y);
+      if (d >= LINK) continue;
+      var k = 1 - d / LINK, lit = Math.max(a.glow, b.glow);
+      ctx.strokeStyle = "rgba(" + (lit > .3 ? LINE : ACC) + "," + (k * ((dark ? .28 : .32) + .5 * lit)) + ")";
+      ctx.beginPath(); ctx.moveTo(a.x, a.y); ctx.lineTo(b.x, b.y); ctx.stroke();
+      if (!reduce && Math.random() < .0007 + lit * .004) pulses.push({ a: a, b: b, t: t, d: .7 + d / 400 });
     }
 
-    /* the cursor joins the network */
-    if (mx > -1e3) {
-      var REACH = R * .9;
-      for (k = 0; k < NS; k++) {
-        if (P[k*3+2] < 0) continue;
-        d = Math.hypot(P[k*3] - mx, P[k*3+1] - my);
-        if (d < REACH) { ctx.strokeStyle = "rgba(" + LINE + "," + (1 - d / REACH) * .6 + ")"; ctx.beginPath(); ctx.moveTo(P[k*3], P[k*3+1]); ctx.lineTo(mx, my); ctx.stroke(); }
+    /* agent hubs reach the nodes around them */
+    H3.forEach(function (hb, q) {
+      for (i = 0; i < nodes.length; i++) {
+        n = nodes[i]; d = Math.hypot(n.x - hb.x, n.y - hb.y);
+        if (d < LINK * 1.25) {
+          n.glow = Math.max(n.glow, .6 * (1 - d / (LINK * 1.25)));
+          ctx.strokeStyle = "rgba(" + ACC + "," + (1 - d / (LINK * 1.25)) * .65 + ")";
+          ctx.beginPath(); ctx.moveTo(hb.x, hb.y); ctx.lineTo(n.x, n.y); ctx.stroke();
+          if (!reduce && Math.random() < .004) pulses.push({ a: hb, b: n, t: t, d: .6 });
+        }
       }
-      amb.forEach(function (n) { d = Math.hypot(n.x - mx, n.y - my); if (d < 180) { ctx.strokeStyle = "rgba(" + LINE + "," + (1 - d / 180) * .5 + ")"; ctx.beginPath(); ctx.moveTo(n.x, n.y); ctx.lineTo(mx, my); ctx.stroke(); } });
+    });
+
+    /* the cursor joins in */
+    if (mx > -1e3) for (i = 0; i < nodes.length; i++) {
+      n = nodes[i]; d = Math.hypot(n.x - mx, n.y - my);
+      if (d < REACH) { n.glow = Math.max(n.glow, .7 * (1 - d / REACH)); ctx.strokeStyle = "rgba(" + LINE + "," + (1 - d / REACH) * .7 + ")"; ctx.beginPath(); ctx.moveTo(n.x, n.y); ctx.lineTo(mx, my); ctx.stroke(); }
     }
 
     /* nodes */
-    for (k = 0; k < NS; k++) {
-      var zz = P[k*3+2]; if (zz < -.15) continue;
-      var hot = glow[k] > .3;
-      ctx.globalAlpha = hot ? 1 : .3 + .6 * Math.max(0, zz);
-      ctx.fillStyle = hot ? "#fff" : acc;
-      ctx.shadowColor = acc; ctx.shadowBlur = hot ? 12 : 0;
-      ctx.beginPath(); ctx.arc(P[k*3], P[k*3+1], (hot ? 3 : 2) * (.75 + .5 * Math.max(0, zz)), 0, 6.2832); ctx.fill();
+    ctx.shadowColor = acc;
+    for (i = 0; i < nodes.length; i++) {
+      n = nodes[i];
+      var on = n.glow > .25;
+      ctx.fillStyle = on ? hot : "rgba(" + ACC + "," + (dark ? .9 : .75) + ")";
+      ctx.shadowBlur = on && dark ? 12 * n.glow : 0;
+      ctx.beginPath(); ctx.arc(n.x, n.y, n.r * (1 + .7 * n.glow), 0, 6.2832); ctx.fill();
     }
-    ctx.globalAlpha = 1; ctx.shadowBlur = 0;
 
-    /* agent hubs */
-    if (hubs) hubs.forEach(function (hb, q) {
-      var x1 = hb[0] * cY + hb[2] * sY, z1 = hb[2] * cY - hb[0] * sY, y2 = hb[1] * cX - z1 * sX, z2 = hb[1] * sX + z1 * cX;
-      var r = 1.18, s = F / (D - z2 * r), sx = cx + x1 * r * R * s, sy = cy - y2 * r * R * s;
-      ctx.globalAlpha = z2 > -.2 ? 1 : .35;
-      ctx.fillStyle = "#fff"; ctx.shadowColor = acc; ctx.shadowBlur = 20;
-      ctx.beginPath(); ctx.arc(sx, sy, 4.5, 0, 6.2832); ctx.fill(); ctx.shadowBlur = 0;
-      ctx.strokeStyle = "rgba(" + ACC + ",.75)"; ctx.beginPath(); ctx.arc(sx, sy, 10 + 3 * Math.sin(t * 3 + q), 0, 6.2832); ctx.stroke();
-      ctx.globalAlpha = 1;
+    /* hubs on top */
+    H3.forEach(function (hb, q) {
+      ctx.fillStyle = hot; ctx.shadowBlur = dark ? 22 : 0;
+      ctx.beginPath(); ctx.arc(hb.x, hb.y, 5, 0, 6.2832); ctx.fill();
+      ctx.shadowBlur = 0; ctx.strokeStyle = "rgba(" + ACC + ",.75)"; ctx.lineWidth = 1.2;
+      ctx.beginPath(); ctx.arc(hb.x, hb.y, 11 + 3 * Math.sin(t * 3 + q), 0, 6.2832); ctx.stroke();
+      ctx.lineWidth = 1;
     });
 
-    /* gaze marker */
-    if (gx > -1e3) {
-      ctx.strokeStyle = "rgba(" + LINE + ",.8)"; ctx.lineWidth = 1.2;
-      ctx.beginPath(); ctx.arc(gx, gy, 8, 0, 6.2832); ctx.stroke();
-      ctx.fillStyle = "#fff"; ctx.beginPath(); ctx.arc(gx, gy, 2.2, 0, 6.2832); ctx.fill();
-      ctx.lineWidth = 1;
-    }
-
-    /* pulses along sphere links */
+    /* pulses */
     pulses = pulses.filter(function (p) { return t - p.t < p.d; });
-    ctx.fillStyle = "#fff"; ctx.shadowColor = acc; ctx.shadowBlur = 10;
+    ctx.fillStyle = hot; ctx.shadowBlur = dark ? 12 : 0;
     pulses.forEach(function (p) {
-      var u = (t - p.t) / p.d, A = p.a * 3, B = p.b * 3;
-      if (P[A+2] < 0 && P[B+2] < 0) return;
-      ctx.beginPath(); ctx.arc(P[A] + (P[B] - P[A]) * u, P[A+1] + (P[B+1] - P[A+1]) * u, 1.9, 0, 6.2832); ctx.fill();
+      var u = (t - p.t) / p.d;
+      ctx.beginPath(); ctx.arc(p.a.x + (p.b.x - p.a.x) * u, p.a.y + (p.b.y - p.a.y) * u, 2.2, 0, 6.2832); ctx.fill();
     });
     ctx.shadowBlur = 0;
+
+    /* click rings */
+    rings = rings.filter(function (r) { return t - r.t < 1.7; });
+    rings.forEach(function (r) {
+      var age = t - r.t;
+      ctx.strokeStyle = "rgba(" + ACC + "," + (1 - age / 1.7) * .7 + ")"; ctx.lineWidth = 1.5;
+      ctx.beginPath(); ctx.arc(r.x, r.y, age * 420, 0, 6.2832); ctx.stroke();
+    });
+    ctx.lineWidth = 1;
   }
 
   function loop(now) { if (!running) return; frame(now); raf = requestAnimationFrame(loop); }
   function play() { if (reduce || running || !visible || document.hidden) return; running = true; raf = requestAnimationFrame(loop); }
   function stop() { running = false; cancelAnimationFrame(raf); }
 
-  resize(); frame(start + 1500);
+  resize(); frame(start + 1000);
   window.addEventListener("resize", function () { resize(); if (!running) frame(performance.now()); });
+  new MutationObserver(function () { colours(); if (!running) frame(performance.now()); })
+    .observe(document.documentElement, { attributes: true, attributeFilter: ["data-theme"] });
   if ("IntersectionObserver" in window) new IntersectionObserver(function (es) { visible = es[0].isIntersecting; visible ? play() : stop(); }).observe(canvas);
   document.addEventListener("visibilitychange", function () { document.hidden ? stop() : play(); });
 
-  stage.addEventListener("pointermove", function (e) {
-    var bx = canvas.getBoundingClientRect(), x = e.clientX - bx.left, y = e.clientY - bx.top;
-    if (mx > -1e3) speed = Math.max(speed, Math.hypot(x - lastX, y - lastY));
-    lastX = x; lastY = y; mx = x; my = y;
-    try_ = ((x - cx) / w) * 1.1; trx = .3 + ((y - cy) / h) * .8;
-  });
-  stage.addEventListener("pointerleave", function () { mx = my = -1e4; trx = .3; try_ = 0; });
+  stage.addEventListener("pointermove", function (e) { var bx = canvas.getBoundingClientRect(); mx = e.clientX - bx.left; my = e.clientY - bx.top; });
+  stage.addEventListener("pointerleave", function () { mx = my = -1e4; });
   stage.addEventListener("pointerdown", function (e) {
     if (e.target.closest && e.target.closest("a, button")) return;
-    var bx = canvas.getBoundingClientRect(), x = e.clientX - bx.left, y = e.clientY - bx.top, best = -1, bd = 1e9, t = (performance.now() - start) / 1000;
-    for (var k = 0; k < NS; k++) {
-      if (P[k*3+2] < 0) continue;
-      var dd = (P[k*3] - x) * (P[k*3] - x) + (P[k*3+1] - y) * (P[k*3+1] - y);
-      if (dd < bd) { bd = dd; best = k; }
-    }
-    if (best >= 0 && bd < R * R * 1.6) {
-      waves.push({ v: V[best], t: t });
-      for (var e2 = 0; e2 < E.length; e2 += 2) if (Math.random() < .25) pulses.push({ a: E[e2], b: E[e2 + 1], t: t + Math.random() * .4, d: .6 });
-    } else speed = 60;
+    var bx = canvas.getBoundingClientRect(), x = e.clientX - bx.left, y = e.clientY - bx.top, t = (performance.now() - start) / 1000;
+    rings.push({ x: x, y: y, t: t });
+    nodes.forEach(function (n) {
+      if (Math.hypot(n.x - x, n.y - y) < 240) nodes.forEach(function (m) {
+        if (m !== n && Math.hypot(m.x - n.x, m.y - n.y) < LINK && Math.random() < .3) pulses.push({ a: n, b: m, t: t, d: .8 });
+      });
+    });
   });
 
   play();

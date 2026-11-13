@@ -1415,3 +1415,39 @@ html { scrollbar-color: var(--rule) var(--page); accent-color: var(--fill); }
 @keyframes nt-fill { to { width: 100%; } }
 @keyframes nt-in { from { opacity: 0; transform: translateY(10px); } }
 .nt-spin { display: none; }
+
+
+/* ================================================================
+   24. COVERS FOLLOW THE THEME; RAIL SHOWS THEM WHOLE
+   ================================================================ */
+.cv-l { display: none !important; }
+:root[data-theme="light"] .cv-d { display: none !important; }
+:root[data-theme="light"] .cv-l { display: block !important; }
+.slide-media { aspect-ratio: 4 / 3; }
+.slide-media img { object-fit: cover; }
+
+/* ================================================================
+   25. OPENER IN LIGHT MODE
+   The opener and the bar above it follow the theme.
+   ================================================================ */
+.stage { --hot: #FFFFFF; }
+:root[data-theme="light"] .stage {
+  --page: #F5F3F8; --ink: #15111C; --muted: rgba(21,17,28,.62); --rule: rgba(21,17,28,.16);
+  --field: #2A1F45; --accent: #6D28D9; --fill: #6D28D9; --hot: #6D28D9;
+  background: #F5F3F8;
+}
+:root[data-theme="light"] .stage::before {
+  background:
+    radial-gradient(50rem 32rem at 68% 45%, rgba(124,58,237,.10), transparent 70%),
+    linear-gradient(90deg, rgba(245,243,248,.9) 0%, rgba(245,243,248,.45) 40%, rgba(245,243,248,0) 62%),
+    linear-gradient(180deg, rgba(245,243,248,.6) 0%, rgba(245,243,248,0) 18%, rgba(245,243,248,0) 80%, rgba(245,243,248,.9) 100%);
+}
+:root[data-theme="light"] .flag span { background: rgba(21,17,28,.06); }
+.chapters button { color: color-mix(in srgb, var(--ink) 45%, transparent); }
+.chapters button:hover { color: color-mix(in srgb, var(--ink) 80%, transparent); }
+.ch-track { background: var(--rule); }
+:root[data-theme="light"] .dot { text-shadow: none; }
+
+:root[data-theme="light"] .nav { --ink: #15111C; --muted: rgba(21,17,28,.6); --rule: rgba(21,17,28,.15); --page: #F5F3F8; }
+:root[data-theme="light"] .nav.solid, :root[data-theme="light"] .nav.open { background: rgba(245,243,248,.9); border-bottom-color: rgba(21,17,28,.08); }
+@media (max-width: 899px) { :root[data-theme="light"] .nav-links { background: #F5F3F8; } }
