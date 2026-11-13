@@ -1352,24 +1352,8 @@ h1 em, h2 em, h3 em { font-style: normal; color: inherit; }
 ::selection { background: var(--fill); color: #fff; }
 html { scrollbar-color: var(--rule) var(--page); accent-color: var(--fill); }
 
-/* emoji become purple monochrome */
-.sec-title .ico, .mini .emoji {
-  filter: grayscale(1) sepia(1) saturate(3.2) hue-rotate(218deg) brightness(1.15);
-}
-:root[data-theme="light"] .sec-title .ico,
-:root[data-theme="light"] .mini .emoji {
-  filter: grayscale(1) sepia(1) saturate(4) hue-rotate(218deg) brightness(.75);
-}
-
-/* skill logos: single-colour, full colour on hover */
-.iconrow img {
-  filter: grayscale(1) brightness(1.75) contrast(.85);
-  opacity: .9;
-  transition: filter .35s ease, opacity .35s ease, transform .2s ease;
-}
-.iconrow img:hover { filter: none; opacity: 1; }
-:root[data-theme="light"] .iconrow img { filter: grayscale(1) brightness(.35); }
-:root[data-theme="light"] .iconrow img:hover { filter: none; }
+/* emoji and skill logos keep their own colours */
+.sec-title .ico, .mini .emoji, .iconrow img { filter: none; opacity: 1; }
 
 /* photos keep their natural colour under the gentle grade above (no tint) */
 .strip figure::after, .portrait::before { content: none; }
