@@ -1378,3 +1378,19 @@ html { scrollbar-color: var(--rule) var(--page); accent-color: var(--fill); }
 .chip.place.on { background: var(--fill); border-color: var(--fill); color: #fff; }
 .chip.place:focus-visible { outline: 2px solid var(--accent); outline-offset: 2px; }
 @media (max-width: 599px) { .globe-hud b { font-size: 1.15rem; } }
+
+
+/* ================================================================
+   22. OPENER VIDEO
+   Rendered loops behind the opener; on the home page one per
+   chapter, crossfading as the chapters change.
+   ================================================================ */
+.reel { position: absolute; inset: 0; z-index: -2; overflow: hidden; background: var(--night); }
+.reel video {
+  position: absolute; inset: 0; width: 100%; height: 100%;
+  object-fit: cover; object-position: 65% 50%;
+  opacity: 0; transition: opacity 1.1s ease;
+}
+.reel video.on { opacity: 1; }
+.stage-sm .reel video.on { opacity: .6; }
+@media (max-width: 899px) { .reel video { object-position: 70% 50%; } }

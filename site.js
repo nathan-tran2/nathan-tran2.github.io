@@ -454,3 +454,44 @@
   window.addEventListener("scroll", update, { passive: true });
   update();
 })();
+
+
+
+/* ── opener video: one loop per chapter, crossfaded ───────────── */
+(function () {
+  var reel = document.querySelector(".reel");
+  if (!reel) return;
+  var vids = [].slice.call(reel.querySelectorAll("video"));
+  var reduce = window.matchMedia && window.matchMedia("(prefers-reduced-motion: reduce)").matches;
+  var cur = 0, inView = true;
+
+  function playOn(v) {
+    if (reduce || !inView || document.hidden) return;
+    if (v.preload !== "auto") { v.preload = "auto"; v.load(); }
+    var p = v.play(); if (p && p.catch) p.catch(function () {});
+  }
+  function show(i) {
+    if (!vids[i]) return;
+    cur = i;
+    vids.forEach(function (v, k) {
+      v.classList.toggle("on", k === i);
+      if (k === i) playOn(v);
+      else setTimeout(function () { if (!v.classList.contains("on")) v.pause(); }, 1200);
+    });
+    var next = vids[(i + 1) % vids.length];             // warm up the next chapter
+    if (next && next !== vids[i] && next.preload !== "auto") { next.preload = "auto"; next.load(); }
+  }
+
+  if (reduce) vids.forEach(function (v) { v.removeAttribute("autoplay"); v.pause(); });
+  document.addEventListener("nt:chapter", function (e) { show(e.detail); });
+  if ("IntersectionObserver" in window) {
+    new IntersectionObserver(function (es) {
+      inView = es[0].isIntersecting;
+      if (inView) playOn(vids[cur]); else vids.forEach(function (v) { v.pause(); });
+    }).observe(reel);
+  }
+  document.addEventListener("visibilitychange", function () {
+    if (document.hidden) vids.forEach(function (v) { v.pause(); }); else playOn(vids[cur]);
+  });
+  show(0);
+})();
