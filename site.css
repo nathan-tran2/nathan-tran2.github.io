@@ -1384,9 +1384,34 @@ html { scrollbar-color: var(--rule) var(--page); accent-color: var(--fill); }
    only needs to cover the text side */
 .stage::before {
   background:
-    radial-gradient(50rem 32rem at 68% 40%, rgba(124,58,237,.18), transparent 70%),
-    linear-gradient(90deg, rgba(8,6,12,.75) 0%, rgba(8,6,12,.25) 42%, rgba(8,6,12,0) 60%),
+    radial-gradient(50rem 32rem at 68% 45%, rgba(124,58,237,.16), transparent 70%),
+    linear-gradient(90deg, rgba(8,6,12,.82) 0%, rgba(8,6,12,.4) 40%, rgba(8,6,12,0) 62%),
     linear-gradient(180deg, rgba(8,6,12,.5) 0%, rgba(8,6,12,0) 18%, rgba(8,6,12,0) 80%, rgba(8,6,12,.85) 100%);
 }
-.stage-sm .field { opacity: .8; }
+.stage-sm .field { opacity: .85; }
 #field-hint { display: none; }
+
+
+/* ================================================================
+   23. LOADING SCREEN
+   Wordmark, a progress line and where you're heading.
+   ================================================================ */
+.nt-load { display: grid; justify-items: center; gap: 1.1rem; text-align: center; padding: 0 1.5rem; }
+.nt-to {
+  margin: 0; min-height: 1em;
+  font-size: .66rem; font-weight: 600; letter-spacing: .26em; text-transform: uppercase; color: var(--muted);
+}
+.nt-to b { color: var(--accent); font-weight: 600; margin-right: .7em; letter-spacing: .06em; }
+.nt-mark {
+  margin: 0;
+  font-family: var(--sans); font-weight: 400; text-transform: uppercase;
+  font-size: clamp(2.4rem, 6.5vw, 4.8rem); line-height: .9; letter-spacing: -.04em; color: var(--ink);
+}
+.nt-bar { position: relative; display: block; width: min(17rem, 62vw); height: 1px; background: var(--rule); overflow: hidden; }
+.nt-bar i { position: absolute; left: 0; top: 0; bottom: 0; width: 0; background: var(--accent); box-shadow: 0 0 12px var(--accent); }
+.nt-loader.is-on .nt-bar i { animation: nt-fill .52s cubic-bezier(.65, 0, .35, 1) forwards; }
+.nt-loader.is-on .nt-mark { animation: nt-in .42s cubic-bezier(.16, 1, .3, 1) both; }
+.nt-loader.is-on .nt-to { animation: nt-in .42s cubic-bezier(.16, 1, .3, 1) .05s both; }
+@keyframes nt-fill { to { width: 100%; } }
+@keyframes nt-in { from { opacity: 0; transform: translateY(10px); } }
+.nt-spin { display: none; }

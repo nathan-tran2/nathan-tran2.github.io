@@ -1,0 +1,207 @@
+<!doctype html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>Opener Options</title>
+<link href="https://fonts.googleapis.com/css2?family=Figtree:wght@400;500;600;700&display=swap" rel="stylesheet">
+<style>
+  :root { --bg:#08060C; --ink:#F1EDF8; --muted:rgba(241,237,248,.66); --acc:#A77BFF; --fill:#7C3AED; }
+  * { box-sizing: border-box; }
+  html, body { margin: 0; height: 100%; background: var(--bg); color: var(--ink); font-family: Figtree, "Segoe UI", system-ui, sans-serif; overflow: hidden; }
+  canvas { position: fixed; inset: 0; width: 100%; height: 100%; display: block; }
+  .shade { position: fixed; inset: 0; pointer-events: none;
+    background: linear-gradient(90deg, rgba(8,6,12,.8) 0%, rgba(8,6,12,.3) 42%, rgba(8,6,12,0) 62%),
+                linear-gradient(180deg, rgba(8,6,12,.5) 0%, rgba(8,6,12,0) 20%, rgba(8,6,12,0) 78%, rgba(8,6,12,.85) 100%); }
+  .tabs { position: fixed; top: 18px; left: 50%; transform: translateX(-50%); z-index: 5; display: flex; gap: 0; border: 1px solid rgba(241,237,248,.22); background: rgba(8,6,12,.7); backdrop-filter: blur(10px); }
+  .tabs button { font: 600 11px/1 Figtree, sans-serif; letter-spacing: .18em; text-transform: uppercase; color: var(--muted); background: none; border: 0; padding: 13px 18px; cursor: pointer; }
+  .tabs button span { font-size: 9px; letter-spacing: .04em; margin-right: 8px; opacity: .7; }
+  .tabs button.on { background: var(--fill); color: #fff; }
+  .copy { position: fixed; left: max(16px, 6vw); bottom: 12vh; z-index: 3; pointer-events: none; max-width: 92vw; }
+  .eyebrow { font-size: 11px; font-weight: 600; letter-spacing: .26em; text-transform: uppercase; margin: 0 0 14px; }
+  h1 { margin: 0; font-weight: 400; text-transform: uppercase; letter-spacing: -.04em; line-height: .9; font-size: clamp(56px, 10.5vw, 160px); }
+  h1 i { font-style: normal; color: var(--acc); text-shadow: 0 0 18px rgba(167,123,255,.7); }
+  .hint { position: fixed; right: max(16px, 4vw); bottom: 5vh; z-index: 3; font-size: 11px; letter-spacing: .18em; text-transform: uppercase; color: var(--muted); text-align: right; max-width: 60vw; }
+  @media (max-width: 640px) { .tabs { top: 10px; width: calc(100% - 20px); } .tabs button { flex: 1; padding: 12px 6px; font-size: 10px; letter-spacing: .1em; } .tabs button span { display: none; } .copy { bottom: 16vh; } .hint { left: 16px; right: 16px; text-align: left; max-width: none; } }
+</style>
+</head>
+<body>
+<canvas id="c"></canvas>
+<div class="shade"></div>
+<nav class="tabs">
+  <button data-m="eye" class="on"><span>01</span>Watching eye</button>
+  <button data-m="aurora"><span>02</span>Liquid aurora</button>
+  <button data-m="net"><span>03</span>Neural network</button>
+</nav>
+<div class="copy">
+  <p class="eyebrow">Undergraduate Researcher · NC State</p>
+  <h1>Nathan Tran<i>.</i></h1>
+</div>
+<p class="hint" id="hint"></p>
+<script>
+(function () {
+  var cv = document.getElementById("c"), ctx = cv.getContext("2d"), hint = document.getElementById("hint");
+  var W = 0, H = 0, dpr = 1, mx = -1e4, my = -1e4, pmx = 0, pmy = 0, speed = 0, mode = "eye", t0 = performance.now();
+  var HINTS = { eye: "Move your mouse · it follows you and blinks · click to make it focus",
+                aurora: "Move your mouse to stir the light · move fast to make it swirl",
+                net: "Move your mouse · nearby nodes reach for it · click to send a pulse" };
+  function resize() { dpr = Math.min(devicePixelRatio || 1, 2); W = innerWidth; H = innerHeight; cv.width = W * dpr; cv.height = H * dpr; ctx.setTransform(dpr, 0, 0, dpr, 0, 0); net.init(); }
+  addEventListener("resize", resize);
+  addEventListener("pointermove", function (e) { speed = Math.max(speed, Math.hypot(e.clientX - pmx, e.clientY - pmy)); pmx = mx = e.clientX; pmy = my = e.clientY; });
+  addEventListener("pointerleave", function () { mx = my = -1e4; });
+  addEventListener("pointerdown", function (e) { if (e.target.closest("button")) return; ({ eye: eye, aurora: aurora, net: net })[mode].click(e.clientX, e.clientY); });
+  [].forEach.call(document.querySelectorAll(".tabs button"), function (b) {
+    b.onclick = function () { document.querySelector(".tabs .on").classList.remove("on"); b.classList.add("on"); mode = b.dataset.m; hint.textContent = HINTS[mode]; };
+  });
+  hint.textContent = HINTS[mode];
+  var center = function () { return W < 700 ? [W * .55, H * .32] : [W * .68, H * .42]; };
+
+  /* ---------- 01 watching eye ---------- */
+  var eye = (function () {
+    var px = 0, py = 0, pupil = .32, focus = 0, nextBlink = 2.5, blinkT = -1;
+    var fib = []; for (var i = 0; i < 220; i++) fib.push({ a: i / 220 * 6.2832 + Math.sin(i * 7.1) * .02, l: .55 + .4 * Math.abs(Math.sin(i * 3.7)), w: .4 + Math.abs(Math.sin(i * 1.3)) * .9, c: Math.sin(i * 5.3) > .3 });
+    function draw(t) {
+      var c = center(), R = Math.min(W, H) * (W < 700 ? .3 : .3), cx = c[0], cy = c[1];
+      var tx = mx > -1e3 ? mx : cx + Math.sin(t * .6) * R, ty = my > -1e3 ? my : cy + Math.cos(t * .45) * R * .4;
+      var dx = tx - cx, dy = ty - cy, d = Math.hypot(dx, dy) || 1, lim = R * .28, k = Math.min(d, R * 1.6) / (R * 1.6);
+      px += (dx / d * lim * k - px) * .12; py += (dy / d * lim * k - py) * .12;
+      focus *= .95;
+      var want = .3 - .08 * (1 - k) + .12 * focus; pupil += (want - pupil) * .08;
+      if (t > nextBlink && blinkT < 0) { blinkT = t; nextBlink = t + 3 + Math.random() * 3; }
+      var lid = 0; if (blinkT >= 0) { var u = (t - blinkT) / .32; lid = u < .5 ? u * 2 : 2 - u * 2; if (u >= 1) { blinkT = -1; lid = 0; } }
+      // HUD rings
+      ctx.save(); ctx.translate(cx, cy);
+      ctx.strokeStyle = "rgba(167,123,255,.25)"; ctx.lineWidth = 1;
+      ctx.beginPath(); ctx.arc(0, 0, R * 1.32, 0, 6.2832); ctx.stroke();
+      for (var i = 0; i < 72; i++) { var a = i / 72 * 6.2832 + t * .05, r1 = R * 1.32, r2 = r1 + (i % 6 ? 6 : 14); ctx.beginPath(); ctx.moveTo(Math.cos(a) * r1, Math.sin(a) * r1); ctx.lineTo(Math.cos(a) * r2, Math.sin(a) * r2); ctx.stroke(); }
+      ctx.setLineDash([2, 10]); ctx.beginPath(); ctx.arc(0, 0, R * 1.5, -t * .1, -t * .1 + 4); ctx.stroke(); ctx.setLineDash([]);
+      // iris, offset toward the target
+      ctx.translate(px, py);
+      var g = ctx.createRadialGradient(0, 0, R * pupil * .8, 0, 0, R);
+      g.addColorStop(0, "#2a1458"); g.addColorStop(.45, "#5b2fc9"); g.addColorStop(.85, "#3b1c7a"); g.addColorStop(1, "rgba(20,10,40,0)");
+      ctx.fillStyle = g; ctx.beginPath(); ctx.arc(0, 0, R, 0, 6.2832); ctx.fill();
+      ctx.globalCompositeOperation = "lighter";
+      fib.forEach(function (f) {
+        var a = f.a + Math.sin(t * .7 + f.a * 3) * .01, r0 = R * pupil * 1.05, r1 = R * f.l;
+        ctx.strokeStyle = f.c ? "rgba(200,170,255,.55)" : "rgba(124,58,237,.6)"; ctx.lineWidth = f.w;
+        ctx.beginPath(); ctx.moveTo(Math.cos(a) * r0, Math.sin(a) * r0);
+        ctx.quadraticCurveTo(Math.cos(a + .06) * (r0 + r1) / 2, Math.sin(a + .06) * (r0 + r1) / 2, Math.cos(a) * r1, Math.sin(a) * r1); ctx.stroke();
+      });
+      ctx.strokeStyle = "rgba(220,200,255,.6)"; ctx.lineWidth = 1.5; ctx.beginPath(); ctx.arc(0, 0, R * .98, 0, 6.2832); ctx.stroke();
+      ctx.globalCompositeOperation = "source-over";
+      ctx.fillStyle = "#050308"; ctx.beginPath(); ctx.arc(0, 0, R * pupil, 0, 6.2832); ctx.fill();
+      ctx.strokeStyle = "rgba(167,123,255,.8)"; ctx.lineWidth = 1.2; ctx.stroke();
+      ctx.fillStyle = "rgba(255,255,255,.85)"; ctx.beginPath(); ctx.ellipse(-R * pupil * .45, -R * pupil * .5, R * .06, R * .035, -.6, 0, 6.2832); ctx.fill();
+      ctx.restore();
+      // eyelids
+      if (lid > 0) {
+        ctx.fillStyle = "#08060C";
+        var h = R * 1.35 * lid;
+        ctx.beginPath(); ctx.ellipse(cx, cy - R * 1.4 + h, R * 1.6, R * 1.4, 0, 0, 6.2832); ctx.fill();
+        ctx.beginPath(); ctx.ellipse(cx, cy + R * 1.4 - h, R * 1.6, R * 1.4, 0, 0, 6.2832); ctx.fill();
+      }
+    }
+    return { draw: draw, click: function () { focus = 1; } };
+  })();
+
+  /* ---------- 02 liquid aurora ---------- */
+  var aurora = (function () {
+    var blobs = [], trail = [];
+    for (var i = 0; i < 9; i++) blobs.push({ ph: i * 1.7, sp: .12 + i * .02, r: .28 + (i % 3) * .08, col: ["124,58,237", "167,123,255", "76,29,149", "196,160,255"][i % 4] });
+    function draw(t) {
+      var c = center();
+      ctx.globalCompositeOperation = "lighter";
+      blobs.forEach(function (b, i) {
+        var x = c[0] + Math.sin(t * b.sp + b.ph) * W * .22 + Math.sin(t * b.sp * 2.3 + i) * W * .06;
+        var y = c[1] + Math.cos(t * b.sp * 1.3 + b.ph) * H * .22;
+        if (mx > -1e3) { var dx = mx - x, dy = my - y, d = Math.hypot(dx, dy); var pull = Math.min(1, 260 / (d + 60)) * .35; x += dx * pull; y += dy * pull; }
+        var r = Math.min(W, H) * b.r * (1 + .15 * Math.sin(t * .8 + i));
+        var g = ctx.createRadialGradient(x, y, 0, x, y, r);
+        g.addColorStop(0, "rgba(" + b.col + ",.34)"); g.addColorStop(.5, "rgba(" + b.col + ",.12)"); g.addColorStop(1, "rgba(" + b.col + ",0)");
+        ctx.fillStyle = g; ctx.fillRect(x - r, y - r, r * 2, r * 2);
+      });
+      if (mx > -1e3 && (!trail.length || t - trail[trail.length - 1].t > .06)) trail.push({ x: mx, y: my, t: t, s: Math.min(speed, 80) });
+      trail = trail.filter(function (p) { return t - p.t < 1.6; });
+      trail.forEach(function (p) {
+        var age = (t - p.t) / 1.6, r = 60 + p.s * 2.4 + age * 160, a = (1 - age) * (.025 + p.s * .0012);
+        var sw = age * 3 + p.t; var x = p.x + Math.cos(sw) * age * 40, y = p.y + Math.sin(sw) * age * 40;
+        var g = ctx.createRadialGradient(x, y, 0, x, y, r);
+        g.addColorStop(0, "rgba(167,123,255," + a + ")"); g.addColorStop(1, "rgba(124,58,237,0)");
+        ctx.fillStyle = g; ctx.fillRect(x - r, y - r, r * 2, r * 2);
+      });
+      ctx.globalCompositeOperation = "source-over";
+      // fine silk lines on top
+      ctx.strokeStyle = "rgba(220,205,255,.10)"; ctx.lineWidth = 1;
+      for (var k = 0; k < 18; k++) {
+        ctx.beginPath();
+        for (var x = 0; x <= W; x += 16) {
+          var y = H * (.18 + k * .04) + Math.sin(x * .004 + t * .35 + k * .4) * 60 + Math.sin(x * .011 - t * .5 + k) * 18;
+          if (mx > -1e3) { var d = Math.hypot(x - mx, y - my); y += Math.exp(-d * d / 9000) * 40 * Math.sin(t * 3 + k); }
+          x ? ctx.lineTo(x, y) : ctx.moveTo(x, y);
+        }
+        ctx.stroke();
+      }
+    }
+    return { draw: draw, click: function (x, y) { speed = 90; } };
+  })();
+
+  /* ---------- 03 neural network ---------- */
+  var net = (function () {
+    var N = [], pulses = [], rings = [];
+    function init() {
+      N = []; var count = Math.round(Math.min(130, W * H / 9000));
+      for (var i = 0; i < count; i++) N.push({ x: Math.random() * W, y: Math.random() * H, vx: (Math.random() - .5) * .25, vy: (Math.random() - .5) * .25, r: 1.2 + Math.random() * 1.8 });
+    }
+    function draw(t) {
+      var LINK = Math.min(170, W * .12);
+      N.forEach(function (n) {
+        n.x += n.vx; n.y += n.vy;
+        if (n.x < 0 || n.x > W) n.vx *= -1; if (n.y < 0 || n.y > H) n.vy *= -1;
+        if (mx > -1e3) { var dx = mx - n.x, dy = my - n.y, d = Math.hypot(dx, dy); if (d < 220) { n.x += dx * .006; n.y += dy * .006; } }
+        rings.forEach(function (r) { var dx = n.x - r.x, dy = n.y - r.y, d = Math.hypot(dx, dy) || 1, front = (t - r.t) * 420; if (Math.abs(d - front) < 30) { n.x += dx / d * 3; n.y += dy / d * 3; } });
+      });
+      for (var i = 0; i < N.length; i++) for (var j = i + 1; j < N.length; j++) {
+        var a = N[i], b = N[j], d = Math.hypot(a.x - b.x, a.y - b.y);
+        if (d < LINK) { ctx.strokeStyle = "rgba(167,123,255," + (1 - d / LINK) * .35 + ")"; ctx.lineWidth = 1; ctx.beginPath(); ctx.moveTo(a.x, a.y); ctx.lineTo(b.x, b.y); ctx.stroke();
+          if (Math.random() < .0009) pulses.push({ a: a, b: b, t: t }); }
+      }
+      if (mx > -1e3) N.forEach(function (n) {
+        var d = Math.hypot(n.x - mx, n.y - my);
+        if (d < 220) { ctx.strokeStyle = "rgba(230,215,255," + (1 - d / 220) * .8 + ")"; ctx.lineWidth = 1.2; ctx.beginPath(); ctx.moveTo(n.x, n.y); ctx.lineTo(mx, my); ctx.stroke(); }
+      });
+      N.forEach(function (n) {
+        var hot = mx > -1e3 && Math.hypot(n.x - mx, n.y - my) < 220;
+        ctx.fillStyle = hot ? "#fff" : "rgba(196,170,255,.85)";
+        ctx.shadowColor = "#A77BFF"; ctx.shadowBlur = hot ? 12 : 0;
+        ctx.beginPath(); ctx.arc(n.x, n.y, n.r * (hot ? 1.6 : 1), 0, 6.2832); ctx.fill();
+      });
+      ctx.shadowBlur = 0;
+      pulses = pulses.filter(function (p) { return t - p.t < .9; });
+      pulses.forEach(function (p) {
+        var u = (t - p.t) / .9, x = p.a.x + (p.b.x - p.a.x) * u, y = p.a.y + (p.b.y - p.a.y) * u;
+        ctx.fillStyle = "#fff"; ctx.shadowColor = "#A77BFF"; ctx.shadowBlur = 14; ctx.beginPath(); ctx.arc(x, y, 2.4, 0, 6.2832); ctx.fill(); ctx.shadowBlur = 0;
+      });
+      rings = rings.filter(function (r) { return t - r.t < 1.6; });
+      rings.forEach(function (r) {
+        var age = t - r.t; ctx.strokeStyle = "rgba(167,123,255," + (1 - age / 1.6) * .7 + ")"; ctx.lineWidth = 1.5;
+        ctx.beginPath(); ctx.arc(r.x, r.y, age * 420, 0, 6.2832); ctx.stroke();
+      });
+    }
+    return { draw: draw, init: init, click: function (x, y) {
+      var t = (performance.now() - t0) / 1000; rings.push({ x: x, y: y, t: t });
+      N.forEach(function (n) { if (Math.hypot(n.x - x, n.y - y) < 260) N.forEach(function (m) { if (m !== n && Math.hypot(m.x - n.x, m.y - n.y) < 150 && Math.random() < .3) pulses.push({ a: n, b: m, t: t }); }); });
+    } };
+  })();
+
+  resize();
+  (function loop(now) {
+    var t = (now - t0) / 1000;
+    ctx.clearRect(0, 0, W, H);
+    ({ eye: eye, aurora: aurora, net: net })[mode].draw(t);
+    speed *= .9;
+    requestAnimationFrame(loop);
+  })(performance.now());
+})();
+</script>
+</body>
+</html>
