@@ -1,0 +1,70 @@
+<!doctype html>
+<html lang="en" data-theme="dark">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>WolfCafe · Nathan Tran</title>
+<meta name="description" content="A full-stack caf&eacute; ordering platform with role-based access.">
+<meta name="theme-color" content="#000000">
+<meta property="og:title" content="WolfCafe · Nathan Tran">
+<meta property="og:description" content="A full-stack caf&eacute; ordering platform with role-based access.">
+<meta property="og:type" content="website">
+<link rel="icon" href="../favicon.svg" type="image/svg+xml">
+<link rel="icon" href="../favicon.ico" sizes="any">
+<link rel="apple-touch-icon" href="../apple-touch-icon.png">
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Schibsted+Grotesk:wght@400;500;600;800&amp;display=swap" rel="stylesheet">
+<link rel="stylesheet" href="../site.css?v=30">
+<script>try{if(localStorage.getItem("theme")==="light")document.documentElement.setAttribute("data-theme","light")}catch(e){}</script>
+</head>
+<body>
+<a class="skip" href="#main">Skip to content</a>
+<header class="top">
+  <div class="wrap">
+    <a class="brand" href="../index.html" data-label="Home" aria-label="Nathan Tran, home"><svg viewBox="0 0 64 64" fill="none" stroke="currentColor" stroke-width="2.6" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><circle cx="32" cy="32" r="29"/><path d="M19 43V21L37 43V21M28.5 21H45.5"/></svg><span>NATHAN TRAN</span></a>
+    <nav class="links" aria-label="Main"><a href="../index.html">Home</a><a href="../projects.html" aria-current="page">Projects</a><a href="../experience.html">Experience</a><a href="../about.html">About</a></nav>
+    <button class="icon-btn" type="button" data-theme-toggle aria-label="Switch to light mode"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" aria-hidden="true"><circle cx="12" cy="12" r="8.5"/><path d="M12 3.5a8.5 8.5 0 0 0 0 17z" fill="currentColor"/></svg></button>
+    <a class="btn cv" href="../Nathan-Tran-Resume.pdf?v=5" target="_blank" rel="noopener">Resume</a>
+    <button class="icon-btn menu-btn" type="button" aria-expanded="false" aria-controls="sheet" aria-label="Open menu"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" aria-hidden="true"><path d="M4 8h16M4 16h16"/></svg></button>
+  </div>
+</header>
+<div class="sheet" id="sheet"><a href="../index.html">Home</a><a href="../projects.html" aria-current="page">Projects</a><a href="../experience.html">Experience</a><a href="../about.html">About</a><a class="btn" href="../Nathan-Tran-Resume.pdf?v=5" target="_blank" rel="noopener">Resume</a></div>
+<div class="loader" aria-hidden="true"><div class="in"><svg viewBox="0 0 64 64" fill="none" stroke="currentColor" stroke-width="1.6" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><circle cx="32" cy="32" r="29"/><path d="M19 43V21L37 43V21M28.5 21H45.5"/></svg><span class="word">NATHAN TRAN</span><span class="bar"><i></i></span><span class="to"></span></div></div>
+<main id="main">
+<section class="night banner project">
+  <canvas class="sky" data-density="3400" aria-hidden="true"></canvas>
+  <div class="wrap"><p class="crumb"><a href="../projects.html">Projects</a> <span aria-hidden="true">/</span> Software</p><h1>WolfCafe</h1><p class="lede">A full-stack caf&eacute; ordering platform with role-based access.</p></div>
+</section>
+<div class="wrap">
+  <dl class="meta"><div><dt>Role</dt><dd>Contributor</dd></div><div><dt>Team</dt><dd>Team project, tracked on a GitHub Projects board</dd></div><div><dt>Course</dt><dd>CSC 326, Software Engineering</dd></div><div><dt>Stack</dt><dd>Spring Boot, React, MySQL</dd></div></dl>
+  
+  <figure class="hero-pic"><img class="cv-d" src="../images/cover-cafe.svg?v=8" alt="WolfCafe project illustration" loading="lazy"><img class="cv-l" src="../images/cover-cafe-light.svg?v=8" alt="" aria-hidden="true" loading="lazy"></figure>
+  <section class="doc"><h2>Overview</h2><div class="body"><p>A full-stack caf&eacute; ordering system: a Spring Boot REST API behind a React single-page frontend.</p></div></section>
+<section class="doc"><h2>How it works</h2><div class="body"><ul class="dots"><li>Spring Security issues JWTs and gates every endpoint against four roles: admin, staff, customer, and a delivery driver role our team added.</li><li>Orders move from pending to ready for pickup to completed, with a separate delivering and delivered path once a driver claims one.</li><li>The backend is layered controller, service, repository, with DTOs and ModelMapper keeping entities off the wire, persisted to MySQL through JPA.</li><li>Admins set a tax rate that records who changed it and when.</li></ul></div></section>
+<section class="doc"><h2>Quality</h2><div class="body"><div class="stats"><div><b>198</b><span>JUnit and Mockito tests</span></div><div><b>4</b><span>roles, each limited to what it should reach</span></div><div><b>2</b><span>order paths: pickup and delivery</span></div><div><b>3</b><span>layers: controller, service, repository</span></div></div><p>The tests cover the repository, service and controller layers, including a suite that checks each role can reach only what it should. The Maven build runs Checkstyle and JaCoCo. We also did an accessibility pass: rem-based sizing throughout, screen-reader-friendly navigation links in place of buttons, and a colorblind-safe palette.</p></div></section>
+<section class="doc"><h2>Tools</h2><div class="body"><ul class="chips"><li class="chip">Java</li><li class="chip">Spring Boot</li><li class="chip">Spring Security</li><li class="chip">JWT</li><li class="chip">JPA / Hibernate</li><li class="chip">MySQL</li><li class="chip">React</li><li class="chip">Vite</li><li class="chip">JUnit</li><li class="chip">Mockito</li></ul></div></section>
+
+  <nav class="pager" aria-label="More projects">
+    <a href="facial-recognition-atm.html"><span>Previous</span><b>Facial Recognition ATM</b></a>
+    <a class="next" href="coffeemaker.html"><span>Next</span><b>CoffeeMaker</b></a>
+  </nav>
+</div>
+<div style="height:clamp(72px,9vw,120px)"></div>
+</main>
+<footer class="foot night">
+  <div class="wrap">
+    <h2>Looking for a lab for Fall 2027.</h2>
+    <p class="say">I'm applying to M.S. and Ph.D. programs in Computer Science. If your lab works on XR, eye tracking or physiological sensing, I'd like to hear from you.</p>
+    <div class="acts">
+      <a class="btn solid" href="mailto:Nathantran247@gmail.com">Nathantran247@gmail.com</a>
+      <a class="btn" href="https://www.linkedin.com/in/nathan-tran2/" target="_blank" rel="noopener">LinkedIn</a>
+      <a class="btn" href="https://scholar.google.com/citations?user=fZ4rutkAAAAJ" target="_blank" rel="noopener">Google Scholar</a>
+      <a class="btn" href="../Nathan-Tran-Resume.pdf?v=5" target="_blank" rel="noopener">Resume</a>
+    </div>
+    <div class="base"><span>&copy; 2026 Nathan Tran</span><nav aria-label="Footer"><a href="../index.html">Home</a><a href="../projects.html">Projects</a><a href="../experience.html">Experience</a><a href="../about.html">About</a></nav></div>
+  </div>
+</footer>
+<script src="../site.js?v=30"></script>
+</body>
+</html>

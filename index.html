@@ -1,295 +1,149 @@
-<!DOCTYPE html>
-<html lang="en">
+<!doctype html>
+<html lang="en" data-theme="dark">
 <head>
 <meta charset="utf-8">
 <meta name="viewport" content="width=device-width, initial-scale=1">
-<meta name="theme-color" content="#F4F2EE">
-
-<title>Nathan Tran</title>
-<meta name="description" content="Nathan Tran is an undergraduate researcher at NC State's Extended Horizon Lab working on AI-powered XR systems, eye tracking, and multimodal sensing.">
-<meta property="og:title" content="Nathan Tran">
-<meta property="og:description" content="Nathan Tran is an undergraduate researcher at NC State's Extended Horizon Lab working on AI-powered XR systems, eye tracking, and multimodal sensing.">
+<title>Nathan Tran · Undergraduate Researcher, NC State</title>
+<meta name="description" content="Nathan Tran builds XR systems that read gaze and physiology, so AI agents know when to step in. Undergraduate researcher in the Extended Horizon Lab at NC State.">
+<meta name="theme-color" content="#000000">
+<meta property="og:title" content="Nathan Tran · Undergraduate Researcher, NC State">
+<meta property="og:description" content="Nathan Tran builds XR systems that read gaze and physiology, so AI agents know when to step in. Undergraduate researcher in the Extended Horizon Lab at NC State.">
 <meta property="og:type" content="website">
-<meta property="og:image" content="images/nathan.jpg?v=5">
-
-<!-- Applies a saved theme before first paint, so there's no flash.
-     Light is the default; dark only when chosen. -->
-<script>
-(function () {
-  document.documentElement.classList.add("js");
-  try {
-    if (localStorage.getItem("theme") !== "dark")
-      document.documentElement.setAttribute("data-theme", "light");
-  } catch (e) {}
-})();
-</script>
-
+<link rel="icon" href="favicon.svg" type="image/svg+xml">
+<link rel="icon" href="favicon.ico" sizes="any">
+<link rel="apple-touch-icon" href="apple-touch-icon.png">
 <link rel="preconnect" href="https://fonts.googleapis.com">
 <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
-<link href="https://fonts.googleapis.com/css2?family=Figtree:wght@300;400;500;600;700&display=swap" rel="stylesheet">
-<link rel="stylesheet" href="site.css?v=24">
+<link href="https://fonts.googleapis.com/css2?family=Schibsted+Grotesk:wght@400;500;600;800&amp;display=swap" rel="stylesheet">
+<link rel="stylesheet" href="site.css?v=30">
+<script>try{if(localStorage.getItem("theme")==="light")document.documentElement.setAttribute("data-theme","light")}catch(e){}</script>
 </head>
-
 <body>
-  <header class="nav" id="nav">
-    <div class="wrap nav-in">
-      <a class="brand" href="index.html">Nathan Tran<span class="dot">.</span></a>
-      <nav class="nav-links" id="nav-links" aria-label="Main">
-        <a href="index.html" aria-current="page">Home</a>
-        <a href="projects.html">Projects</a>
-        <a href="experience.html">Experience</a>
-        <a href="about.html">About</a>
-      </nav>
-      <div class="nav-tools">
-        <button class="icon-btn" id="theme-toggle" type="button" aria-label="Switch colour theme">
-          <svg class="icon-sun" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><circle cx="12" cy="12" r="4.2"/><path d="M12 2v2M12 20v2M4.9 4.9l1.4 1.4M17.7 17.7l1.4 1.4M2 12h2M20 12h2M4.9 19.1l1.4-1.4M17.7 6.3l1.4-1.4"/></svg>
-          <svg class="icon-moon" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M21 12.79A9 9 0 1 1 11.21 3 7 7 0 0 0 21 12.79z"/></svg>
-        </button>
-        <a class="btn primary" href="Nathan-Tran-Resume.pdf?v=5" target="_blank" rel="noopener">Resume</a>
-        <button class="icon-btn menu-btn" type="button" aria-label="Menu" aria-expanded="false" aria-controls="nav-links">
-          <svg class="bars" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" aria-hidden="true"><path d="M4 8h16M4 16h16"/></svg>
-          <svg class="x" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" aria-hidden="true"><path d="M6 6l12 12M18 6 6 18"/></svg>
-        </button>
+<a class="skip" href="#main">Skip to content</a>
+<header class="top">
+  <div class="wrap">
+    <a class="brand" href="index.html" data-label="Home" aria-label="Nathan Tran, home"><svg viewBox="0 0 64 64" fill="none" stroke="currentColor" stroke-width="2.6" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><circle cx="32" cy="32" r="29"/><path d="M19 43V21L37 43V21M28.5 21H45.5"/></svg><span>NATHAN TRAN</span></a>
+    <nav class="links" aria-label="Main"><a href="index.html" aria-current="page">Home</a><a href="projects.html">Projects</a><a href="experience.html">Experience</a><a href="about.html">About</a></nav>
+    <button class="icon-btn" type="button" data-theme-toggle aria-label="Switch to light mode"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" aria-hidden="true"><circle cx="12" cy="12" r="8.5"/><path d="M12 3.5a8.5 8.5 0 0 0 0 17z" fill="currentColor"/></svg></button>
+    <a class="btn cv" href="Nathan-Tran-Resume.pdf?v=5" target="_blank" rel="noopener">Resume</a>
+    <button class="icon-btn menu-btn" type="button" aria-expanded="false" aria-controls="sheet" aria-label="Open menu"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" aria-hidden="true"><path d="M4 8h16M4 16h16"/></svg></button>
+  </div>
+</header>
+<div class="sheet" id="sheet"><a href="index.html" aria-current="page">Home</a><a href="projects.html">Projects</a><a href="experience.html">Experience</a><a href="about.html">About</a><a class="btn" href="Nathan-Tran-Resume.pdf?v=5" target="_blank" rel="noopener">Resume</a></div>
+<div class="loader" aria-hidden="true"><div class="in"><svg viewBox="0 0 64 64" fill="none" stroke="currentColor" stroke-width="1.6" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><circle cx="32" cy="32" r="29"/><path d="M19 43V21L37 43V21M28.5 21H45.5"/></svg><span class="word">NATHAN TRAN</span><span class="bar"><i></i></span><span class="to"></span></div></div>
+<main id="main">
+<section class="night stage" aria-label="Introduction">
+  <canvas class="sky" data-labels="Gaze,Sensing,Agents" data-cx=".74" data-cy=".36" data-rx=".14" data-ry=".2" aria-hidden="true"></canvas>
+  <span class="hint" aria-hidden="true">Move your cursor to draw constellations.</span>
+  <div class="wrap">
+    <div class="row">
+      <div>
+        <h1>Nathan<br>Tran</h1>
+        <p class="lede">Building systems that notice you: XR that reads gaze and physiology, and AI agents that know when to step in.</p>
+      </div>
+      <aside>
+        <b>Undergraduate Researcher, NC State</b>Applying to M.S./Ph.D. programs, Fall 2027
+        <div class="acts"><a class="btn solid" href="#research">See my research</a><a class="btn" href="mailto:Nathantran247@gmail.com">Email me</a></div>
+      </aside>
+    </div>
+  </div>
+</section>
+
+<section class="sec" id="research">
+  <div class="wrap">
+    <div class="head">
+      <div><h2>Research</h2><p>Three threads in Prof. Qiao Jin's Extended Horizon Lab: where people look, what their bodies say, and how AI agents act on it.</p></div>
+      <div class="strip-nav" data-strip="research-strip">
+        <button type="button" data-dir="-1" aria-label="Previous projects"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M19 12H5"/><path d="m11 6-6 6 6 6"/></svg></button>
+        <button type="button" data-dir="1" aria-label="More projects"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M5 12h14"/><path d="m13 6 6 6-6 6"/></svg></button>
       </div>
     </div>
-  </header>
+    <div class="strip" id="research-strip">
+<a class="card" href="projects/mrpilot.html" id="mrpilot">
+  <div class="pic"><img class="cv-d" src="images/cover-mrpilot.svg?v=8" alt="" loading="lazy"><img class="cv-l" src="images/cover-mrpilot-light.svg?v=8" alt="" aria-hidden="true" loading="lazy"></div>
+  <div class="txt"><span class="tag">Agents &middot; Preprint</span><h3>MRPilot</h3><p>Supervising and correcting LLM-driven robot teams in mixed reality.</p><span class="go">Read more <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M5 12h14"/><path d="m13 6 6 6-6 6"/></svg></span></div>
+</a>
+<a class="card" href="projects/attention-agent.html" id="attention-agent">
+  <div class="pic"><img class="cv-d" src="images/cover-attention.svg?v=8" alt="" loading="lazy"><img class="cv-l" src="images/cover-attention-light.svg?v=8" alt="" aria-hidden="true" loading="lazy"></div>
+  <div class="txt"><span class="tag">Gaze &middot; In progress</span><h3>Attention-Aware AI Agent</h3><p>Eye tracking tells a VR agent when you're stuck, so help arrives before you ask.</p><span class="go">Read more <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M5 12h14"/><path d="m13 6 6 6-6 6"/></svg></span></div>
+</a>
+<a class="card" href="projects/pulsecoach.html" id="pulsecoach">
+  <div class="pic"><img class="cv-d" src="images/cover-pulsecoach.svg?v=8" alt="" loading="lazy"><img class="cv-l" src="images/cover-pulsecoach-light.svg?v=8" alt="" aria-hidden="true" loading="lazy"></div>
+  <div class="txt"><span class="tag">Sensing &middot; UIST &rsquo;26 contest</span><h3>PulseCoach</h3><p>Stress coaching timed to the calm phase of each heartbeat.</p><span class="go">Read more <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M5 12h14"/><path d="m13 6 6 6-6 6"/></svg></span></div>
+</a>
+<a class="card" href="projects/adaptive-xr.html" id="adaptive-xr">
+  <div class="pic"><img class="cv-d" src="images/cover-adaptive-xr.svg?v=8" alt="" loading="lazy"><img class="cv-l" src="images/cover-adaptive-xr-light.svg?v=8" alt="" aria-hidden="true" loading="lazy"></div>
+  <div class="txt"><span class="tag">Sensing &middot; In progress</span><h3>Physiologically Adaptive XR</h3><p>An XR experience that adapts in real time to the wearer's body signals.</p><span class="go">Read more <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M5 12h14"/><path d="m13 6 6 6-6 6"/></svg></span></div>
+</a>
+<a class="card" href="projects/playground-plus.html" id="playground-plus">
+  <div class="pic"><img class="cv-d" src="images/cover-playground.svg?v=8" alt="" loading="lazy"><img class="cv-l" src="images/cover-playground-light.svg?v=8" alt="" aria-hidden="true" loading="lazy"></div>
+  <div class="txt"><span class="tag">Vision &middot; Lab project</span><h3>Playground+</h3><p>A projected play space that sees people move, now at 60 FPS in 720p.</p><span class="go">Read more <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M5 12h14"/><path d="m13 6 6 6-6 6"/></svg></span></div>
+</a>
+    </div>
+  </div>
+</section>
 
-  <main class="page" id="top">
-    <section class="stage stage-home" aria-label="Introduction">
-      <canvas class="field" aria-hidden="true"></canvas>
-      <div class="wrap flag-wrap">
-        <p class="flag"><b>Fall 2027</b><span>Applying to M.S./Ph.D. programs in Computer Science</span></p>
-      </div>
-      <div class="wrap">
-        <ol class="chapters" aria-label="Research themes">
-          <li><button type="button" data-ch="0" class="on" aria-current="true" data-sub="Eye tracking that tells an AI agent when you need it &mdash; so help arrives before you ask.">Gaze</button></li>
-          <li><button type="button" data-ch="1" data-sub="Heart rate, skin response and motion that let an XR experience adapt to the person inside it.">Sensing</button></li>
-          <li><button type="button" data-ch="2" data-sub="Mixed-reality tools for planning, following and correcting LLM-driven robot teams.">Agents</button></li>
-        </ol>
-        <p class="eyebrow">Undergraduate Researcher &middot; NC State</p>
-        <h1 class="hero-title wordmark"><span class="w"><span style="--i:0">Nathan</span></span> <span class="w"><span style="--i:1">Tran<span class="dot">.</span></span></span></h1>
-        <div class="stage-row">
-          <p class="hero-sub" id="ch-sub" aria-live="polite">Eye tracking that tells an AI agent when you need it &mdash; so help arrives before you ask.</p>
-          <a class="btn primary" href="#work">See my work <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M5 12h14"/><path d="m13 6 6 6-6 6"/></svg></a>
-        </div>
-      </div>
-    </section>
+<section class="sec alt">
+  <div class="wrap feature">
+    <div>
+      <p class="tag">Full-stack ML app</p>
+      <h2>Autoestima</h2>
+      <p class="sub">Photograph a car and see what it's worth today, where its value is headed over five years, and whether a listing is a good deal.</p>
+      <dl class="facts">
+        <div><dt>Price model</dt><dd>CatBoost, 15.1% median error</dd></div>
+        <div><dt>Car recognition</dt><dd>YOLO + OpenCLIP, ~350 models</dd></div>
+        <div><dt>Stack</dt><dd>React, FastAPI, Supabase</dd></div>
+      </dl>
+      <a class="btn solid" href="projects/autoestima.html">Read the case study</a>
+    </div>
+    <a class="shots" href="projects/autoestima.html" aria-label="Autoestima case study">
+  <div class="desk"><img src="images/autoestima/desktop-home.jpg?v=1" alt="Autoestima's home page: a car driving through a snowy forest under the headline Know what it's worth." loading="lazy"></div>
+  <div class="phone a"><img src="images/autoestima/phone-value.jpg?v=1" alt="A valuation of a 2016 Toyota Camry at $10,300, graded overpriced at an asking price of $12,900." loading="lazy"></div>
+  <div class="phone b"><img src="images/autoestima/phone-feed.jpg?v=1" alt="The For You feed of used cars, each labelled Great deal." loading="lazy"></div>
+</a>
+  </div>
+</section>
 
-    <section class="band" id="intro">
-      <div class="wrap intro">
-        <figure class="portrait rv">
-          <img src="images/nathan-portrait.jpg?v=5" alt="Nathan Tran in a white shirt and pink tie" width="1100" height="1022">
-          <figcaption><span>Extended Horizon Lab</span><span>NC State</span></figcaption>
-        </figure>
-        <div class="rv" style="--d:.1s">
-          <p class="kicker">About</p>
-          <h2 class="display">Building systems that notice you<span class="dot">.</span></h2>
-          <p class="lead">I'm a Computer Science undergraduate at <a href="https://www.ncsu.edu/">North Carolina State University</a> (Class of 2027), specializing in Artificial Intelligence and Machine Learning. I work as an undergraduate researcher in the Extended Horizon Lab, advised by <a href="http://georgiejin.com/">Prof. Qiao Jin</a>, building AI-powered XR and AR systems with Unity, eye tracking, computer vision, and multimodal sensing.</p>
-          <a class="more-link" href="about.html">Full background <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M5 12h14"/><path d="m13 6 6 6-6 6"/></svg></a>
-        </div>
-      </div>
-
-      <div class="wrap stats rv">
-        <div class="stat"><span class="n"><b data-count="1">1</b><small>paper</small></span><span class="l">Preprint on arXiv</span></div>
-        <div class="stat"><span class="n"><b data-count="5">5</b><small>projects</small></span><span class="l">XR research in the lab</span></div>
-        <div class="stat"><span class="n"><b data-count="7">7</b><small>builds</small></span><span class="l">Software projects</span></div>
-      </div>
-
-      <dl class="wrap specs rv">
+<section class="sec">
+  <div class="wrap intro">
+    <figure class="portrait"><img src="images/nathan-portrait.jpg?v=5" alt="Nathan Tran in a white shirt and pink tie" loading="lazy"></figure>
+    <div>
+      <h2 class="big" style="margin-bottom:26px">About</h2>
+      <p class="say">I'm a Computer Science undergraduate at NC State, specializing in AI and machine learning, and a researcher in Prof. Qiao Jin's Extended Horizon Lab.</p>
+      <p>I build AI-powered XR and AR systems with Unity, eye tracking, computer vision and multimodal sensing. What I keep coming back to is systems that notice what a person is doing and respond before being asked.</p>
+      <dl class="spec">
         <div><dt>Lab</dt><dd>Extended Horizon Lab</dd></div>
         <div><dt>Advisor</dt><dd>Prof. Qiao Jin</dd></div>
-        <div><dt>Degree</dt><dd>B.S. Computer Science</dd></div>
-        <div><dt>Class</dt><dd>2027</dd></div>
-        <div><dt>Location</dt><dd>Raleigh, NC</dd></div>
-        <div><dt>Focus</dt><dd>XR &middot; Eye tracking &middot; Sensing</dd></div>
-        <div><dt>Engine</dt><dd>Unity &middot; C# &middot; Python</dd></div>
-        <div><dt>Hardware</dt><dd>Quest 3 &middot; ZED 2i &middot; EmotiBit</dd></div>
-        <div><dt>Certification</dt><dd>CITI human subjects</dd></div>
+        <div><dt>Degree</dt><dd>B.S. Computer Science, 2027</dd></div>
+        <div><dt>Focus</dt><dd>XR, eye tracking, sensing</dd></div>
+        <div><dt>Certification</dt><dd>CITI human subjects research</dd></div>
         <div><dt>Next</dt><dd>M.S./Ph.D., Fall 2027</dd></div>
       </dl>
-    </section>
-
-    <section class="band band-alt" id="work">
-      <div class="wrap head-row rv">
-        <div>
-          <p class="kicker">Featured work</p>
-          <h2 class="display" style="margin-bottom:0">Selected research<span class="dot">.</span></h2>
-        </div>
-        <div class="rail-ctl">
-          <button class="icon-btn" type="button" data-rail="prev" aria-label="Previous project"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M19 12H5"/><path d="m11 6-6 6 6 6"/></svg></button>
-          <button class="icon-btn" type="button" data-rail="next" aria-label="Next project"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M5 12h14"/><path d="m13 6 6 6-6 6"/></svg></button>
-        </div>
-      </div>
-      <div class="rail rv" style="--d:.1s">
-        <a class="slide" href="projects.html#mrpilot">
-          <div class="slide-media"><img class="cv cv-d" src="images/cover-mrpilot.svg?v=7" alt="MRPilot in mixed reality: a robot arm, a drone and a delivery robot in a home are outlined and labelled with their status, a route runs from the delivery robot to the arm, and a team plan card shows the Follow stage." loading="lazy"><img class="cv cv-l" src="images/cover-mrpilot-light.svg?v=7" alt="" aria-hidden="true" loading="lazy"></div>
-          <div class="slide-body">
-            <span class="tag">Preprint &middot; arXiv</span>
-            <h3>MRPilot</h3>
-            <p>Supervising and correcting LLM-driven multi-robot teams through mixed reality. Co-authored; ran the study sessions.</p>
-            <span class="go">Explore <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M5 12h14"/><path d="m13 6 6 6-6 6"/></svg></span>
-          </div>
-        </a>
-        <a class="slide" href="projects.html#attention">
-          <div class="slide-media"><img class="cv cv-d" src="images/cover-attention.svg?v=8" alt="An attention-aware agent in VR: on a block-building task, a gaze path settles on one empty slot, an eye-tracking panel shows attention lingering, and a small AI agent offers to help." loading="lazy"><img class="cv cv-l" src="images/cover-attention-light.svg?v=8" alt="" aria-hidden="true" loading="lazy"></div>
-          <div class="slide-body">
-            <span class="tag">In progress &middot; Creator</span>
-            <h3>Attention-Aware AI Agent</h3>
-            <p>Eye tracking estimates where your attention is, so a VR agent knows the right moment to step in.</p>
-            <span class="go">Explore <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M5 12h14"/><path d="m13 6 6 6-6 6"/></svg></span>
-          </div>
-        </a>
-        <a class="slide" href="projects.html#adaptive-xr">
-          <div class="slide-media"><img class="cv cv-d" src="images/cover-adaptive-xr.svg?v=6" alt="" loading="lazy"><img class="cv cv-l" src="images/cover-adaptive-xr-light.svg?v=6" alt="" aria-hidden="true" loading="lazy"></div>
-          <div class="slide-body">
-            <span class="tag">In progress &middot; Lead developer</span>
-            <h3>Physiologically Adaptive XR</h3>
-            <p>An XR experience that adapts in real time to the wearer&rsquo;s physiological signals.</p>
-            <span class="go">Explore <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M5 12h14"/><path d="m13 6 6 6-6 6"/></svg></span>
-          </div>
-        </a>
-        <a class="slide" href="projects.html#playground">
-          <div class="slide-media"><img class="cv cv-d" src="images/cover-playground.svg?v=6" alt="" loading="lazy"><img class="cv cv-l" src="images/cover-playground-light.svg?v=6" alt="" aria-hidden="true" loading="lazy"></div>
-          <div class="slide-body">
-            <span class="tag">Projection-based XR</span>
-            <h3>Playground+</h3>
-            <p>Took a mixed-reality play system from ~15 FPS at 480p to 60 FPS at 720p with a ZED 2i depth camera.</p>
-            <span class="go">Explore <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M5 12h14"/><path d="m13 6 6 6-6 6"/></svg></span>
-          </div>
-        </a>
-        <a class="slide" href="projects.html#pulsecoach">
-          <div class="slide-media"><img class="cv cv-d" src="images/cover-pulsecoach.svg?v=6" alt="" loading="lazy"><img class="cv cv-l" src="images/cover-pulsecoach-light.svg?v=6" alt="" aria-hidden="true" loading="lazy"></div>
-          <div class="slide-body">
-            <span class="tag">Biometrics &middot; AR</span>
-            <h3>PulseCoach</h3>
-            <p>EmotiBit signals read stress in real time, and AR coaching cues land in the calm phase of each heartbeat.</p>
-            <span class="go">Explore <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M5 12h14"/><path d="m13 6 6 6-6 6"/></svg></span>
-          </div>
-        </a>
-      </div>
-      <div class="wrap"><div class="rail-bar"><i></i></div></div>
-    </section>
-
-    <section class="band">
-      <div class="wrap focus">
-        <div class="focus-head rv">
-          <p class="kicker">Focus</p>
-          <h2 class="display">Interfaces that pay attention<span class="dot">.</span></h2>
-          <p class="lead">Four threads run through the work, from the lab&rsquo;s XR studies to my own projects.</p>
-        </div>
-        <ol class="focus-list">
-          <li class="rv"><span class="num">01</span><h3>Gaze &amp; attention</h3><p>Using where someone looks to decide when an AI agent should help, instead of waiting to be asked.</p><ul class="stack"><li class="chip">Eye tracking</li><li class="chip">Unity</li><li class="chip">C#</li></ul></li>
-          <li class="rv"><span class="num">02</span><h3>Physiological sensing</h3><p>Reading heart rate, skin response and motion so an experience can adapt to the person in it.</p><ul class="stack"><li class="chip">EmotiBit</li><li class="chip">HRV &amp; EDA</li><li class="chip">Real-time signals</li></ul></li>
-          <li class="rv"><span class="num">03</span><h3>AI agents in mixed reality</h3><p>Giving people clear ways to plan, follow and correct what LLM-driven robots are doing.</p><ul class="stack"><li class="chip">LLM agents</li><li class="chip">Mixed reality</li><li class="chip">User studies</li></ul></li>
-          <li class="rv"><span class="num">04</span><h3>Vision &amp; perception</h3><p>Depth cameras, multi-camera rigs and models that make sense of people and the space around them.</p><ul class="stack"><li class="chip">ZED 2i</li><li class="chip">OpenCV</li><li class="chip">Python</li></ul></li>
-        </ol>
-      </div>
-    </section>
-
-    <section class="band band-alt">
-      <div class="wrap news">
-        <div class="focus-head rv">
-          <p class="kicker">News</p>
-          <h2 class="display">Latest news<span class="dot">.</span></h2>
-          <a class="more-link" href="experience.html">Full experience <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M5 12h14"/><path d="m13 6 6 6-6 6"/></svg></a>
-        </div>
-        <div class="rv" style="--d:.1s">
-      <ul class="timeline">
-        <li>
-          <div class="tl-card">
-            <span class="tl-date">November 2026</span>
-            <h3>Leading a new XR project</h3>
-            <p>Started a new research project as primary author and lead developer. Details to follow after review.</p>
-          </div>
-        </li>
-        <li>
-          <div class="tl-card">
-            <span class="tl-date">October 2026</span>
-            <h3>MRPilot preprint on arXiv</h3>
-            <p>Our paper on supervising LLM-based multi-robot teams through mixed reality is now available as a preprint at <a href="https://arxiv.org/abs/2610.07477" target="_blank" rel="noopener">arXiv:2610.07477</a>.</p>
-          </div>
-        </li>
-        <li>
-          <div class="tl-card">
-            <span class="tl-date">August 2026</span>
-            <h3>Joined Fizz Lab Studios</h3>
-            <p>Started as a technical consultant working on interface design and data visualization for students, faculty, and professors.</p>
-          </div>
-        </li>
-        <li>
-          <div class="tl-card">
-            <span class="tl-date">June 2026</span>
-            <h3>Started my own VR research project</h3>
-            <p>Created an eye-tracking VR system that I lead end to end, from direction through implementation.</p>
-          </div>
-        </li>
-        <li>
-          <div class="tl-card">
-            <span class="tl-date">May 2026</span>
-            <h3>Awarded a College of Engineering REU</h3>
-            <p>Selected for NC State's Research Experience for Undergraduates, supporting full-time summer research in the lab.</p>
-          </div>
-        </li>
-        <li>
-          <div class="tl-card">
-            <span class="tl-date">April 2026</span>
-            <h3>Promoted in the Extended Horizon Lab</h3>
-            <p>Took on a bigger role in the lab after two months.</p>
-          </div>
-        </li>
-        <li>
-          <div class="tl-card">
-            <span class="tl-date">March 2026</span>
-            <h3>CITI human subjects certification</h3>
-            <p>Completed CITI Program certification, valid through 2029, for running studies with human participants.</p>
-          </div>
-        </li>
-        <li>
-          <div class="tl-card">
-            <span class="tl-date">February 2026</span>
-            <h3>Joined the Extended Horizon Lab</h3>
-            <p>Started as an undergraduate researcher with Prof. Qiao Jin, working on AI and extended reality.</p>
-          </div>
-        </li>
-      </ul>
-        </div>
-      </div>
-    </section>
-  </main>
-
-  <footer class="site-foot" id="contact">
-    <div class="wrap">
-      <p class="kicker rv">Applying to M.S./Ph.D. programs &middot; Fall 2027</p>
-      <h2 class="foot-cta rv" style="--d:.08s">Let&rsquo;s build something together<span class="dot">.</span></h2>
-      <div class="foot-actions rv" style="--d:.16s">
-        <a class="btn primary" href="mailto:Nathantran247@gmail.com">Email me <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M5 12h14"/><path d="m13 6 6 6-6 6"/></svg></a>
-        <a class="btn" href="Nathan-Tran-Resume.pdf?v=5" target="_blank" rel="noopener">Resume &middot; PDF</a>
-      </div>
-      <div class="foot-grid">
-        <div>
-          <p class="foot-mark">Nathan Tran<span class="dot">.</span></p>
-          <p class="foot-note">Undergraduate researcher building XR systems that notice people. Extended Horizon Lab, NC State.</p>
-        </div>
-        <nav class="foot-nav" aria-label="Footer">
-          <a href="index.html">Home</a>
-          <a href="projects.html">Projects</a>
-          <a href="experience.html">Experience</a>
-          <a href="about.html">About</a>
-        </nav>
-        <div class="foot-contact">
-          <a href="mailto:Nathantran247@gmail.com">Nathantran247@gmail.com</a>
-          <a href="https://www.linkedin.com/in/nathan-tran2/" target="_blank" rel="noopener">LinkedIn</a>
-          <a href="https://scholar.google.com/citations?user=fZ4rutkAAAAJ" target="_blank" rel="noopener">Google Scholar</a>
-          <span>Raleigh, North Carolina</span>
-        </div>
-      </div>
-      <div class="foot-base">
-        <span>&copy; 2026 Nathan Tran</span>
-        <a href="#top">Back to top &uarr;</a>
-      </div>
+      <div class="acts"><a class="btn" href="about.html">Full background</a><a class="btn" href="experience.html">Experience</a></div>
     </div>
-  </footer>
+  </div>
+</section>
 
-<script src="site.js?v=15"></script>
+<section class="sec">
+  <div class="wrap">
+    <div class="head"><h2>News</h2><a class="more" href="experience.html">Full experience</a></div>
+    <ul class="news"><li><time>November 2026</time><div><h3><a href="projects/autoestima.html">Autoestima finished</a></h3><p>Our CSC 422 used-car pricing project became a full web app: photo recognition, valuations, a five-year forecast and a feed that learns.</p></div></li><li><time>November 2026</time><div><h3>Leading a new XR project</h3><p>Started a new research project as primary author and lead developer. Details to follow after review.</p></div></li><li><time>October 2026</time><div><h3>MRPilot preprint on arXiv</h3><p>Our paper on supervising LLM-based multi-robot teams through mixed reality is now available as a preprint at <a href="https://arxiv.org/abs/2610.07477" target="_blank" rel="noopener">arXiv:2610.07477</a>.</p></div></li><li><time>August 2026</time><div><h3>Joined Fizz Lab Studios</h3><p>Started as a technical consultant working on interface design and data visualization for students, faculty and professors.</p></div></li><li><time>June 2026</time><div><h3>Started my own VR research project</h3><p>Created an eye-tracking VR system that I lead end to end, from direction through implementation.</p></div></li></ul>
+  </div>
+</section>
+</main>
+<footer class="foot night">
+  <div class="wrap">
+    <h2>Looking for a lab for Fall 2027.</h2>
+    <p class="say">I'm applying to M.S. and Ph.D. programs in Computer Science. If your lab works on XR, eye tracking or physiological sensing, I'd like to hear from you.</p>
+    <div class="acts">
+      <a class="btn solid" href="mailto:Nathantran247@gmail.com">Nathantran247@gmail.com</a>
+      <a class="btn" href="https://www.linkedin.com/in/nathan-tran2/" target="_blank" rel="noopener">LinkedIn</a>
+      <a class="btn" href="https://scholar.google.com/citations?user=fZ4rutkAAAAJ" target="_blank" rel="noopener">Google Scholar</a>
+      <a class="btn" href="Nathan-Tran-Resume.pdf?v=5" target="_blank" rel="noopener">Resume</a>
+    </div>
+    <div class="base"><span>&copy; 2026 Nathan Tran</span><nav aria-label="Footer"><a href="index.html">Home</a><a href="projects.html">Projects</a><a href="experience.html">Experience</a><a href="about.html">About</a></nav></div>
+  </div>
+</footer>
+<script src="site.js?v=30"></script>
 </body>
 </html>
